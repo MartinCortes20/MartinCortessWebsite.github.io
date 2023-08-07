@@ -1,0 +1,1017 @@
+  /*Literata*/
+  @font-face {
+    font-family: 'Literata';
+    src: url('https://fonts.google.com/specimen/Literata.woff2') format('woff2'),
+        url('https://fonts.google.com/specimen/Literata.woff') format('woff');
+
+} 
+
+/*Castoro*/
+@font-face {
+    font-family: 'Castoro';
+    src: url('https://fonts.google.com/specimen/Castoro.woff2') format('woff2'),
+        url('https://fonts.google.com/specimen/Castoro.woff') format('woff');
+    
+}
+
+/*Varsity*/
+@font-face {
+    font-family: 'Varsity';
+    src: url('../Website/Fonts/varsity_regular.ttf') format('truetype');
+}
+
+/*Vogue*/
+@font-face {
+    font-family: 'Vogue';
+    src: url('../Website/Fonts/Vogue.ttf') format('truetype');
+}
+ 
+  /* Estilos generales para el cuerpo del documento */
+  body {
+    margin: 0; /* Establece el margen a 0 en todas las direcciones */
+    padding: 0; /* Establece el padding a 0 en todas las direcciones */
+    display: flex; /* Convierte el contenedor del cuerpo en un contenedor flexible */
+    flex-direction: column; /* Establece la dirección del eje principal como columna */
+    font-size: 16px; /*Tamaño de Texto*/
+    background-color: #F2D9BB; /* Color de fondo para el cuerpo del documento */
+}
+
+ /* Estilos para la lista no ordenada (ul) */
+ ul {
+    list-style: none; /* Elimina los puntos de la lista */
+    padding: 0; /* Establece el padding a 0 en todas las direcciones */
+    margin: 0; /* Establece el margen a 0 en todas las direcciones */
+    display: flex; /* Hace que los elementos de la lista se muestren en línea horizontalmente */
+}
+
+/* Estilos para los elementos de la lista (li) */
+li {
+    margin-right: 1px; /* Espacio entre los elementos de la lista */
+}
+
+/* Estilos para los enlaces (a) */
+a {
+    color: #0e0d0d; /* Color del texto del enlace */
+    text-decoration: none; /* Elimina el subrayado de los enlaces */
+    text-align: center; /* Centra el texto en los enlaces */
+    font-family: 'Castoro', sans-serif; /* Tipo de fuente para los enlaces */
+}
+
+ /* Estilos para la sección de Inicio */
+ #inicio {
+    background-color:  #F2D9BB ; /* Color de fondo */
+    padding: 0px; /* Espaciado interno */
+    margin: 0px; /* Márgenes exteriores */
+}
+
+/* Contenedor principal */
+.container {
+    display: flex; /* Mostrar elementos en línea y en el mismo nivel */
+    align-items: center; /* Centrar verticalmente los elementos en el contenedor */
+}
+
+ /* Estilo para la parte del texto */
+ .text {
+    flex: 1; /* Ocupar la otra mitad del contenedor */
+    padding: 20px; /* Espaciado interno de 20px */
+    background-color: #dafaff00; /* Color de fondo del recuadro de texto */
+    color: #100303; /* Color del texto */
+    width: 100%;
+    height: 100%; /* Para que la imagen ocupe toda la altura del contenedor */
+    object-fit: cover; /* Escalar la imagen para que cubra todo el contenedor */
+    border-radius: 10px; /* Radio de curvatura para los bordes de la imagen */
+}
+
+
+    /* Estilos para los títulos del texto */
+    .text h1 {
+        font-size: 60px; /* Tamaño de fuente de 60px */
+        margin-bottom: 1.6px; /* Margen inferior de 1.6px */
+        font-family: 'Vogue', sans-serif; /* Fuente de estilo Vogue */
+    }
+
+    /* Estilos para subtítulos del texto */
+    .text h3 {
+        font-size: 20px; /* Tamaño de fuente de 20px */
+        color: #f9f4f4; /* Color del texto */
+        background-color: #73192A; /* Color de fondo para el subtítulo */
+        border-radius: 30px; /* Radio de curvatura para los bordes del subtítulo */
+        text-align: center; /* Alineación del texto al centro */
+    }
+
+    /* Estilos para párrafos de texto */
+    .text p {
+        font-size: 19px; /* Tamaño de fuente de 19px */
+        color: #000000; /* Color del texto */
+    }
+
+ /* Estilos para la fuente de tamaño 60px con clase .word1 */
+ .word1 {
+    font-size: 60px; /* Tamaño de fuente de 60px */
+    color: #101010; /* Color del texto */
+    font-family: 'Vogue', sans-serif; /* Fuente de estilo Vogue */
+}
+
+/* Estilos para la fuente de tamaño 65px con clase .word2 */
+.word2 {
+    font-size: 65px; /* Tamaño de fuente de 65px */
+    color: #73192A; /* Color del texto */
+    font-family: 'Varsity', sans-serif; /* Fuente de estilo Varsity */
+}
+
+.h4text {
+    color: #101010; /* Color del texto */
+    font-size: 20px; /* Tamaño de fuente de 20px */
+    text-align: center; /* Alineación del texto al centro */
+    margin-bottom: 5px; /* Margen inferior de 5px */
+}
+
+ /* Estilos para el texto de clase .text3 */
+ .text3 {
+    font-size: 16px; /* Tamaño de fuente de 16px */
+    line-height: 1.6; /* Espaciado entre líneas de 1.6 */
+    font-family: 'Castoro', sans-serif; /* Fuente de estilo Castoro */
+    text-align: center; /* Alineación del texto al centro */
+    color: #101010; /* Color del texto */
+    margin-bottom: 5px; /* Margen inferior de 5px */
+}
+
+/* Estilos para los enlaces dentro de .text3 */
+.text3 a {
+    font-size: 16px; /* Tamaño de fuente de 16px */
+    line-height: 1.6; /* Espaciado entre líneas de 1.6 */
+    font-family: 'Castoro', sans-serif; /* Fuente de estilo Castoro */
+    text-align: center; /* Alineación del texto al centro */
+    color: #000000; /* Color del texto */
+    font-weight: bold; /* Estilo de fuente en negrita */
+    text-decoration: underline; /* Subrayado del enlace */
+}
+
+/* Estilos para párrafos de texto dentro de .text3 */
+.text3 p {
+    font-size: 16px; /* Tamaño de fuente de 16px */
+    line-height: 1.6; /* Espaciado entre líneas de 1.6 */
+    font-family: 'Castoro', sans-serif; /* Fuente de estilo Castoro */
+    text-align: center; /* Alineación del texto al centro */
+    color: #101010; /* Color del texto */
+}
+
+/* Estilo para la parte de la imagen */
+.image {
+    flex: 1; /* Ocupar la mitad del contenedor */
+    height: 100vh; /* La imagen ocupará el 100% del alto de la pantalla */
+    width: 100%;/* Ancho de la imagen del 100% (Esto anulará el ancho definido previamente) */
+    overflow: hidden; /* Ocultar cualquier contenido que se salga del contenedor */
+    position: relative; /* Añadir posición relativa para que el contenido absoluto funcione */
+}
+
+/* Estilos para la imagen dentro del contenedor */
+.image img {
+    width: 100%;/* Ancho de la imagen del 100% (Esto anulará el ancho definido previamente) */
+    height: 100%; /* Para que la imagen ocupe toda la altura del contenedor */
+    object-fit: cover; /* Escalar la imagen para que cubra todo el contenedor */
+    border-radius: 10px; /* Radio de curvatura para los bordes de la imagen */
+}
+
+        /*MENU*/
+    
+     /*NOMBRE DE CADA SECCION DEL MENU*/
+    /* Estilos para el menú de navegación */
+    nav {
+        position: fixed; /* Posición fija para el menú */
+        top: 50%; /* Ubicación vertical al 50% de la pantalla */
+        right: 20px; /* Ubicación horizontal a la derecha */
+        transform: translateY(-50%); /* Ajustar para centrar verticalmente */
+    }
+
+    nav ul {
+        padding: 2px; /* Espaciado interno */
+        display: flex; /* Mostrar los elementos en línea */
+        flex-direction: column; /* Alinear los elementos verticalmente */
+    }
+
+    nav li {
+        margin-bottom: 5px; /* Espaciado entre los elementos de lista */
+        text-align: center; /* Alinear el texto al centro */
+    }
+
+    nav li a {
+        display: flex; /* Mostrar los enlaces como un bloque en línea */
+        justify-content: center; /* Centrar horizontalmente los enlaces */
+        align-items: center; /* Centrar verticalmente los enlaces */
+        width: 50px; /* Ancho de los enlaces */
+        height: 50px; /* Altura de los enlaces */
+        border-radius: 60px; /* Esquinas circulares para los enlaces */
+        text-decoration: none; /* Quitar el subrayado del enlace */
+        background-color: #f24444e3; /* Color de fondo para los enlaces con transparencia */
+    }
+
+    nav li a img {
+        width: 25px; /* Ancho de las imágenes de los enlaces */
+        height: 25px; /* Altura de las imágenes de los enlaces */
+    }
+        
+    /* Estilos para las etiquetas de información en el menú lateral */
+    .tooltip {
+        position: relative; /* Posición relativa para el tooltip */
+        display: inline-block; /* Mostrar como un bloque en línea */
+    }
+    
+    .tooltip::before {
+        content: attr(data-tooltip); /* Contenido del tooltip obtenido del atributo data-tooltip */
+        display: none; /* Ocultar el tooltip inicialmente */
+        position: absolute; /* Posición absoluta para el tooltip */
+        top: 50%; /* Posicionar el tooltip en el centro vertical */
+        right: 100%; /* Posicionar el tooltip a la izquierda del elemento */
+        transform: translateY(-50%); /* Ajustar el tooltip para centrar verticalmente */
+        padding: 5px 10px; /* Espaciado interno del tooltip */
+        background-color: #f24444; /* Color de fondo del tooltip */
+        color: #ffffff; /* Color del texto del tooltip */
+        border-radius: 5px; /* Radio de curvatura para los bordes del tooltip */
+        font-family: 'Literata', sans-serif; /* Fuente de estilo Literata */
+        font-size: medium; /* Tamaño de fuente del tooltip */
+    }
+
+    .tooltip:hover::before {
+        display: block; /* Mostrar el tooltip al pasar el cursor sobre el elemento */
+    }
+
+
+    /* menu resaltado*/
+
+    /* Estilos para las imágenes del menú lateral */
+    .image-container3 {
+        position: relative; /* Posición relativa para el contenedor de la imagen */
+        display: inline-block; /* Mostrar como un bloque en línea */
+        transition: transform 0.3s ease-in-out; /* Transición para suavizar el efecto al resaltar la imagen */
+    }
+    
+    .image-container3 img {
+        display: block; /* Mostrar la imagen como un bloque */
+        border-radius: auto; /* Opcional: agregar bordes redondeados a la imagen */
+        object-fit: cover; /* Ajustar la imagen para que cubra todo el contenedor */
+    }
+    
+    .image-container3.center {
+        transform: scale(1.15); /* Aumentar el tamaño de la imagen en 15% */
+        z-index: 1; /* Asegurar que la imagen resaltada esté encima de las demás */
+        cursor: pointer; /* Cambiar el cursor a una mano para indicar que es clickeable */
+    }
+
+
+    .menu-button:hover{
+        transform: scale(1.15);
+        transition: all 300ms;
+    }
+
+    .menu-button{
+        transition: all 300ms;
+    }
+
+
+
+
+    
+   /*PIE DE PAGINA*/
+    
+    
+        /* Estilos para el pie de página */
+        footer {
+            background-color: #731929ec; /* Color de fondo del pie de página con transparencia */
+            font-size: 14px; /* Tamaño de fuente de 14px */
+            color: #ffffff; /* Color del texto en blanco */
+            width: 100%; /* Ancho del pie de página al 100% */
+            height: 90px; /* Altura del pie de página de 90px */
+            bottom: 0; /* Posicionar en la parte inferior */
+            border: 1px solid #73192A; /* Agregar un borde sólido de 1px en color blanco */
+            border-top-left-radius: 10px; /* Radio circular en la esquina superior izquierda */
+            border-top-right-radius: 10px; /* Radio circular en la esquina superior derecha */
+            border-bottom: 1px solid #73192A; /* Borde recto en la parte inferior */
+            height: auto;
+            display: flex; /* Utilizamos flexbox para organizar los elementos dentro del footer */
+            justify-content: space-between; /* Distribuir los elementos de forma equitativa */
+            align-items: center; /* Alinear los elementos verticalmente al centro */
+            padding: 5px; /* Agrega un espacio interno para separar los elementos del borde del footer */
+            position: sticky;
+        }
+    
+        /* Estilos para el contenido del pie de página */
+        footer .content {
+            display: flex; /* Mostrar los elementos como flexbox */ /* organiza elementos dentro de un contenedor de una manera flexible y dinámica*/
+            align-items: center; /* Alinear verticalmente el contenido */
+        }
+    
+        footer .content2 {
+            position: absolute; /* Cambiar a posición absoluta */
+            display: flex;
+            align-items: center;
+            bottom: 15px; /* Alinear en la parte inferior del pie de página con un pequeño margen */
+            right: 15px;
+        }
+    
+        /* Estilos para la imagen del pie de página */
+        footer img {
+            width: 85px; /* Ancho de la imagen */
+            height: 85px; /* Altura de la imagen */
+            align-items: center; /* Alineación de los elementos al centro */
+        }
+    
+        /* Estilos para el contenedor del texto en el pie de página */
+        footer .text-container {
+            display: flex; /* Mostrar los elementos como flexbox */
+            flex-direction: column; /* Organizar el contenido en una columna */
+            justify-content: center; /* Alinear verticalmente el texto al centro */
+        }
+    
+        footer a {
+            color: #ffffff; /* Color del texto en blanco */
+            margin: 0; /* Margen de 0 para eliminar espacios innecesarios */
+            text-decoration: underline; /* Subrayar el enlace */
+            text-align: left;
+        }
+    
+        footer p {
+            margin: 0; /* Margen de 0 para eliminar espacios innecesarios */
+        }
+    
+        /* Estilos para las imágenes en el pie de página */
+        .imagefoot {
+            align-items: center; /* Alineación de los elementos al centro */
+            width: 50px; /* Ancho de la imagen */
+            height: 50px; /* Altura de la imagen */
+            justify-content: flex-end; /* Alinear todos los elementos a la derecha */
+            padding: 5px; /* Espaciado interno de 5px */
+            border-radius: 30px; /* Radio de curvatura para los bordes de la imagen */
+        }
+    
+        /* Estilos para las imágenes del las imagenes del foot  */
+        .image-container4 {
+            position: relative; /* Posición relativa para el contenedor de la imagen */
+            display: inline-block; /* Mostrar como un bloque en línea */
+            transition: transform 0.3s ease-in-out; /* Transición para suavizar el efecto al resaltar la imagen */
+        }
+        
+        .image-container4 img {
+            display: block; /* Mostrar la imagen como un bloque */
+            border-radius: auto; /* Opcional: agregar bordes redondeados a la imagen */
+            object-fit: cover; /* Ajustar la imagen para que cubra todo el contenedor */
+        }
+        
+        .image-container4.center {
+            transform: scale(1.15); /* Aumentar el tamaño de la imagen en 15% */
+            z-index: 1; /* Asegurar que la imagen resaltada esté encima de las demás */
+            cursor: pointer; /* Cambiar el cursor a una mano para indicar que es clickeable */
+        }
+
+/* MEDIA QUERIES */
+
+@media (max-width: 325px) {
+    /* dispositivos móviles pequeños */
+    footer{
+        padding: 5px; /* Agrega un espacio interno para separar los elementos del borde del footer */
+         
+    }
+
+    footer img {
+        width:  40px; /* Ancho de la imagen en "em" */
+        height: 40px; /* Altura de la imagen en "em" */
+       
+    }
+
+    footer a {
+        font-size: 5px;
+    }
+    
+    footer p {
+        font-size: 6px;
+    }
+
+    footer .content2 {
+        position: absolute; /* Cambiar a posición absoluta */
+        display: flex;
+        align-items: center;
+        bottom: 5px;
+        
+
+    }
+
+    .imagefoot {
+        width: 25px;
+        height: 25px;
+        align-items: center; /* Alineación de los elementos al centro */
+        margin-bottom: 0%;
+        margin-right: 0px;
+        
+    }
+    li {
+        margin-right: 10px; /* Espacio entre los elementos de la lista */
+    }
+    
+    nav li a {
+   
+        width: 20px; /* Ancho de los enlaces en "em" */
+        height: 20px; /* Altura de los enlaces en "em" */
+       
+    }
+    
+    nav li a img {
+        width: 12px; /* Ancho de las imágenes de los enlaces */
+        height: 12px; /* Altura de las imágenes de los enlaces */
+    }
+
+    .tooltip::before {
+       
+        font-size: 7px; /* Tamaño de fuente del tooltip en "em" */
+    }
+
+
+    .text h1 {
+        font-size: 1.75em; /* Tamaño de fuente de 3.75em en "em" */
+        padding-left: 4px;
+    }
+    
+    /* Estilos para subtítulos del texto */
+    .text h3 {
+        font-size: 0.8em; /* Tamaño de fuente de 1.25em en "em" */
+    }
+    
+    /* Estilos para párrafos de texto */
+    .text p {
+        font-size: .8em; /* Tamaño de fuente de 1.1875em en "em" */
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+    
+    /* Estilos para la fuente de tamaño 60px con clase .word1 */
+    .word1 {
+        font-size: 1.75em; /* Tamaño de fuente de 3.75em en "em" */
+        padding-left: 4px;
+    }
+    
+    /* Estilos para la fuente de tamaño 65px con clase .word2 */
+    .word2 {
+        font-size: 1.8em; /* Tamaño de fuente de 4.0625em en "em" */
+    }
+    
+    .h4text {
+        font-size:  1em; /* Tamaño de fuente de 1.25em en "em" */
+    }
+    /* Estilos para los enlaces dentro de .text3 */
+    .text3 a {
+        font-size: .73em; /* Tamaño de fuente de 1em en "em" */
+       
+    }
+
+    /* Estilos para párrafos de texto dentro de .text3 */
+    .text3 p {
+        font-size: .8em; /* Tamaño de fuente de 1em en "em" */
+   
+    }
+    .image {
+        flex: 2; /* Aumentar la proporción de la imagen en dispositivos móviles */
+    }
+    .container {
+        flex-direction: column; /* Cambiar la dirección de flexión a columna para apilar los elementos */
+    }
+  }
+  
+  /* Media query para teléfonos móviles */
+  @media (min-width: 326px) and (max-width: 509px) {
+    footer{
+        padding: 5px; /* Agrega un espacio interno para separar los elementos del borde del footer */
+         
+    }
+
+    footer img {
+        width:  50px; /* Ancho de la imagen en "em" */
+        height: 50px; /* Altura de la imagen en "em" */
+       
+    }
+
+    footer a {
+        font-size: 9px;
+    }
+    
+    footer p {
+        font-size: 10px;
+    }
+
+    footer .content2 {
+        position: absolute; /* Cambiar a posición absoluta */
+        display: flex;
+        align-items: center;
+        bottom: 10px;
+    }
+
+    .imagefoot {
+        width: 30px;
+        height: 30px;
+        align-items: center; /* Alineación de los elementos al centro */
+        margin-bottom: 0%;
+        margin-right: 0px;
+        
+    }
+    li {
+        margin-right: 10px; /* Espacio entre los elementos de la lista */
+    }
+    
+    nav li a {
+   
+        width: 35px; /* Ancho de los enlaces en "em" */
+        height: 35px; /* Altura de los enlaces en "em" */
+       
+    }
+    
+    nav li a img {
+        width: 20px; /* Ancho de las imágenes de los enlaces */
+        height: 20px; /* Altura de las imágenes de los enlaces */
+    }
+
+    .tooltip::before {
+       
+        font-size: 12px; /* Tamaño de fuente del tooltip en "em" */
+    }
+
+
+    .text h1 {
+        font-size: 2.75em; /* Tamaño de fuente de 3.75em en "em" */
+        padding-left: 5px;
+    }
+    
+    /* Estilos para subtítulos del texto */
+    .text h3 {
+        font-size: 0.9em; /* Tamaño de fuente de 1.25em en "em" */
+        
+    }
+    
+    /* Estilos para párrafos de texto */
+    .text p {
+        font-size: 1em; /* Tamaño de fuente de 1.1875em en "em" */
+        padding-right: 33px;
+        padding-left: 33px;
+    }
+    
+    /* Estilos para la fuente de tamaño 60px con clase .word1 */
+    .word1 {
+        font-size: 2.75em; /* Tamaño de fuente de 3.75em en "em" */
+        padding-left: 5px;
+    }
+    
+    /* Estilos para la fuente de tamaño 65px con clase .word2 */
+    .word2 {
+        font-size: 2.8em; /* Tamaño de fuente de 4.0625em en "em" */
+        
+    }
+    
+    .h4text {
+        font-size:  1.3em; /* Tamaño de fuente de 1.25em en "em" */
+    }
+    /* Estilos para los enlaces dentro de .text3 */
+    .text3 a {
+        font-size: .9em; /* Tamaño de fuente de 1em en "em" */
+       
+    }
+
+    /* Estilos para párrafos de texto dentro de .text3 */
+    .text3 p {
+        font-size: .9em; /* Tamaño de fuente de 1em en "em" */
+   
+    }
+    .image {
+        flex: 2; /* Aumentar la proporción de la imagen en dispositivos móviles */
+    }
+    .container {
+        flex-direction: column; /* Cambiar la dirección de flexión a columna para apilar los elementos */
+    }
+
+
+  }
+  
+  /* Media query para tablets y dispositivos pequeños */
+  @media (min-width: 510px) and (max-width: 670px) {
+    footer{
+        padding: 4px; /* Agrega un espacio interno para separar los elementos del borde del footer */
+         
+    }
+
+    footer img {
+        width:  70px; /* Ancho de la imagen en "em" */
+        height: 70px; /* Altura de la imagen en "em" */
+       
+    }
+
+    footer a {
+        font-size: 12px;
+    }
+    
+    footer p {
+        font-size: 13px;
+    }
+
+    footer .content2 {
+        position: absolute; /* Cambiar a posición absoluta */
+        display: flex;
+        align-items: center;
+        bottom: 15px;
+    }
+
+    .imagefoot {
+        width: 40px;
+        height: 40px;
+        align-items: center; /* Alineación de los elementos al centro */
+        margin-bottom: 0%;
+        margin-right: 0px;
+        
+    }
+    li {
+        margin-right: 10px; /* Espacio entre los elementos de la lista */
+    }
+    
+    nav li a {
+   
+        width: 34px; /* Ancho de los enlaces en "em" */
+        height: 34px; /* Altura de los enlaces en "em" */
+       
+    }
+    
+    nav li a img {
+        width: 23px; /* Ancho de las imágenes de los enlaces */
+        height: 23px; /* Altura de las imágenes de los enlaces */
+    }
+
+    .tooltip::before {
+       
+        font-size: 13px; /* Tamaño de fuente del tooltip en "em" */
+    }
+
+
+    .text h1 {
+        font-size: 3.1em; /* Tamaño de fuente de 3.75em en "em" */
+        padding-left: 8px;
+    }
+    
+    /* Estilos para subtítulos del texto */
+    .text h3 {
+        font-size: 1.4em; /* Tamaño de fuente de 1.25em en "em" */
+        
+    }
+    
+    /* Estilos para párrafos de texto */
+    .text p {
+        font-size: 1.3em; /* Tamaño de fuente de 1.1875em en "em" */
+        padding-right: 33px;
+        padding-left: 33px;
+    }
+    
+    /* Estilos para la fuente de tamaño 60px con clase .word1 */
+    .word1 {
+        font-size: 3em; /* Tamaño de fuente de 3.75em en "em" */
+        padding-left: 8px;
+    }
+    
+    /* Estilos para la fuente de tamaño 65px con clase .word2 */
+    .word2 {
+        font-size: 3em; /* Tamaño de fuente de 4.0625em en "em" */
+        
+    }
+    
+    .h4text {
+        font-size:  1.3em; /* Tamaño de fuente de 1.25em en "em" */
+    }
+    /* Estilos para los enlaces dentro de .text3 */
+    .text3 a {
+        font-size: 1.2em; /* Tamaño de fuente de 1em en "em" */
+       
+    }
+
+    /* Estilos para párrafos de texto dentro de .text3 */
+    .text3 p {
+        font-size: 1.2em; /* Tamaño de fuente de 1em en "em" */
+   
+    }
+    .image {
+        flex: 2; /* Aumentar la proporción de la imagen en dispositivos móviles */
+    }
+    .container {
+        flex-direction: column; /* Cambiar la dirección de flexión a columna para apilar los elementos */
+    }
+
+  }
+  
+  /* Media query para tablets y dispositivos medianos */
+  @media (min-width: 671px) and (max-width: 790px) {
+    footer a {
+        font-size: 1.1em;
+        margin-top: 2px;
+    }
+    
+    footer p {
+        font-size: .9em;
+    }
+
+    footer img {
+        width: 5.3em; /* Ancho de la imagen en "em" */
+        height: 5.3em; /* Altura de la imagen en "em" */
+       
+    }
+    .imagefoot {
+        width: 3.5em; /* Ancho de la imagen en "em" */
+        height: 3.5em; /* Altura de la imagen en "em" */
+        align-items: center; /* Alineación de los elementos al centro */
+        
+    }
+    
+    
+    nav li a {
+   
+        width: 3.7em; /* Ancho de los enlaces en "em" */
+        height: 3.7em; /* Altura de los enlaces en "em" */
+       
+    }
+    
+    nav li a img {
+        width: 1.8em; /* Ancho de las imágenes de los enlaces en "em" */
+        height: 1.8em; /* Altura de las imágenes de los enlaces en "em" */
+    }
+
+    .tooltip::before {
+       
+        font-size: 18px; /* Tamaño de fuente del tooltip en "em" */
+    }
+
+    li {
+        margin-right: 15px; /* Espacio entre los elementos de la lista */
+    }
+
+
+    .text h1 {
+        font-size: 4.7em; /* Tamaño de fuente de 3.75em en "em" */
+        padding-left: 13px;
+    }
+    
+    /* Estilos para subtítulos del texto */
+    .text h3 {
+        font-size: 2em; /* Tamaño de fuente de 1.25em en "em" */
+        
+    }
+    
+    /* Estilos para párrafos de texto */
+    .text p {
+        font-size: 1.6em; /* Tamaño de fuente de 1.1875em en "em" */
+        padding-right: 46px;
+        padding-left: 46px;
+    }
+    
+    /* Estilos para la fuente de tamaño 60px con clase .word1 */
+    .word1 {
+        font-size: 4.7em; /* Tamaño de fuente de 3.75em en "em" */
+        padding-left: 13px;
+    }
+    
+    /* Estilos para la fuente de tamaño 65px con clase .word2 */
+    .word2 {
+        font-size: 4.7em; /* Tamaño de fuente de 4.0625em en "em" */
+        
+    }
+    
+    .h4text {
+        font-size:  1.8em; /* Tamaño de fuente de 1.25em en "em" */
+    }
+    /* Estilos para los enlaces dentro de .text3 */
+    .text3 a {
+        font-size: 1.6em; /* Tamaño de fuente de 1em en "em" */
+       
+    }
+
+    /* Estilos para párrafos de texto dentro de .text3 */
+    .text3 p {
+        font-size: 1.5em; /* Tamaño de fuente de 1em en "em" */
+   
+    }
+    .image {
+        flex: 2; /* Aumentar la proporción de la imagen en dispositivos móviles */
+    }
+    .container {
+        flex-direction: column; /* Cambiar la dirección de flexión a columna para apilar los elementos */
+    }
+
+  }
+  
+  /* Media query para escritorios y pantallas grandes */
+  @media (min-width: 791px) and (max-width: 915px) {
+    footer{
+        padding: 4px; /* Agrega un espacio interno para separar los elementos del borde del footer */
+         
+    }
+
+    footer img {
+        width:  90px; /* Ancho de la imagen en "em" */
+        height: 90px; /* Altura de la imagen en "em" */
+       
+    }
+
+    footer a {
+        font-size: 19px;
+    }
+    
+    footer p {
+        font-size: 20px;
+    }
+
+    footer .content2 {
+        position: absolute; /* Cambiar a posición absoluta */
+        display: flex;
+        align-items: center;
+        bottom: 15px;
+    }
+
+    .imagefoot {
+        width: 60px;
+        height: 60px;
+        align-items: center; /* Alineación de los elementos al centro */
+        margin-bottom: 0%;
+        margin-right: 0px;
+        
+    }
+    li {
+        margin-right: 10px; /* Espacio entre los elementos de la lista */
+    }
+    
+    nav li a {
+   
+        width: 64px; /* Ancho de los enlaces en "em" */
+        height: 64px; /* Altura de los enlaces en "em" */
+       
+    }
+    
+    nav li a img {
+        width: 43px; /* Ancho de las imágenes de los enlaces */
+        height: 43px; /* Altura de las imágenes de los enlaces */
+    }
+
+    .tooltip::before {
+       
+        font-size: 22px; /* Tamaño de fuente del tooltip en "em" */
+    }
+
+    .text h1 {
+        font-size: 4.7em; /* Tamaño de fuente de 3.75em en "em" */
+        padding-left: 18px;
+    }
+    
+    /* Estilos para subtítulos del texto */
+    .text h3 {
+        font-size: 2.3em; /* Tamaño de fuente de 1.25em en "em" */
+        
+    }
+    
+    /* Estilos para párrafos de texto */
+    .text p {
+        font-size: 1.7em; /* Tamaño de fuente de 1.1875em en "em" */
+        padding-right: 60px;
+        padding-left: 60px;
+    }
+    
+    /* Estilos para la fuente de tamaño 60px con clase .word1 */
+    .word1 {
+        font-size: 4.7em; /* Tamaño de fuente de 3.75em en "em" */
+        padding-left: 18px;
+    }
+    
+    /* Estilos para la fuente de tamaño 65px con clase .word2 */
+    .word2 {
+        font-size: 4.7em; /* Tamaño de fuente de 4.0625em en "em" */
+        
+    }
+    
+    .h4text {
+        font-size:  2em; /* Tamaño de fuente de 1.25em en "em" */
+    }
+    /* Estilos para los enlaces dentro de .text3 */
+    .text3 a {
+        font-size: 1.8em; /* Tamaño de fuente de 1em en "em" */
+       
+    }
+
+    /* Estilos para párrafos de texto dentro de .text3 */
+    .text3 p {
+        font-size: 1.8em; /* Tamaño de fuente de 1em en "em" */
+   
+    }
+    .image {
+        flex: 2; /* Aumentar la proporción de la imagen en dispositivos móviles */
+    }
+    .container {
+        flex-direction: column; /* Cambiar la dirección de flexión a columna para apilar los elementos */
+    }
+
+
+  }
+
+  @media (min-width: 916px) and (max-width: 1100px) {
+    footer {
+        position:fixed;
+    }
+    footer a {
+        font-size: 1.1em;
+        margin-top: 0px;
+    }
+
+    
+    footer p {
+        font-size: 1em;
+    }
+
+    footer img {
+        width: 5.3em; /* Ancho de la imagen en "em" */
+        height: 5.3em; /* Altura de la imagen en "em" */
+       
+    }
+    .imagefoot {
+        width: 3.5em; /* Ancho de la imagen en "em" */
+        height: 3.5em; /* Altura de la imagen en "em" */
+        padding-bottom: .01px;
+        
+    }
+    
+    
+    nav li a {
+   
+        width: 2.5em; /* Ancho de los enlaces en "em" */
+        height: 2.5em; /* Altura de los enlaces en "em" */
+       
+    }
+    
+    nav li a img {
+        width: 1.2em; /* Ancho de las imágenes de los enlaces en "em" */
+        height: 1.2em; /* Altura de las imágenes de los enlaces en "em" */
+    }
+
+    .tooltip::before {
+       
+        font-size: 15px; /* Tamaño de fuente del tooltip en "em" */
+    }
+
+    li {
+        margin-right: 5px; /* Espacio entre los elementos de la lista */
+    }
+
+    .container {
+        display: flex; /* Mostrar elementos en línea y en el mismo nivel */
+        align-items: center; /* Centrar verticalmente los elementos en el contenedor */
+        height: 610px;
+    }
+
+    .text h1 {
+        font-size: 3em; /* Tamaño de fuente de 3.75em en "em" */
+        padding-left: 18px;
+       
+    }
+    
+    /* Estilos para subtítulos del texto */
+    .text h3 {
+        font-size: 1.3em; /* Tamaño de fuente de 1.25em en "em" */
+        
+    }
+    
+    /* Estilos para párrafos de texto */
+    .text p {
+        font-size: 1em; /* Tamaño de fuente de 1.1875em en "em" */
+        padding-right: 30px;
+        padding-left: 30px;
+    }
+    
+    /* Estilos para la fuente de tamaño 60px con clase .word1 */
+    .word1 {
+        font-size: 3em; /* Tamaño de fuente de 3.75em en "em" */
+        padding-left: 18px;
+    }
+    
+    /* Estilos para la fuente de tamaño 65px con clase .word2 */
+    .word2 {
+        font-size: 3em; /* Tamaño de fuente de 4.0625em en "em" */
+        
+    }
+    
+    .h4text {
+        font-size:  1.1em; /* Tamaño de fuente de 1.25em en "em" */
+    }
+    /* Estilos para los enlaces dentro de .text3 */
+    .text3 a {
+        font-size: .9em; /* Tamaño de fuente de 1em en "em" */
+       
+    }
+
+    /* Estilos para párrafos de texto dentro de .text3 */
+    .text3 p {
+        font-size: .9em; /* Tamaño de fuente de 1em en "em" */
+   
+    }
+   
+}
+
+
+
+
+
+
