@@ -10,6 +10,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
 </head>
 <body>
   <!-- Header fijo que aparecerá después del scroll -->
@@ -22,7 +23,6 @@
           <li><a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
           <li><a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a></li>
           <li><a href="https://www.google.com" target="_blank"><i class="fab fa-google"></i></a></li>
-          <li><a href="mailto:tuemail@gmail.com"><i class="fas fa-envelope"></i></a></li>
           <li><a href="mailto:tuemail@gmail.com"><i class="fas fa-envelope"></i></a></li>
         </ul>
       </nav>
@@ -46,26 +46,252 @@
     <p class="scroll-hint">haz scroll para avanzar</p>
   </section>
 
-
-  <!-- Segunda sección (aparece después del zoom out) -->
-  <section id="seccion2" class="section section-about">
-  
-    <div class="container">
-      <h2>Bienvenido a mi sitio</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget felis eget urna ultricies fermentum. 
-         Mauris euismod, nisl eget tincidunt ultricies, nisl nisl tincidunt nisl, eget tincidunt nisl nisl eget nisl.</p>
-      <p>Suspendisse potenti. Donec euismod, nisl eget tincidunt ultricies, nisl nisl tincidunt nisl, eget tincidunt nisl nisl eget nisl.</p>
+  <!-- Segunda sección (About Me) -->
+  <section id="about-me" class="section section-about">
+    <div class="container about-container">
+      <div class="about-text">
+        <h2>HI THERE!</h2>
+        <p>Throughout my journey as a student, I have cultivated various social and academic skills. 
+          I am a <span class="text-shuffle">creativo</span> developer focused on creating innovative solutions.</p>
+        <p>I have participated in group projects, achieving prominent positions in ExpoEscom thanks to our teamwork 
+          and my ability to effectively communicate my knowledge.</p>
+        <p>Furthermore, I have experience in application development using IOS Developer tools like Swift, Objective C, 
+          and appClips management. I am also proficient in programming languages such as C, C++, CSS, JavaScript, and Python.</p>
+      </div>
+      <div class="about-image">
+        <!-- Espacio para foto -->
+        <img src="./images/CamelloCabos.jpeg" alt="Martin Cortes" />
+      </div>
     </div>
   </section>
 
-  <!-- Tercera sección (ejemplo) -->
-  <section id="contacto" class="section section-contact">
+  <!-- Tercera sección (Proyectos) -->
+  <section id="projects" class="section section-projects">
     <div class="container">
-      <h2>Contacto</h2>
-      <p>Ponte en contacto conmigo a través de las siguientes vías:</p>
-      <div class="contact-info">
-        <p>Email: info@example.com</p>
-        <p>Teléfono: +123 456 7890</p>
+      <h2>  MY PROJECTS</h2>
+      <div class="projects-container">
+        <!-- Proyecto 1 -->
+        <div class="job-card">
+          <div class="project-image">
+            <img src="./Projects/stars.gif" alt="Proyecto 1" />
+          </div>
+          <div class="project-content">
+            <div class="project-title"> Star Cluster R136 </div>
+            <div class="project-description">
+                You come across a map of the R136 star cluster. On the map, each star 
+                appears as a point located in a Cartesian plane. Suddenly, a question 
+                comes to your mind: What will be the minimum distance between two stars on the map?
+            </div>
+          </div>
+          <div class="project-link">
+            <a href="https://github.com/MartinCortes20/StarClusterR136" target="_blank">Ver más <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <!-- Proyecto 2 -->
+        <div class="job-card">
+          <div class="project-image">
+            <img src="/api/placeholder/350/200" alt="Proyecto 2" />
+          </div>
+          <div class="project-content">
+            <div class="project-title">Proyecto 2</div>
+            <div class="project-description">
+              Descripción detallada del proyecto 2. Aquí puedes explicar las tecnologías utilizadas, los problemas resueltos y los resultados obtenidos.
+            </div>
+          </div>
+          <div class="project-link">
+            <a href="#" target="_blank">Ver más <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <!-- Proyecto 3 -->
+        <div class="job-card">
+          <div class="project-image">
+            <img src="/api/placeholder/350/200" alt="Proyecto 3" />
+          </div>
+          <div class="project-content">
+            <div class="project-title">Proyecto 3</div>
+            <div class="project-description">
+              Descripción detallada del proyecto 3. Aquí puedes explicar las tecnologías utilizadas, los problemas resueltos y los resultados obtenidos.
+            </div>
+          </div>
+          <div class="project-link">
+            <a href="#" target="_blank">Ver más <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <!-- Proyecto 4 -->
+        <div class="job-card">
+          <div class="project-image">
+            <img src="/api/placeholder/350/200" alt="Proyecto 4" />
+          </div>
+          <div class="project-content">
+            <div class="project-title">Proyecto 4</div>
+            <div class="project-description">
+              Descripción detallada del proyecto 4. Aquí puedes explicar las tecnologías utilizadas, los problemas resueltos y los resultados obtenidos.
+            </div>
+          </div>
+          <div class="project-link">
+            <a href="#" target="_blank">Ver más <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <!-- Proyecto 5 -->
+        <div class="job-card">
+          <div class="project-image">
+            <img src="/api/placeholder/350/200" alt="Proyecto 5" />
+          </div>
+          <div class="project-content">
+            <div class="project-title">Proyecto 5</div>
+            <div class="project-description">
+              Descripción detallada del proyecto 5. Aquí puedes explicar las tecnologías utilizadas, los problemas resueltos y los resultados obtenidos.
+            </div>
+          </div>
+          <div class="project-link">
+            <a href="#" target="_blank">Ver más <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cuarta sección (Contact Me) -->
+  <section id="contact-me" class="section section-contact">
+    <div class="container contact-container">
+      <h2>CONTÁCTAME</h2>
+      <p>¿Interesado en trabajar juntos? Ponte en contacto conmigo a través de cualquiera de estos canales.</p>
+      
+      <div class="contact-icons">
+        <!-- Icono 1 - Facebook -->
+        <div class="contact-icon">
+          <a href="https://facebook.com" target="_blank">
+            <i class="fab fa-facebook-f"></i>
+            <div class="contact-name">Facebook</div>
+          </a>
+        </div>
+        
+        <!-- Icono 2 - Instagram -->
+        <div class="contact-icon">
+          <a href="https://instagram.com" target="_blank">
+            <i class="fab fa-instagram"></i>
+            <div class="contact-name">Instagram</div>
+          </a>
+        </div>
+        
+        <!-- Icono 3 - LinkedIn -->
+        <div class="contact-icon">
+          <a href="https://linkedin.com" target="_blank">
+            <i class="fab fa-linkedin-in"></i>
+            <div class="contact-name">LinkedIn</div>
+          </a>
+        </div>
+        
+        <!-- Icono 4 - GitHub -->
+        <div class="contact-icon">
+          <a href="https://github.com" target="_blank">
+            <i class="fab fa-github"></i>
+            <div class="contact-name">GitHub</div>
+          </a>
+        </div>
+        
+        <!-- Icono 5 - Email -->
+        <div class="contact-icon">
+          <a href="mailto:tuemail@gmail.com">
+            <i class="fas fa-envelope"></i>
+            <div class="contact-name">Email</div>
+          </a>
+        </div>
+        
+        <!-- Icono 6 - Teléfono -->
+        <div class="contact-icon">
+          <a href="tel:+1234567890">
+            <i class="fas fa-phone"></i>
+            <div class="contact-name">Teléfono</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quinta sección (Jobs) -->
+  <section id="jobs" class="section section-jobs">
+    <div class="container">
+      <h2>MI EXPERIENCIA LABORAL</h2>
+      <div class="jobs-container">
+        <!-- Trabajo 1 -->
+        <div class="job-card">
+          <div class="job-image">
+            <img src="/api/placeholder/350/200" alt="Trabajo 1" />
+          </div>
+          <div class="job-content">
+            <div class="job-title">Desarrollador iOS</div>
+            <div class="job-company">Empresa Tech</div>
+            <div class="job-period">2023 - Presente</div>
+            <div class="job-description">
+              Desarrollo de aplicaciones móviles utilizando Swift y Objective-C. Implementación de appClips y optimización de rendimiento en dispositivos iOS.
+            </div>
+          </div>
+        </div>
+        
+        <!-- Trabajo 2 -->
+        <div class="job-card">
+          <div class="job-image">
+            <img src="/api/placeholder/350/200" alt="Trabajo 2" />
+          </div>
+          <div class="job-content">
+            <div class="job-title">Desarrollador Web</div>
+            <div class="job-company">Agencia Digital</div>
+            <div class="job-period">2022 - 2023</div>
+            <div class="job-description">
+              Desarrollo de sitios web responsivos utilizando HTML, CSS y JavaScript. Implementación de animaciones con GSAP y mejoras de rendimiento.
+            </div>
+          </div>
+        </div>
+        
+        <!-- Trabajo 3 -->
+        <div class="job-card">
+          <div class="job-image">
+            <img src="/api/placeholder/350/200" alt="Trabajo 3" />
+          </div>
+          <div class="job-content">
+            <div class="job-title">Programador Backend</div>
+            <div class="job-company">Startup Innovadora</div>
+            <div class="job-period">2021 - 2022</div>
+            <div class="job-description">
+              Desarrollo de APIs RESTful utilizando Node.js y Express. Implementación de bases de datos MongoDB y sistemas de autenticación.
+            </div>
+          </div>
+        </div>
+        
+        <!-- Trabajo 4 -->
+        <div class="job-card">
+          <div class="job-image">
+            <img src="/api/placeholder/350/200" alt="Trabajo 4" />
+          </div>
+          <div class="job-content">
+            <div class="job-title">Pasante en Desarrollo</div>
+            <div class="job-company">Consultora Tecnológica</div>
+            <div class="job-period">2020 - 2021</div>
+            <div class="job-description">
+              Colaboración en proyectos de desarrollo de software. Implementación de funcionalidades específicas y corrección de errores.
+            </div>
+          </div>
+        </div>
+        
+        <!-- Trabajo 5 -->
+        <div class="job-card">
+          <div class="job-image">
+            <img src="/api/placeholder/350/200" alt="Trabajo 5" />
+          </div>
+          <div class="job-content">
+            <div class="job-title">Freelancer</div>
+            <div class="job-company">Proyectos independientes</div>
+            <div class="job-period">2019 - 2020</div>
+            <div class="job-description">
+              Desarrollo de soluciones personalizadas para clientes diversos. Gestión de proyectos completos desde el diseño hasta la implementación.
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
