@@ -3,168 +3,19 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Martin Cortes || Computer Systems Engineer</title>
 
-    <link rel="icon" type="image/png" href="images/Logo.png">
+    <link rel="icon" type="image/png" href="../Website/images/Logo.png">
     <link rel="stylesheet" href="HomeSection.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Castoro&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vogue&display=swap">
-
-    <link rel="stylesheet" href="./AboutMe/AboutMe.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prata&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Castoro&display=swap">
-
-    <link rel="stylesheet" href="./Projects/Projects.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prata&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Castoro&display=swap">
-    
-    <link rel="stylesheet" href="./ContactMe/ContactMe.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prata&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Castoro&display=swap">
-    
-    <!-- GSAP CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
-    
-    <!-- Lenis Smooth Scroll CDN -->
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
-    
-    
-    <style>
-        /* Estilos adicionales para la navegación de una sola página */
-        section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 0;
-            position: relative;
-        }
-        
-        .section-indicator {
-            position: fixed;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 1000;
-        }
-        
-        .section-indicator .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .section-indicator .dot.active {
-            background-color: white;
-            transform: scale(1.3);
-        }
-        
-        .scroll-down {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            opacity: 0.7;
-            cursor: pointer;
-        }
-        
-        .scroll-down svg {
-            animation: bounce 2s infinite;
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
-            }
-        }
-        
-        /* Estilos para secciones específicas */
-        #about-me {
-            background-color:#F2D9BB; /* Cambia esto según tus preferencias */
-        }
-        
-        #projects {
-            background-color: #F2D9BB; /* Cambia esto según tus preferencias */
-        }
-        
-        #contact-me {
-            background-color: #F2D9BB; /* Cambia esto según tus preferencias */
-        }
-        
-  
-        
-        /* Estilos para el efecto de panel */
-        .panel {
-            opacity: 0;
-            transform: translateY(50px);
-        }
-    </style>
 </head>
 <body>
-    <nav>
-        <ul>
-            <li class="tooltip" data-tooltip="Home">
-                <div class="image-container3">
-                    <a href="#inicio" class="menu-button" data-section="inicio"> 
-                        <img src="images/Home.svg">
-                    </a>
-                </div>
-            </li>
-            <li class="tooltip" data-tooltip="About Me">
-                <div class="image-container3">
-                    <a href="#about-me" class="menu-button" data-section="about-me">
-                        <img src="images/AboutMe.svg">
-                    </a>
-                </div>
-            </li>
-            <li class="tooltip" data-tooltip="Projects">
-                <div class="image-container3">
-                    <a href="#projects" class="menu-button" data-section="projects">
-                        <img src="images/Projects.svg">
-                    </a>
-                </div>
-            </li>
-            <li class="tooltip" data-tooltip="Contact Me">
-                <div class="image-container3">
-                    <a href="#contact-me" class="menu-button" data-section="contact-me">
-                        <img src="images/Contact.svg">
-                    </a>
-                </div>
-            </li>
-        </ul>
-    </nav>
 
-    <div class="section-indicator">
-        <div class="dot active" data-section="inicio"></div>
-        <div class="dot" data-section="about-me"></div>
-        <div class="dot" data-section="projects"></div>
-        <div class="dot" data-section="contact-me"></div>
-    </div>
-
-    <!-- Sección Home/Inicio -->
-    <section id="inicio" class="panel">
+       <!-- Start Section -->
+       <section id="inicio">
         <div class="container">
             <div class="text">
                 <div class="info">
@@ -198,319 +49,53 @@
                         </a><br>
                         <p>
                             Phone: +52 55 1832 3146
-                        </p>
+                        </p><br><br>
                     </div>
+
                 </div>
             </div>
             <div class="image">
-                <img src="images/CamelloCabos.jpeg" alt="Image">
+                <img src="../Website/images/CamelloCabos.jpeg" alt="Image">
             </div>
-        </div>
-        <div class="scroll-down" data-section="about-me">
-            <span>Scroll Down</span>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
         </div>
     </section>
 
-    <!-- Sección About Me -->
-    <section id="about-me" class="panel">
-        <div class="title2">  
-            <h1>WHO AM I?</h1>
-            <div class="subtitle2">
-                <h3>Hover over each image to learn more about me.</h3>
-            </div>
-            <div class="Little">
-                <h3>
-                    If you want to become more familiar with each aspect 
-                    of my life, click on each of the following images
-                </h3>
-            </div>
-        </div>
-    
-        <div class="row">
-            <div class="cont2">
-                <div class="image-container menu-button2 clickable">
-                    <img src="./AboutMe/escom.jpeg" alt="Image of ESCOM">
-                    <h1>Academic Performance</h1>
-                    <div class="overlay-text"> 
-                        <h2>Computer Systems Engineering</h2>
-                        <p>
-                            I am a student of Computer Systems Engineering at ESCOM, IPN...
-                        </p>
-                    </div>
-                </div>
-                <div class="image-container menu-button2 clickable">
-                    <img src="./AboutMe/basket.jpeg" alt="Image of Hobbies">
-                    <h1>Hobbies</h1>
-                    <div class="overlay-text"> 
-                        <h2>Traveling, Learning, Basketball, Weightlifting</h2>
-                        <p>
-                            I love to travel and discover new cultures...
-                        </p>
-                    </div>
-                </div>
-                <div class="image-container menu-button2 clickable">
-                    <img src="./AboutMe/comunity.jpeg" alt="Image of My Languages">
-                    <h1>Languages</h1>
-                    <div class="overlay-text"> 
-                        <h1>*Spanish<br>*English</h1>
-                        <p>
-                            I am Mexican, native Spanish speaker...
-                        </p>
-                    </div>
-                </div>
-                <div class="image-container menu-button2 clickable">
-                    <img src="./AboutMe/skills.jpeg" alt="Image of My Programming Skills">
-                    <h1>Skills</h1>
-                    <div class="overlay-text"> 
-                        <p>I have skills in programming languages:</p><br>
-                        <h2>C, C++, Python, CSS, JavaScript, Swift, Objective-C, HTML</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
-        <div class="scroll-down" data-section="projects">
-            <span>Projects</span>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
-        <script src="./AboutMe/AboutMe.js"></script>
-
-    </section>
-
-    <!-- Sección Projects -->
-    <section id="projects" class="panel">
-       
-           <!-- Section Content -->
-           <div class="title2">  
-            <h1>
-                MY PROJECTS
-            </h1>
-        </div>
-        <div class="subtitle2">
-            <h3>
-                Hover over each image to learn more about my projects.
-            </h3>
-        </div>
-        <div class="Little">
-            <h3>
-                If you want to learn more about my projects, you can click on the 
-                title of each project to see what they consist of. Also, if you're interested 
-                in viewing the repository, just click on the associated image
-            </h3>
-        </div>
-        
-        <!-- Projects Column - Right Side -->
-        <div class="projects-content-column">
-            <div class="projects-container">
-                <!-- Project 1 -->
-                <div class="project-item">
-                    <div class="image-container2 clickable">
-                        <img src="./Projects/stars.gif" alt="Star Cluster.">
-                        <h1>Star Cluster R136</h1>
-                        <a href="https://github.com/MartinCortes20/StarClusterR136" class="touch-hover">
-                            <div class="overlay-text2">
-                                <h4>Star Cluster R136</h4> 
-                                <p> 
-                                    You come across a map of the R136 star cluster. On the map, each star 
-                                    appears as a point located in a Cartesian plane. Suddenly, a question 
-                                    comes to your mind: What will be the minimum distance between two stars on the map?
-                                </p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Project 2 -->
-                <div class="project-item">
-                    <div class="image-container2 clickable">
-                        <img src="./Projects/SuperMArket.gif" alt="Department Store Inventory">
-                        <h1>Store Inventory</h1>
-                        <a href="https://github.com/MartinCortes20/ExamenTercerParcialAlgoritmosMartinGUI" class="touch-hover">
-                            <div class="overlay-text2">
-                                <h4>Department Store Inventory</h4>
-                                <p>  
-                                    A department store utilizes a user menu to manage information about 75 items in its stock. 
-                                    The data is read from a text file during the initial loading process, and hash techniques are 
-                                    employed to efficiently handle record access, ensuring proper collision resolution.
-                                    The query functionality allows users to retrieve details such as available units, base price, 
-                                    and expiration date using the product identifier.
-                                </p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Project 3 -->
-                <div class="project-item">
-                    <div class="image-container2 clickable">
-                        <img src="./Projects/a lot of files.gif" alt="File Sorting">
-                        <h1>File Sorting</h1>
-                        <a href="https://github.com/MartinCortes20/2doExamenMartinCortesGUI" class="touch-hover">
-                            <div class="overlay-text2">
-                                <h4>File Sorting</h4>
-                                <p> 
-                                    By using sorting algorithms, we can find the most efficient way to sort them.
-                                </p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Project 4 -->
-                <div class="project-item">
-                    <div class="image-container2 clickable">
-                        <img src="./Projects/match.gif" alt="Olympics (PODIUM)">
-                        <h1>Olympics (PODIUM)</h1>
-                        <a href="https://github.com/MartinCortes20/ExamenAlgoritmosCortesBuendia2022" class="touch-hover">
-                            <div class="overlay-text2">
-                                <h4>Olympics (PODIUM)</h4>
-                                <p> 
-                                    Three binary search trees, GOLD, SILVER, and BRONZE, store Olympic medalists based on their 
-                                    results in the competitions (gold, silver, or bronze). Each medal has a point value 
-                                    (10, 5, and 2 respectively). Available information includes the participant's name and nationality. 
-                                    The trees are sorted alphabetically by the athlete's name.
-                                </p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Project 5 -->
-                <div class="project-item">
-                    <div class="image-container2">
-                        <img src="./Projects/comingSoon.gif" alt="Project in progress">
-                        <h1>Project in progress</h1>
-                        <div class="overlay-text2">
-                            <h4>Project in progress</h4>
-                            <p> 
-                                Very soon there will be a project in this section.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Project 6 -->
-                <div class="project-item">
-                    <div class="image-container2">
-                        <img src="./Projects/comingSoon.gif" alt="Project in progress">
-                        <h1>Project in progress</h1>
-                        <div class="overlay-text2">
-                            <h4>Project in progress</h4>
-                            <p> 
-                                Very soon there will be a project in this section.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-            <script src="./Projects/Projects.js"></script>
-
-        </div>
-
-
-        <div class="scroll-down" data-section="contact-me">
-            <span>Contact</span>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
-    </section>
-
-    <!-- Sección Contact Me -->
-    <section id="contact-me" class="panel">
-
-            <!-- Section Content -->
-            <div class="title2">  
-                <h1>
-                    WHERE TO CONTACT ME?
-                </h1>
-            </div>
-            <div>
-                <h1 class="textCon">
-                    You can contact me in the following ways
-                </h1>
-            </div>
-            <div>
-                <h1 class="textCon">
-                    Through My Social Media
-                </h1>
-                
-    
-                <div class="tooltip2 miniBox" data-tooltip2="Instagram"> 
-                    <a href="https://www.instagram.com/daddy_maarf/">
-                        <img class="imgW3" src="./images/instagramLogo.webp" >
+    <nav>
+        <ul>
+            <li class="tooltip" data-tooltip="Home">
+                <div class="image-container3">
+                    <a href="../Website/index.html" class="menu-button"> 
+                        <img src="../Website/images/Home.svg">
                     </a>
                 </div>
-    
-                <div class="tooltip2 miniBox" data-tooltip2="Facebook"> 
-                    <a href="https://www.facebook.com/martin.cortes.754">
-                        <img class="imgW4" src="./images/facebookLogo.webp">
+            </li>
+            <li class="tooltip" data-tooltip="About Me">
+                <div class="image-container3">
+                    <a href="../Website/AboutMe/AboutMe.html" class="menu-button">
+                        <img src="../Website/images/AboutMe.svg">
                     </a>
                 </div>
-            
-            </div>
-            <img class="imgShark" src="./ContactMe/shark.PNG" >
-            <div>
-                <h1 class="textCon"> 
-                    You can find me by viewing my projects and works 
-                </h1>
-                
-                <div class="tooltip2 miniBox" data-tooltip2="Github Account"> 
-                    <a href="https://github.com/MartinCortes20">
-                        <img class="imgW" src="./images/github-mark.png" >
+            </li>
+            <li class="tooltip" data-tooltip="Projects">
+                <div class="image-container3">
+                    <a href="../Website/Projects/Projects.html" class="menu-button">
+                        <img src="../Website/images/Projects.svg">
                     </a>
                 </div>
-    
-                <div class="tooltip2 miniBox" data-tooltip2="LinkedIn Account"> 
-                    <a href="https://www.linkedin.com/in/martin-francisco-cortes-8bb642272/">
-                        <img class="imgW" src="./images/linkedln.png">
+            </li>
+            <li class="tooltip" data-tooltip="Contact Me">
+                <div class="image-container3">
+                    <a href="../Website/ContactMe/ContactMe.html" class="menu-button">
+                        <img src="../Website/images/Contact.svg">
                     </a>
                 </div>
-    
-    
-                <div class="tooltip2 miniBox" data-tooltip2="Glassdoor Account"> 
-                    <a href="https://www.glassdoor.com.mx/member/profile/index.htm">
-                        <img class="imgW2" src="./images/glassdoor.png" >
-                    </a>
-                </div>
-            </div>
-    
-            <div>
-                <h1 class="textCon"> 
-                    Or You Can Contact Me Directly by Writing an Email 
-                </h1>
-                <div class="tooltip2 miniBox" data-tooltip2="Personal Email">               
-                    <a href="mailto:cortesbuendiamartin@gmail.com">
-                        <img class="imgW" src="./images/GmailLogo.webp" >
-                    </a>
-                </div>
-                <div class="tooltip2 miniBox" data-tooltip2="School Email">               
-                    <a href="mailto:mcortesb1700@alumno.ipn.mx">
-                        <img class="imgW" src="./images/IpnLogo.png" >
-                    </a>
-                </div>
-            </div>
-                
-     
-        <div class="scroll-down" data-section="contact-me">
-            <span>Contact</span>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
-
-    </section>
+            </li>
+        </ul>
+    </nav>
 
     <footer>
         <div class="content">
-            <img src="images/logo-M.PNG" alt="Logo Image">
+            <img src="../Website/images/logo-M.PNG" alt="Logo Image">
             <div class="text-container">
                 <a href="mailto:cortesbuendiamartin@gmail.com">
                     Email: <br>
@@ -524,315 +109,28 @@
             <div class="content2">
                 <div class="image-container4 menu-button" >
                     <a href="https://github.com/MartinCortes20" >
-                        <img src="images/github-mark.png" alt="Github" class="imagefoot">
+                        <img src="../Website/images/github-mark.png" alt="Github" class="imagefoot">
                     </a>
                 </div>
                 <div class="image-container4 menu-button">
                     <a href="https://www.linkedin.com/in/martin-francisco-cortes-8bb642272/">
-                        <img src="images/linkedln.png" alt="LinkedIn" class="imagefoot">
+                        <img src="../Website/images/linkedln.png" alt="LinkedIn" class="imagefoot">
                     </a>
                 </div>
                 <div class="image-container4 menu-button">
                     <a href="https://www.facebook.com/martin.cortes.754">
-                        <img src="images/facebookLogo.webp" alt="Facebook" class="imagefoot">
+                        <img src="../Website/images/facebookLogo.webp" alt="Facebook" class="imagefoot">
                     </a>
                 </div>
                 <div class="image-container4 menu-button">
-                    <a href="https://www.instagram.com/daddy_maarf/">
-                        <img src="images/instagramLogo.webp" alt="Instagram" class="imagefoot">
+                    <a href="https://www.instagram.com/martin_cortia/">
+                        <img src="../Website/images/instagramLogo.webp" alt="Instagram" class="imagefoot">
                     </a>
                 </div>
             </div>
+            
         </div>
+        
     </footer>
-
-    <!-- Script para GSAP y Lenis -->
-    <script>
-        // Inicialización de Lenis para smooth scroll
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: 'vertical',
-            gestureDirection: 'vertical',
-            smooth: true,
-            smoothTouch: false,
-            touchMultiplier: 2
-        });
-
-        // Función que conecta Lenis con requestAnimationFrame
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
-        // Registrar el plugin ScrollTrigger
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Función para actualizar el indicador de sección activa
-        function updateActiveSection() {
-            const sections = document.querySelectorAll('section');
-            const dots = document.querySelectorAll('.dot');
-            
-            let currentSection = "";
-            let minDistance = Infinity;
-            
-            // Encontrar la sección más cercana al centro de la pantalla
-            sections.forEach((section) => {
-                const rect = section.getBoundingClientRect();
-                const distance = Math.abs(rect.top);
-                
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    currentSection = section.id;
-                }
-            });
-            
-            // Actualizar el indicador de sección activa
-            dots.forEach((dot) => {
-                if (dot.dataset.section === currentSection) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
-        }
-        
-        // Escuchar eventos de scroll para actualizar el indicador
-        window.addEventListener('scroll', updateActiveSection);
-        
-        // Definir la función para el desplazamiento suave
-        function scrollToSection(sectionId) {
-            const section = document.getElementById(sectionId);
-            if (section) {
-                lenis.scrollTo(section);
-            }
-        }
-        
-        // Configurar los eventos para los dots
-        document.querySelectorAll('.dot').forEach((dot) => {
-            dot.addEventListener('click', () => {
-                const sectionId = dot.dataset.section;
-                scrollToSection(sectionId);
-            });
-        });
-        
-        // Configurar los eventos para los botones de "scroll down"
-        document.querySelectorAll('.scroll-down').forEach((button) => {
-            button.addEventListener('click', () => {
-                const sectionId = button.dataset.section;
-                scrollToSection(sectionId);
-            });
-        });
-        
-        // Configurar los eventos para los enlaces del menú
-        document.querySelectorAll('nav a').forEach((link) => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const sectionId = link.dataset.section;
-                scrollToSection(sectionId);
-            });
-        });
-
-        // Esperar a que el DOM se cargue completamente
-        document.addEventListener("DOMContentLoaded", () => {
-            // Animación inicial para la sección de bienvenida
-            gsap.to('.panel', {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                stagger: 0.2,
-                ease: "power3.out"
-            });
-            
-            // Configurar animaciones para cada sección al hacer scroll
-            const sections = gsap.utils.toArray('section');
-            sections.forEach((section, i) => {
-                const sectionElements = section.querySelectorAll('h2, h3, p, .about-content, .projects-grid, .contact-content');
-                
-                ScrollTrigger.create({
-                    trigger: section,
-                    start: "top center",
-                    end: "bottom center",
-                    onEnter: () => {
-                        // Animar elementos al entrar en la sección
-                        gsap.to(sectionElements, {
-                            y: 0,
-                            opacity: 1,
-                            duration: 0.8,
-                            stagger: 0.1,
-                            ease: "power2.out"
-                        });
-                    },
-                    onLeaveBack: () => {
-                        // Reiniciar animaciones cuando salimos de la sección hacia arriba
-                        gsap.to(sectionElements, {
-                            y: 30,
-                            opacity: 0,
-                            duration: 0.5,
-                            stagger: 0.05,
-                            ease: "power2.in"
-                        });
-                    }
-                });
-            });
-            
-            // Animación para el inicio
-            const tl = gsap.timeline();
-            
-            // Animación de entrada para el título "HI THERE!"
-            tl.from("#inicio h1", {
-                y: -50,
-                opacity: 0,
-                duration: 0.8,
-                ease: "power3.out"
-            });
-            
-            // Animación para "I'm"
-            tl.from("#inicio .word1", {
-                x: -30,
-                opacity: 0,
-                duration: 0.6,
-                ease: "power2.out"
-            }, "-=0.3");
-            
-            // Animación para "MARTIN CORTES"
-            tl.from("#inicio .word2", {
-                x: 30,
-                opacity: 0,
-                duration: 0.8,
-                ease: "back.out(1.7)"
-            }, "-=0.4");
-            
-            // Animación para el subtítulo
-            tl.from("#inicio h3", {
-                y: 20,
-                opacity: 0,
-                duration: 0.7
-            }, "-=0.5");
-            
-            // Animación para el párrafo de texto
-            tl.from("#inicio .info p", {
-                y: 30,
-                opacity: 0,
-                duration: 0.8
-            }, "-=0.4");
-            
-            // Animación para la sección de contacto
-            tl.from("#inicio .h4text, #inicio .text3", {
-                y: 20,
-                opacity: 0,
-                duration: 0.7,
-                stagger: 0.2
-            }, "-=0.3");
-            
-            // Animación para la imagen
-            tl.from("#inicio .image", {
-                scale: 0.8,
-                opacity: 0,
-                duration: 1.2,
-                ease: "power2.out"
-            }, "-=1");
-            
-            // Efecto parallax para la imagen de fondo
-            gsap.to("#inicio .image img", {
-                scrollTrigger: {
-                    trigger: "#inicio",
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true
-                },
-                y: 100,
-                ease: "none"
-            });
-            
-            // Animación para los elementos de cada sección
-            
-            // About Me
-            gsap.set("#about-me .about-content > *", {opacity: 0, y: 30});
-            ScrollTrigger.create({
-                trigger: "#about-me",
-                start: "top center",
-                onEnter: () => {
-                    gsap.to("#about-me .about-content > *", {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.8,
-                        stagger: 0.1
-                    });
-                }
-            });
-            
-            // Projects
-            gsap.set(".project-card", {opacity: 0, y: 50});
-            ScrollTrigger.create({
-                trigger: "#projects",
-                start: "top center",
-                onEnter: () => {
-                    gsap.to(".project-card", {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.8,
-                        stagger: 0.2
-                    });
-                }
-            });
-            
-            // Contact
-            gsap.set("#contact-me .contact-content > *", {opacity: 0, y: 30});
-            ScrollTrigger.create({
-                trigger: "#contact-me",
-                start: "top center",
-                onEnter: () => {
-                    gsap.to("#contact-me .contact-content > *", {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.8,
-                        stagger: 0.2
-                    });
-                }
-            });
-            
-            // Efecto hover para los elementos del menú
-            const menuItems = document.querySelectorAll(".menu-button");
-            menuItems.forEach(item => {
-                item.addEventListener("mouseenter", () => {
-                    gsap.to(item, {
-                        scale: 1.1,
-                        duration: 0.3,
-                        ease: "power1.out"
-                    });
-                });
-                
-                item.addEventListener("mouseleave", () => {
-                    gsap.to(item, {
-                        scale: 1,
-                        duration: 0.3,
-                        ease: "power1.in"
-                    });
-                });
-            });
-            
-            // Efecto hover para botones y enlaces
-            const buttons = document.querySelectorAll(".submit-btn, .project-link");
-            buttons.forEach(button => {
-                button.addEventListener("mouseenter", () => {
-                    gsap.to(button, {
-                        backgroundColor: "#333",
-                        color: "#fff",
-                        duration: 0.3
-                    });
-                });
-                
-                button.addEventListener("mouseleave", () => {
-                    gsap.to(button, {
-                        backgroundColor: "#fff",
-                        color: "#333",
-                        duration: 0.3
-                    });
-                });
-            });
-        });
-    </script>
 </body>
 </html>
