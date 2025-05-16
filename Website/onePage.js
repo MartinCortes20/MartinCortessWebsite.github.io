@@ -63,48 +63,56 @@ function updateScale() {
 
 // Scroll animation - effect de zoom in y transición al header
 function setupScrollAnimations() {
-  // Crear un timeline para la animación de scroll
-  const scrollTimeline = gsap.timeline({
+    const scrollTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".section-hero",
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+        pin: true,
+        anticipatePin: 1
+      }
+    });
+  
+    scrollTimeline
+      // Zoom a la animación
+      .to(".pov", {
+        scale: 7.7,
+        ease: "power2.inOut"
+      }, 0)
+  
+      // Ocultar el texto scroll-hint
+      .to(".scroll-hint", {
+        opacity: 0
+      }, 0)
+  
+    //   // Oscurecer la pantalla (blackout)
+    //   .to(".blackout", {
+    //     opacity: 1,
+    //     duration: 1,
+    //     ease: "power1.inOut"
+    //   }, 0.7)
+  
+      // Ocultar toda la sección hero (opcional, si quieres que desaparezca)
+      .to(".section-hero", {
+        opacity: 0,
+        duration: 0.5
+      }, 0.9);
+  }
+
+  // Mostrar el header al hacer scroll más allá de la animación inicial
+gsap.to(".site-header", {
     scrollTrigger: {
-      trigger: "body",
-      start: "top top",
-      end: "+=100%",
-      scrub: true,
-      pin: ".section-hero",
-      anticipatePin: 1,
+      trigger: ".section-about", // cuando empiece la segunda sección
+      start: "top top",          // al llegar al top
       toggleActions: "play none none reverse"
-    }
+    },
+    y: 0,
+    opacity: 1,
+    duration: 0.5,
+    ease: "power2.out"
   });
-
-  // Zoom IN animation (la animación crece con el scroll hacia abajo)
-  scrollTimeline
-    // Escalar la animación hacia adentro (hacer más grande)
-    .to(".pov", {
-      scale: 7.7,
-      ease: "power2.inOut",
-      duration: 1
-    }, 0)
-    // Mostrar el header con la palabra MARTIN CORTES
-    .to(".site-header", {
-      translateY: "0%",
-      opacity: 1,
-      duration: 0.5
-    }, 0.3)
-    // Ajustar opacidad de la animación principal
-    .to(".die", {
-      opacity: function(index) {
-        // Que los elementos más alejados del centro se vuelvan más transparentes
-        return 1 - (index * 0.02);
-      },
-      duration: 0.8
-    }, 0.2)
-    // Ocultar el texto de scroll hint
-    .to(".scroll-hint", {
-      opacity: 0,
-      duration: 0.3
-    }, 0);
-}
-
+  
 // Inicializar todo cuando la página esté cargada
 window.addEventListener('load', () => {
   updateScale();
