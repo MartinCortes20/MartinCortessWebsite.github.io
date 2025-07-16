@@ -1,4 +1,4 @@
-/* ===== SECCIÓN PROYECTOS ===== */
+/* ===== SECCIÓN PROYECTOS CON NAVEGACIÓN HORIZONTAL ===== */
 
 .section-projects {
   background-color: #120024;
@@ -6,35 +6,58 @@
   position: relative;
   min-height: 100vh;
   padding: 40px 0;
-  overflow-x: auto; /* Permitir scroll horizontal */
-  overflow-y: hidden;
-  display: block;
+  overflow: hidden; /* Cambiar para ocultar el scroll */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.section-projects .container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section-projects h2 {
+  color: #8000ff;
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  text-align: center;
 }
 
 .projects-container {
   display: flex;
   flex-wrap: nowrap;
-  padding: 20px 0;
   gap: 40px;
-  width: fit-content; /* Cambiar de max-content a fit-content */
+  width: fit-content;
+  transition: transform 0.6s ease-in-out; /* Transición más suave */
+  padding: 20px 0;
+  justify-content: center;
 }
 
 .project-card {
   width: 350px;
   height: 450px;
-  margin: 0 20px;
   background-color: rgba(128, 0, 255, 0.1);
   border-radius: 10px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 2px solid #8000ff;
   flex-shrink: 0;
+  position: relative;
 }
 
 .project-card:hover {
   transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(128, 0, 255, 0.3);
 }
 
 .project-image {
@@ -53,6 +76,8 @@
 .project-content {
   padding: 20px;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .project-title {
@@ -66,6 +91,7 @@
   font-size: 16px;
   color: #ccc;
   line-height: 1.4;
+  flex-grow: 1;
 }
 
 .project-link {
@@ -85,36 +111,109 @@
   color: white;
 }
 
-/* Scrollbar personalizada para la sección de proyectos */
-.section-projects::-webkit-scrollbar {
-  height: 8px;
+/* ===== INDICADOR DE PROYECTOS ===== */
+.projects-indicator {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 10;
 }
 
-.section-projects::-webkit-scrollbar-track {
-  background: rgba(128, 0, 255, 0.1);
-  border-radius: 4px;
+.indicator-dots {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
-.section-projects::-webkit-scrollbar-thumb {
-  background: rgba(128, 0, 255, 0.6);
-  border-radius: 4px;
+.indicator-dots .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(128, 0, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
-.section-projects::-webkit-scrollbar-thumb:hover {
-  background: rgba(128, 0, 255, 0.8);
+.indicator-dots .dot.active {
+  background-color: #8000ff;
+  border-color: white;
+  transform: scale(1.2);
 }
 
-/* Responsive para proyectos */
+.indicator-dots .dot:hover {
+  background-color: rgba(128, 0, 255, 0.7);
+  transform: scale(1.1);
+}
+
+.indicator-direction {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #8000ff;
+  font-size: 14px;
+}
+
+.direction-arrow {
+  font-size: 18px;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.direction-text {
+  font-size: 12px;
+  color: rgba(128, 0, 255, 0.7);
+}
+
+/* ===== EFECTOS VISUALES ===== */
+.projects-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -50px;
+  width: 50px;
+  height: 100%;
+  background: linear-gradient(to right, #120024, transparent);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.projects-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -50px;
+  width: 50px;
+  height: 100%;
+  background: linear-gradient(to left, #120024, transparent);
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
+  .section-projects {
+    padding: 20px 0;
+  }
+  
+  .section-projects h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+  
   .project-card {
     width: 300px;
     height: 400px;
-    margin: 0 10px;
   }
   
   .projects-container {
     gap: 20px;
-    padding: 30px 0;
+    padding: 15px 0;
   }
   
   .project-title {
@@ -124,4 +223,57 @@
   .project-description {
     font-size: 14px;
   }
+  
+  .projects-indicator {
+    bottom: 15px;
+  }
+  
+  .indicator-dots .dot {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .direction-text {
+    font-size: 11px;
+  }
 }
+
+@media (max-width: 480px) {
+  .project-card {
+    width: 280px;
+    height: 380px;
+  }
+  
+  .projects-container {
+    gap: 15px;
+  }
+  
+  .project-content {
+    padding: 15px;
+  }
+  
+  .project-link {
+    padding: 10px;
+  }
+}
+
+/* ===== ANIMACIONES ADICIONALES ===== */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.projects-indicator .dot.active {
+  animation: pulse 2s infinite;
+}
+
+.direction-arrow {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-5px); }
+  60% { transform: translateY(-3px); }
+} 

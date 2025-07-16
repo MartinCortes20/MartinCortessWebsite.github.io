@@ -4,7 +4,7 @@
   z-index: 2;
   position: relative;
   margin-top: 0; /* Eliminar el margin-top ya que hero ya no es fixed */
-  background-color: #120024;
+  background-color: #000000;
   padding: 40px 20px;
   overflow: hidden;
   display: block;
