@@ -1,0 +1,127 @@
+/* ===== SECCIÓN PROYECTOS ===== */
+
+.section-projects {
+  background-color: #120024;
+  z-index: 3;
+  position: relative;
+  min-height: 100vh;
+  padding: 40px 0;
+  overflow-x: auto; /* Permitir scroll horizontal */
+  overflow-y: hidden;
+  display: block;
+}
+
+.projects-container {
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 20px 0;
+  gap: 40px;
+  width: fit-content; /* Cambiar de max-content a fit-content */
+}
+
+.project-card {
+  width: 350px;
+  height: 450px;
+  margin: 0 20px;
+  background-color: rgba(128, 0, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+  border: 2px solid #8000ff;
+  flex-shrink: 0;
+}
+
+.project-card:hover {
+  transform: scale(1.05);
+}
+
+.project-image {
+  width: 100%;
+  height: 200px;
+  background-color: rgba(128, 0, 255, 0.3);
+  overflow: hidden;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-content {
+  padding: 20px;
+  flex-grow: 1;
+}
+
+.project-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #8000ff;
+}
+
+.project-description {
+  font-size: 16px;
+  color: #ccc;
+  line-height: 1.4;
+}
+
+.project-link {
+  margin-top: auto;
+  padding: 15px;
+  text-align: right;
+}
+
+.project-link a {
+  color: #8000ff;
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.3s;
+}
+
+.project-link a:hover {
+  color: white;
+}
+
+/* Scrollbar personalizada para la sección de proyectos */
+.section-projects::-webkit-scrollbar {
+  height: 8px;
+}
+
+.section-projects::-webkit-scrollbar-track {
+  background: rgba(128, 0, 255, 0.1);
+  border-radius: 4px;
+}
+
+.section-projects::-webkit-scrollbar-thumb {
+  background: rgba(128, 0, 255, 0.6);
+  border-radius: 4px;
+}
+
+.section-projects::-webkit-scrollbar-thumb:hover {
+  background: rgba(128, 0, 255, 0.8);
+}
+
+/* Responsive para proyectos */
+@media (max-width: 768px) {
+  .project-card {
+    width: 300px;
+    height: 400px;
+    margin: 0 10px;
+  }
+  
+  .projects-container {
+    gap: 20px;
+    padding: 30px 0;
+  }
+  
+  .project-title {
+    font-size: 20px;
+  }
+  
+  .project-description {
+    font-size: 14px;
+  }
+}

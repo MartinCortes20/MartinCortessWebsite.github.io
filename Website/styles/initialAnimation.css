@@ -1,0 +1,140 @@
+/* ===== ANIMACIÓN INICIAL Y HEADER ===== */
+
+.section-hero {
+  position: relative; /* Cambiar de fixed a relative */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; /* Añadir altura específica */
+  z-index: 1;
+}
+
+/* Header Styles */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  z-index: 100;
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: transform 0.5s, opacity 0.5s;
+}
+
+.header-logo {
+  font-size: 24px;
+  color: #8000ff;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.header-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.header-nav a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+  font-size: 16px;
+}
+
+.header-nav a:hover {
+  color: #8000ff;
+}
+
+/* Original Animation Styles */
+.pov {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.tray {
+  position: relative;
+}
+
+.die {
+  width: 400px;
+  height: 55px;
+  padding-bottom: 9px;
+  perspective: 999px;
+}
+
+.cube {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8000ff;
+  backface-visibility: hidden;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1rem;
+  color: white;
+  margin-top: 15px;
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Responsive Styles para animación inicial */
+@media (max-width: 600px) {
+  .die {
+    width: 280px;
+    height: 45px;
+  }
+
+  .face {
+    font-size: 40px !important;
+  }
+
+  .scroll-hint {
+    font-size: 0.85rem;
+  }
+  
+  .site-header {
+    padding: 0 15px;
+  }
+  
+  .header-logo {
+    font-size: 20px;
+  }
+  
+  .header-nav ul {
+    gap: 15px;
+  }
+}
