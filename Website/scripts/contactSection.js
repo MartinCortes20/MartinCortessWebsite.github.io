@@ -1,49 +1,79 @@
-// ===== SECCIÓN CONTACTO =====
+// ===== SECCIÓN CONTACTO MEJORADA =====
 
 function setupSection4Animations() {
-  // Animación para el título
-  gsap.from('.section-contact h2', {
+  // Crear partículas de fondo
+  createParticles();
+
+  // Animación para el título con efecto de letras
+  const title = document.querySelector('.section-contact h2');
+  if (title) {
+    const titleText = title.textContent;
+    title.innerHTML = '';
+    
+    titleText.split('').forEach((letter) => {
+      const span = document.createElement('span');
+      span.style.display = 'inline-block';
+      span.textContent = letter === ' ' ? '\u00A0' : letter;
+      title.appendChild(span);
+    });
+
+    gsap.from('.section-contact h2 span', {
+      scrollTrigger: {
+        trigger: '.section-contact',
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      },
+      opacity: 0,
+      y: 50,
+      rotateX: -90,
+      stagger: 0.05,
+      duration: 0.8,
+      ease: 'back.out'
+    });
+  }
+
+  // Animación del párrafo
+  gsap.from('.contact-container p', {
     scrollTrigger: {
       trigger: '.section-contact',
-      start: 'top 80%',
+      start: 'top 70%',
       toggleActions: 'play none none none'
     },
     opacity: 0,
     y: 30,
     duration: 0.8,
-    ease: 'back.out'
+    delay: 0.3,
+    ease: 'power2.out'
   });
 
-  // Animación de caída para cada ícono de contacto
+  // Animación de los íconos con efecto de caída suave
   const contactIcons = document.querySelectorAll('.contact-icon');
   
   contactIcons.forEach((icon, index) => {
-    // Posición aleatoria horizontal
-    const randomX = -20 + Math.random() * 40;
-    
-    // Animación de caída
-    gsap.to(icon, {
+    gsap.from(icon, {
       scrollTrigger: {
         trigger: '.section-contact',
-        start: 'top 40%',
-        toggleActions: 'play none none reset'
+        start: 'top 60%',
+        toggleActions: 'play none none none'
       },
-      y: '100vh',
-      x: randomX,
-      duration: 1.5 + Math.random() * 1,
-      delay: 0.2 * index,
-      ease: 'bounce.out',
-      rotation: -10 + Math.random() * 20
+      opacity: 0,
+      y: -100,
+      rotation: Math.random() * 360,
+      duration: 0.8,
+      delay: 0.1 * index,
+      ease: 'bounce.out'
     });
   });
 
-  // Efecto de rebote para cada ícono
+  // Efectos de hover mejorados
   contactIcons.forEach(icon => {
+    const inner = icon.querySelector('.contact-icon-inner');
+    
     icon.addEventListener('mouseenter', () => {
       gsap.to(icon, {
-        scale: 1.2,
+        scale: 1.05,
         duration: 0.3,
-        ease: 'back.out'
+        ease: 'power2.out'
       });
     });
     
@@ -55,6 +85,22 @@ function setupSection4Animations() {
       });
     });
   });
+}
+
+function createParticles() {
+  const particlesContainer = document.querySelector('.particles');
+  if (!particlesContainer) return;
+  
+  const particleCount = 20;
+
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 8 + 's';
+    particle.style.animationDuration = (8 + Math.random() * 4) + 's';
+    particlesContainer.appendChild(particle);
+  }
 }
 
 // Inicializar cuando el DOM esté listo

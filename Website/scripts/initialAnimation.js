@@ -1,4 +1,5 @@
-// ===== ANIMACIÓN INICIAL Y TRANSICIÓN =====
+// ===== ANIMACIÓN INICIAL Y HEADER RESPONSIVO =====
+
 // Funciones originales de animación
 const n = 19;
 const rots = [
@@ -102,23 +103,70 @@ function setupScrollAnimations() {
   });
 }
 
-// Mostrar el header al hacer scroll
-gsap.to(".site-header", {
-  scrollTrigger: {
-    trigger: ".section-about",
-    start: "top 80%",
-    toggleActions: "play none none reverse"
-  },
-  y: 0,
-  opacity: 1,
-  duration: 0.5,
-  ease: "power2.out"
-});
+// ===== HEADER RESPONSIVO MEJORADO =====
+function setupHeaderFunctionality() {
+  // Mostrar el header al hacer scroll
+  gsap.to(".site-header", {
+    scrollTrigger: {
+      trigger: ".section-about",
+      start: "top 80%",
+      toggleActions: "play none none reverse"
+    },
+    y: 0,
+    opacity: 1,
+    duration: 0.5,
+    ease: "power2.out",
+    onComplete: () => {
+      const header = document.querySelector('.site-header');
+      if (header) header.classList.add('visible');
+    },
+    onReverseComplete: () => {
+      const header = document.querySelector('.site-header');
+      if (header) header.classList.remove('visible');
+    }
+  });
+
+  // Funcionalidad del menú móvil
+  const mobileToggle = document.getElementById('mobile-toggle');
+  const headerNav = document.getElementById('header-nav');
+  
+  if (mobileToggle && headerNav) {
+    const toggleIcon = mobileToggle.querySelector('i');
+
+    mobileToggle.addEventListener('click', () => {
+      headerNav.classList.toggle('active');
+      
+      // Cambiar ícono
+      if (headerNav.classList.contains('active')) {
+        toggleIcon.className = 'fas fa-times';
+      } else {
+        toggleIcon.className = 'fas fa-bars';
+      }
+    });
+
+    // Cerrar menú móvil al hacer clic en un enlace
+    document.querySelectorAll('.header-nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        headerNav.classList.remove('active');
+        toggleIcon.className = 'fas fa-bars';
+      });
+    });
+
+    // Cerrar menú móvil al redimensionar la ventana
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 320) {
+        headerNav.classList.remove('active');
+        toggleIcon.className = 'fas fa-bars';
+      }
+    });
+  }
+}
 
 // Inicializar animación inicial cuando la página esté cargada
 window.addEventListener('load', () => {
   updateScale();
   setupScrollAnimations();
+  setupHeaderFunctionality();
 });
 
 // Actualizar escala cuando se redimensione la ventana

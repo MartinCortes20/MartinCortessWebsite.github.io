@@ -1,4 +1,4 @@
-// ===== SECCIÓN INTRO (ABOUT ME) =====
+// ===== SECCIÓN INTRO (ABOUT ME) MINIMALISTA =====
 
 function setupSection2Animations() {
   // Animación del título
@@ -31,19 +31,36 @@ function setupSection2Animations() {
     ease: 'back.out'
   });
 
-  // Animación del texto y la foto
-  gsap.from('.about-text', {
+  // Animación del subtítulo
+  gsap.from('.subtitle', {
+    scrollTrigger: {
+      trigger: '.section-about',
+      start: 'top 70%',
+      toggleActions: 'play none none none'
+    },
+    opacity: 0,
+    y: 20,
+    duration: 0.8,
+    delay: 0.3,
+    ease: 'power2.out'
+  });
+
+  // Animación del texto
+  gsap.from('.about-text p:not(.subtitle)', {
     scrollTrigger: {
       trigger: '.section-about',
       start: 'top 60%',
       toggleActions: 'play none none none'
     },
     opacity: 0,
-    x: -50,
-    duration: 1,
+    y: 30,
+    duration: 0.8,
+    stagger: 0.2,
+    delay: 0.5,
     ease: 'power2.out'
   });
 
+  // Animación de la imagen
   gsap.from('.about-image', {
     scrollTrigger: {
       trigger: '.section-about',
@@ -54,36 +71,32 @@ function setupSection2Animations() {
     x: 50,
     duration: 1,
     ease: 'power2.out',
-    delay: 0.3
+    delay: 0.7
   });
 
-  // Efecto de texto shuffling para párrafos
-  const aboutParagraphs = document.querySelectorAll('.about-text p');
-  aboutParagraphs.forEach((paragraph, index) => {
-    paragraph.classList.add('split-text');
-    
-    gsap.from(paragraph, {
-      scrollTrigger: {
-        trigger: paragraph,
-        start: 'top 80%',
-        toggleActions: 'play none none none'
-      },
-      opacity: 0,
-      y: 20,
-      duration: 0.8,
-      delay: 0.2 * index,
-      ease: 'power2.out'
-    });
+  // Animación de las habilidades
+  gsap.from('.skill-tag', {
+    scrollTrigger: {
+      trigger: '.skills-highlight',
+      start: 'top 80%',
+      toggleActions: 'play none none none'
+    },
+    opacity: 0,
+    y: 20,
+    duration: 0.6,
+    stagger: 0.1,
+    delay: 0.8,
+    ease: 'power2.out'
   });
 
-  // TextEffect - cambiar palabras
+  // Efecto de texto shuffling para palabras cambiantes
   const textShuffleElement = document.querySelector('.text-shuffle');
   if (textShuffleElement) {
-    const words = ["creativo", "apasionado", "innovador", "dedicado", "minucioso"];
+    const words = ["apasionado", "creativo", "innovador", "dedicado", "autodidacta"];
 
     const textShuffle = gsap.timeline({
       repeat: -1,
-      repeatDelay: 1,
+      repeatDelay: 1.5,
       scrollTrigger: {
         trigger: '.section-about',
         start: 'top 80%'
@@ -95,7 +108,7 @@ function setupSection2Animations() {
         duration: 0.5,
         text: word,
         ease: "power2.out",
-        delay: index > 0 ? 1 : 0
+        delay: index > 0 ? 2 : 0
       });
     });
   }
