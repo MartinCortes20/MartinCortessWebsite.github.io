@@ -24,26 +24,60 @@
 </head>
 
 <body>
-  <!-- Header fijo que aparecerá después del scroll -->
- <header class="site-header" id="main-header">
-  <div class="header-logo">MARTIN CORTES</div>
-  
-  <!-- Botón hamburguesa para móviles muy pequeños -->
-  <button class="mobile-menu-toggle" id="mobile-toggle">
-    <i class="fas fa-bars"></i>
-  </button>
-  
-  <nav class="header-nav" id="header-nav">
-    <ul>
-      <li><a href="https://www.facebook.com/martin.cortes.754" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
-      <li><a href="https://www.instagram.com/martin_cortia/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a></li>
-      <li><a href="https://www.linkedin.com/in/martin-francisco-cortes-8bb642272/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a></li>
-      <li><a href="https://github.com/MartinCortes20" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></li>
-      <li><a href="https://www.cloudskillsboost.google/public_profiles/efcb3188-68aa-40da-944b-2ed6bac305bc" target="_blank" title="Google Cloud"><i class="fab fa-google"></i></a></li>
-      <li><a href="mailto:cortesbuendiamartin@gmail.com" title="Email"><i class="fas fa-envelope"></i></a></li>
-    </ul>
-  </nav>
-</header>
+
+  <!-- Header actualizado con navegación rápida -->
+  <header class="site-header" id="main-header">
+    <div class="header-left">
+      <div class="header-logo">MARTIN CORTES / Debugging Life</div>
+      
+      <!-- Botones de navegación rápida -->
+      <div class="header-nav-buttons">
+        <a href="#about-me" class="nav-button">About Me</a>
+        <a href="#projects" class="nav-button">Projects</a>
+        <a href="#jobs" class="nav-button">Jobs</a>
+        <a href="#contact-me" class="nav-button">Contact</a>
+      </div>
+    </div>
+    
+    <!-- Botón hamburguesa para navegación en móviles -->
+    <button class="mobile-nav-toggle" id="mobile-nav-toggle">
+      <i class="fas fa-bars"></i>
+    </button>
+    
+    <!-- Menú móvil -->
+    <div class="mobile-nav-menu" id="mobile-nav-menu">
+      <div class="mobile-nav-buttons">
+        <a href="#about-me" class="nav-button">About Me</a>
+        <a href="#projects" class="nav-button">Projects</a>
+        <a href="#jobs" class="nav-button">Jobs</a>
+        <a href="#contact-me" class="nav-button">Contact</a>
+      </div>
+      
+      <!-- Iconos sociales en móvil -->
+      <div class="header-nav">
+        <ul>
+          <li><a href="https://www.facebook.com/martin.cortes.754" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+          <li><a href="https://www.instagram.com/martin_cortia/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a></li>
+          <li><a href="https://www.linkedin.com/in/martin-francisco-cortes-8bb642272/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a></li>
+          <li><a href="https://github.com/MartinCortes20" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></li>
+          <li><a href="https://www.cloudskillsboost.google/public_profiles/efcb3188-68aa-40da-944b-2ed6bac305bc" target="_blank" title="Google Cloud"><i class="fab fa-google"></i></a></li>
+          <li><a href="mailto:cortesbuendiamartin@gmail.com" title="Email"><i class="fas fa-envelope"></i></a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Iconos sociales para desktop -->
+    <nav class="header-nav" id="header-nav">
+      <ul>
+        <li><a href="https://www.facebook.com/martin.cortes.754" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+        <li><a href="https://www.instagram.com/martin_cortia/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a></li>
+        <li><a href="https://www.linkedin.com/in/martin-francisco-cortes-8bb642272/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a></li>
+        <li><a href="https://github.com/MartinCortes20" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></li>
+        <li><a href="https://www.cloudskillsboost.google/public_profiles/efcb3188-68aa-40da-944b-2ed6bac305bc" target="_blank" title="Google Cloud"><i class="fab fa-google"></i></a></li>
+        <li><a href="mailto:cortesbuendiamartin@gmail.com" title="Email"><i class="fas fa-envelope"></i></a></li>
+      </ul>
+    </nav>
+  </header>
 
   <!-- Primera sección (animación existente) -->
   <section id="inicio" class="section section-hero">
@@ -60,22 +94,28 @@
         <!-- clones will go here -->
       </div>
     </div>
-    <p class="scroll-hint">haz scroll para avanzar</p>
+    <p class="scroll-hint">scroll to explorer</p>
   </section>
 
-   <!-- Segunda sección (About Me) -->
- <section id="about-me" class="section section-about">
+<!-- Segunda sección (About Me) -->
+<section id="about-me" class="section section-about">
   <div class="about-container">
     <div class="about-text">
       <h2>HI THERE!</h2>
-      <p class="subtitle">Estudiante de Ingeniería en Sistemas Computacionales</p>
-      
-      <p>Soy un desarrollador <span class="text-shuffle">apasionado</span> enfocado en crear soluciones tecnológicas innovadoras. Actualmente cursando el 7º semestre en ESCOM-IPN, con experiencia en desarrollo backend y frontend.</p>
-      
-      <p>Me especializo en Node.js, JavaScript y Swift, con sólidos conocimientos en autenticación, bases de datos y APIs REST. También tengo experiencia en desarrollo móvil con Flutter y tecnologías web modernas como React.js.</p>
-      
-      <p>Poseo fuertes habilidades de trabajo en equipo, liderazgo y resolución de problemas, demostradas en proyectos académicos y participaciones destacadas en ExpoEscom.</p>
-      
+      <p class="subtitle">Computer Systems Engineering Student</p>
+
+      <p>
+        I'm a <span class="text-shuffle">passionate</span> developer focused on building innovative tech solutions. Currently in my 7th semester at ESCOM-IPN (Mexico), I have hands-on experience in both backend and frontend development.
+      </p>
+
+      <p>
+        I specialize in Node.js, JavaScript, and Swift, with solid knowledge of authentication, RESTful APIs, and database design. I'm also experienced in mobile development using Flutter, and modern web technologies like React.js.
+      </p>
+
+      <p>
+        My strengths include teamwork, leadership, and creative problem-solving — demonstrated through academic projects and standout participation in events like ExpoESCOM.
+      </p>
+
       <div class="skills-highlight">
         <span class="skill-tag">Node.js</span>
         <span class="skill-tag">React.js</span>
@@ -90,191 +130,270 @@
     <div class="about-image">
       <img src="./images/CamelloCabos.jpeg" alt="Martin Cortes" />
     </div>
+
+    <!-- Zona organizada de burbujas tecnológicas -->
+    <div class="tech-bubbles-zone" id="techBubblesZone">
+      <div class="zone-title">TECH STACK</div>
+      <!-- Las burbujas se generarán aquí dinámicamente -->
+    </div>
   </div>
 </section>
 
     <!-- Tercera sección (Proyectos) -->
-  <section id="projects" class="section section-projects">
+ <section id="projects" class="section section-projects">
     <div class="container">
       <h2>MY PROJECTS</h2>
+      <p class="section-subtitle">A showcase of my technical skills and problem-solving abilities (scroll to view)</p>
+      
       <div class="projects-container">
-
-
-        <!-- Proyecto 1 -->
+        
+        <!-- Proyecto 1: Star Cluster R136 -->
         <div class="project-card">
           <div class="project-image">
-            <img src="./Projects/stars.gif" alt="Proyecto 1" />
+            <img src="./Projects/stars.gif" alt="Star Cluster R136" />
           </div>
           <div class="project-content">
             <div class="project-title">Star Cluster R136</div>
+            <div class="project-tech">
+              <span class="tech-tag">Java</span>
+              <span class="tech-tag">Algorithms</span>
+              <span class="tech-tag">Data Structures</span>
+            </div>
             <div class="project-description">
-                You come across a map of the R136 star cluster. On the map, each star 
-                appears as a point located in a Cartesian plane. Suddenly, a question 
-                comes to your mind: What will be the minimum distance between two stars on the map?
+              Algorithm to find the minimum distance between stars in the R136 star cluster. Implementation of efficient geometric algorithms to solve closest pair problems in a Cartesian plane with optimal time complexity.
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/MartinCortes20/StarClusterR136" target="_blank" class="project-link primary">
+                <i class="fab fa-github"></i>
+                View Code
+              </a>
             </div>
           </div>
-          <div class="project-link">
-            <a href="https://github.com/MartinCortes20/StarClusterR136" target="_blank">Ver más <i class="fas fa-arrow-right"></i></a>
-          </div>
         </div>
-        
-        <!-- Proyecto 2 -->
+
+        <!-- Proyecto 2: Store Inventory System -->
         <div class="project-card">
           <div class="project-image">
-            <img src="/api/placeholder/350/200" alt="Proyecto 2" />
+            <img src="./Projects/SuperMArket.gif" alt="Store Inventory System" />
           </div>
           <div class="project-content">
-            <div class="project-title">Proyecto 2</div>
+            <div class="project-title">Department Store Inventory</div>
+            <div class="project-tech">
+              <span class="tech-tag">Java</span>
+              <span class="tech-tag">Hash Tables</span>
+              <span class="tech-tag">GUI</span>
+              <span class="tech-tag">File I/O</span>
+            </div>
             <div class="project-description">
-              Descripción detallada del proyecto 2. Aquí puedes explicar las tecnologías utilizadas, los problemas resueltos y los resultados obtenidos.
+              Inventory management system for 75 store items using hash techniques for efficient data access. Features collision resolution, file loading, and a user-friendly interface for product queries and management.
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/MartinCortes20/ExamenTercerParcialAlgoritmosMartinGUI" target="_blank" class="project-link primary">
+                <i class="fab fa-github"></i>
+                View Code
+              </a>
             </div>
           </div>
-          <div class="project-link">
-            <a href="#" target="_blank">Ver más <i class="fas fa-arrow-right"></i></a>
-          </div>
         </div>
-        
-        <!-- Proyecto 3 -->
+
+        <!-- Proyecto 3: File Sorting Algorithm -->
         <div class="project-card">
           <div class="project-image">
-            <img src="/api/placeholder/350/200" alt="Proyecto 3" />
+            <img src="./Projects/a lot of files.gif" alt="File Sorting" />
           </div>
           <div class="project-content">
-            <div class="project-title">Proyecto 3</div>
+            <div class="project-title">Advanced File Sorting System</div>
+            <div class="project-tech">
+              <span class="tech-tag">Java</span>
+              <span class="tech-tag">Sorting Algorithms</span>
+              <span class="tech-tag">Performance Analysis</span>
+            </div>
             <div class="project-description">
-              Descripción detallada del proyecto 3. Aquí puedes explicar las tecnologías utilizadas, los problemas resueltos y los resultados obtenidos.
+              Implementation and comparison of multiple sorting algorithms to determine the most efficient approach for large file datasets. Includes performance metrics and algorithm complexity analysis.
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/MartinCortes20/2doExamenMartinCortesGUI" target="_blank" class="project-link primary">
+                <i class="fab fa-github"></i>
+                View Code
+              </a>
             </div>
           </div>
-          <div class="project-link">
-            <a href="#" target="_blank">Ver más <i class="fas fa-arrow-right"></i></a>
-          </div>
         </div>
-        
-        <!-- Proyecto 4 -->
+
+        <!-- Proyecto 4: Olympics Podium System -->
         <div class="project-card">
           <div class="project-image">
-            <img src="/api/placeholder/350/200" alt="Proyecto 4" />
+            <img src="./Projects/match.gif" alt="Olympics Podium" />
           </div>
           <div class="project-content">
-            <div class="project-title">Proyecto 4</div>
+            <div class="project-title">Olympics Podium Management</div>
+            <div class="project-tech">
+              <span class="tech-tag">Java</span>
+              <span class="tech-tag">Binary Search Trees</span>
+              <span class="tech-tag">Data Management</span>
+            </div>
             <div class="project-description">
-              Descripción detallada del proyecto 4. Aquí puedes explicar las tecnologías utilizadas, los problemas resueltos y los resultados obtenidos.
+              Olympic medal tracking system using three binary search trees (Gold, Silver, Bronze) to store athlete information. Features point calculation system and alphabetical sorting by athlete name.
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/MartinCortes20/ExamenAlgoritmosCortesBuendia2022" target="_blank" class="project-link primary">
+                <i class="fab fa-github"></i>
+                View Code
+              </a>
             </div>
           </div>
-          <div class="project-link">
-            <a href="#" target="_blank">Ver más <i class="fas fa-arrow-right"></i></a>
-          </div>
         </div>
-        
-        <!-- Proyecto 5 -->
+
+        <!-- Proyecto 5: Personal Portfolio Website -->
         <div class="project-card">
           <div class="project-image">
-            <img src="/api/placeholder/350/200" alt="Proyecto 5" />
+            <img src="./Projects//website.gif" alt="Portfolio Website" />
           </div>
           <div class="project-content">
-            <div class="project-title">Proyecto 5</div>
+            <div class="project-title">Interactive Portfolio Website</div>
+            <div class="project-tech">
+              <span class="tech-tag">HTML5</span>
+              <span class="tech-tag">CSS3</span>
+              <span class="tech-tag">JavaScript</span>
+              <span class="tech-tag">GSAP</span>
+            </div>
             <div class="project-description">
-              Descripción detallada del proyecto 5. Aquí puedes explicar las tecnologías utilizadas, los problemas resueltos y los resultados obtenidos.
+              Modern, responsive portfolio website featuring advanced animations, interactive elements, and optimized performance. Built with vanilla JavaScript and GSAP for smooth user experience.
+            </div>
+            <div class="project-links">
+              <a href="https://martincortes20.github.io/MartinCortessWebsite.github.io/Website/index.html" class="project-link primary">
+                <i class="fas fa-external-link-alt"></i>
+                Live Demo
+              </a>
+              <a href="https://github.com/MartinCortes20/MartinCortessWebsite.github.io" target="_blank" class="project-link">
+                <i class="fab fa-github"></i>
+                Code
+              </a>
             </div>
           </div>
-          <div class="project-link">
-            <a href="#" target="_blank">Ver más <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <!-- Proyecto 6: Mobile App Project -->
+        <div class="project-card">
+          <div class="project-image">
+            <img src="./Projects/nutricom.gif" alt="Flutter Mobile App" />
+          </div>
+          <div class="project-content">
+            <div class="project-title">Cross-Platform Mobile App</div>
+            <div class="project-tech">
+              <span class="tech-tag">Flutter</span>
+              <span class="tech-tag">Dart</span>
+              <span class="tech-tag">Firebase</span>
+              <span class="tech-tag">REST API</span>
+            </div>
+            <div class="project-description">
+              Cross-platform mobile application built with Flutter, featuring real-time data synchronization, user authentication, and intuitive UI/UX design. Integrated with Firebase backend services.
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/leonardo21319/SoftwareMovilFlutter" class="project-link primary">
+                <i class="fab fa-github"></i>
+                View Code
+              </a>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   </section>
 
     <!-- Cuarta sección (Jobs) -->
-  <section id="jobs" class="section section-jobs">
-    <div class="container">
-      <h2>MI EXPERIENCIA LABORAL</h2>
-      <div class="jobs-container">
-        <!-- Trabajo 1 -->
-        <div class="job-card">
-          <div class="job-image">
-            <img src="/api/placeholder/350/200" alt="Trabajo 1" />
-          </div>
-          <div class="job-content">
-            <div class="job-title">Desarrollador iOS</div>
-            <div class="job-company">Empresa Tech</div>
-            <div class="job-period">2023 - Presente</div>
-            <div class="job-description">
-              Desarrollo de aplicaciones móviles utilizando Swift y Objective-C. Implementación de appClips y optimización de rendimiento en dispositivos iOS.
-            </div>
-          </div>
+ <section id="jobs" class="section section-jobs">
+  <div class="container">
+    <h2>MY PROFESSIONAL EXPERIENCE</h2>
+    <a>(scroll to view)</a>
+    <div class="jobs-container">
+      <!-- Trabajo 1 - Actual -->
+      <div class="job-card">
+        <div class="job-image">
+          <img src="./Projects/sapsy.png" alt="Backend Developer" />
         </div>
-        
-        <!-- Trabajo 2 -->
-        <div class="job-card">
-          <div class="job-image">
-            <img src="/api/placeholder/350/200" alt="Trabajo 2" />
-          </div>
-          <div class="job-content">
-            <div class="job-title">Desarrollador Web</div>
-            <div class="job-company">Agencia Digital</div>
-            <div class="job-period">2022 - 2023</div>
-            <div class="job-description">
-              Desarrollo de sitios web responsivos utilizando HTML, CSS y JavaScript. Implementación de animaciones con GSAP y mejoras de rendimiento.
-            </div>
-          </div>
-        </div>
-        
-        <!-- Trabajo 3 -->
-        <div class="job-card">
-          <div class="job-image">
-            <img src="/api/placeholder/350/200" alt="Trabajo 3" />
-          </div>
-          <div class="job-content">
-            <div class="job-title">Programador Backend</div>
-            <div class="job-company">Startup Innovadora</div>
-            <div class="job-period">2021 - 2022</div>
-            <div class="job-description">
-              Desarrollo de APIs RESTful utilizando Node.js y Express. Implementación de bases de datos MongoDB y sistemas de autenticación.
-            </div>
-          </div>
-        </div>
-        
-        <!-- Trabajo 4 -->
-        <div class="job-card">
-          <div class="job-image">
-            <img src="/api/placeholder/350/200" alt="Trabajo 4" />
-          </div>
-          <div class="job-content">
-            <div class="job-title">Pasante en Desarrollo</div>
-            <div class="job-company">Consultora Tecnológica</div>
-            <div class="job-period">2020 - 2021</div>
-            <div class="job-description">
-              Colaboración en proyectos de desarrollo de software. Implementación de funcionalidades específicas y corrección de errores.
-            </div>
-          </div>
-        </div>
-        
-        <!-- Trabajo 5 -->
-        <div class="job-card">
-          <div class="job-image">
-            <img src="/api/placeholder/350/200" alt="Trabajo 5" />
-          </div>
-          <div class="job-content">
-            <div class="job-title">Freelancer</div>
-            <div class="job-company">Proyectos independientes</div>
-            <div class="job-period">2019 - 2020</div>
-            <div class="job-description">
-              Desarrollo de soluciones personalizadas para clientes diversos. Gestión de proyectos completos desde el diseño hasta la implementación.
-            </div>
+        <div class="job-content">
+          <div class="job-title">Backend Developer</div>
+          <div class="job-company">S.A.P.S.Y (Sistema de Agua Potable y Saneamiento de Yautepec)</div>
+          <div class="job-period">June 2024 - November 2024</div>
+          <div class="job-description">
+            Developed software for water consumption management. Implemented backend services using Node.js and Express. Ensured user security through password hashing (bcrypt) and JWT-based authentication. Connected and optimized databases.
           </div>
         </div>
       </div>
+      
+      <!-- Trabajo 2 -->
+      <div class="job-card">
+        <div class="job-image">
+          <img src="./Projects//by3solution.jpg" alt="Point of Sale Developer" />
+        </div>
+        <div class="job-content">
+          <div class="job-title">Point of Sale Developer</div>
+          <div class="job-company">By 3 Solutions</div>
+          <div class="job-period">February 2023 - June 2023</div>
+          <div class="job-description">
+            Developed point-of-sale systems using JavaScript and Node.js. Integrated backend services and APIs. Worked on full-stack development with a focus on user experience and efficiency.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Trabajo 3 -->
+      <div class="job-card">
+        <div class="job-image">
+          <img src="./Projects/totalplay.webp" alt="Application Development Intern" />
+        </div>
+        <div class="job-content">
+          <div class="job-title">Application Development Intern</div>
+          <div class="job-company">Totalplay</div>
+          <div class="job-period">September 2022 - February 2023</div>
+          <div class="job-description">
+            Developed applications using Swift and Objective-C. Collaborated with senior developers on new features. Participated in debugging and troubleshooting code issues.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Trabajo 4
+      <div class="job-card">
+        <div class="job-image">
+          <img src="/api/placeholder/350/200" alt="Student Projects" />
+        </div>
+        <div class="job-content">
+          <div class="job-title">Student Developer</div>
+          <div class="job-company">ESCOM-IPN</div>
+          <div class="job-period">2020 - Present</div>
+          <div class="job-description">
+            Completed advanced algorithm and data structure projects. Participated in ExpoESCOM with outstanding project presentations. Developed multiple applications using Java, Python, and web technologies.
+          </div>
+        </div>
+      </div>
+      
+      Trabajo 5 -->
+      <!-- <div class="job-card"> -->
+        <!-- <div class="job-image">
+          <img src="/api/placeholder/350/200" alt="Freelance Projects" />
+        </div>
+        <div class="job-content">
+          <div class="job-title">Freelance Developer</div>
+          <div class="job-company">Independent Projects</div>
+          <div class="job-period">2021 - 2022</div>
+          <div class="job-description">
+            Worked on independent software development projects. Developed custom solutions for various clients. Gained experience in project management and client communication while building diverse technical skills.
+          </div>
+        </div> -->
+      <!-- </div> -->
+
     </div>
-  </section>
+  </div>
+</section>
 
 
 <!-- Quinta sección (Contact Me) -->
 <section id="contact-me" class="section section-contact">
   <div class="particles"></div>
   <div class="contact-container">
-    <h2>CONTÁCTAME</h2>
-    <p>¿Interesado en colaborar? Ponte en contacto conmigo a través de cualquiera de estos canales.</p>
+    <h2>CONTACT ME</h2>
+    <p>Interested in collaborating? Feel free to reach out through any of these channels.</p>
     
     <div class="contact-icons">
       <!-- Email -->
@@ -327,10 +446,10 @@
         <div class="contact-name">WhatsApp</div>
       </div>
       
-      <!-- Twitter
+      <!-- Twitter (optional)
       <div class="contact-icon" data-platform="twitter">
         <div class="contact-icon-inner">
-          <a href="https://twitter.com/tu-usuario" target="_blank">
+          <a href="https://twitter.com/your-username" target="_blank">
             <i class="fab fa-twitter"></i>
           </a>
         </div>

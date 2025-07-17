@@ -1,8 +1,8 @@
-/* ===== SECCIÓN ABOUT MINIMALISTA ===== */
+/* ===== SECCIÓN ABOUT MEJORADA ===== */
 
 .section-about {
   position: relative;
-  background-color: #000000;
+  background: linear-gradient(135deg, #000000 0%, #120024 50%, #1a0033 100%);
   padding: 100px 20px;
   overflow: hidden;
   min-height: 100vh;
@@ -10,13 +10,27 @@
   align-items: center;
 }
 
+.section-about::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(128, 0, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
 .about-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: 80px;
-  align-items: center;
+  grid-template-columns: 1fr 300px 400px;
+  gap: 60px;
+  align-items: start;
+  position: relative;
+  z-index: 2;
 }
 
 .about-text {
@@ -126,8 +140,123 @@
   display: inline-block;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+/* ===== ZONA DE BURBUJAS ORGANIZADAS ===== */
+.tech-bubbles-zone {
+  position: relative;
+  width: 100%;
+  min-height: 500px;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.zone-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #8000ff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  opacity: 0.8;
+  z-index: 10;
+  margin-bottom: 20px;
+}
+
+.bubble {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: transform 0.2s ease;
+  cursor: grab;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.bubble:active {
+  cursor: grabbing;
+}
+
+.bubble:hover {
+  transform: scale(1.05);
+}
+
+.bubble.dragging {
+  z-index: 1000;
+  transform: scale(1.1);
+}
+
+/* Tamaños de burbujas */
+.bubble.small {
+  width: 60px;
+  height: 60px;
+  font-size: 22px;
+}
+
+.bubble.medium {
+  width: 75px;
+  height: 75px;
+  font-size: 28px;
+}
+
+.bubble.large {
+  width: 90px;
+  height: 90px;
+  font-size: 35px;
+}
+
+/* Colores específicos para cada tecnología */
+.bubble[data-tech="swift"] { color: #fa7343; }
+.bubble[data-tech="flutter"] { color: #02569b; }
+.bubble[data-tech="javascript"] { color: #f7df1e; }
+.bubble[data-tech="python"] { color: #3776ab; }
+.bubble[data-tech="java"] { color: #ed8b00; }
+.bubble[data-tech="html"] { color: #e34f26; }
+.bubble[data-tech="css"] { color: #1572b6; }
+.bubble[data-tech="figma"] { color: #f24e1e; }
+.bubble[data-tech="postman"] { color: #ff6c37; }
+.bubble[data-tech="react"] { color: #61dafb; }
+.bubble[data-tech="express"] { color: #68a063; }
+.bubble[data-tech="nodejs"] { color: #68a063; }
+
+/* Tooltip mejorado */
+.bubble::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: -45px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bubble:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-5px);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  .about-container {
+    grid-template-columns: 1fr 280px 350px;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 968px) {
   .about-container {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -147,6 +276,29 @@
   .section-about {
     padding: 60px 20px;
   }
+
+  .tech-bubbles-zone {
+    min-height: 400px;
+    margin-top: 40px;
+  }
+
+  .bubble.large {
+    width: 70px;
+    height: 70px;
+    font-size: 28px;
+  }
+
+  .bubble.medium {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+  }
+
+  .bubble.small {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -157,5 +309,28 @@
   
   .skills-highlight {
     justify-content: center;
+  }
+
+  .tech-bubbles-zone {
+    min-height: 350px;
+    padding: 15px;
+  }
+
+  .bubble.large {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+  }
+
+  .bubble.medium {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .bubble.small {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
   }
 }

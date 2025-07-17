@@ -10,99 +10,221 @@
 }
 
 /* ===== HEADER RESPONSIVO MEJORADO ===== */
-.site-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
-  min-height: 60px;
-  background-color: rgba(0, 0, 0, 0.9);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(128, 0, 255, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 15px;
-  z-index: 100;
-  transform: translateY(-100%);
-  opacity: 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: auto;
+      min-height: 60px;
+      background-color: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(128, 0, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      z-index: 100;
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-.site-header.visible {
-  transform: translateY(0);
-  opacity: 1;
-}
 
-.header-logo {
-  font-size: clamp(14px, 3vw, 20px);
-  color: #8000ff;
-  font-weight: 900;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-  flex-shrink: 0;
-  margin-right: 10px;
-}
+    /* Estilos adicionales para los botones de navegación */
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
 
-.header-nav {
-  display: flex;
-  align-items: center;
-}
+    .header-nav-buttons {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
 
-.header-nav ul {
-  display: flex;
-  list-style: none;
-  gap: clamp(4px, 1vw, 12px);
-  margin: 0;
-  padding: 0;
-  align-items: center;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
+    .nav-button {
+      color: #cccccc;
+      text-decoration: none;
+      font-size: 14px;
+      padding: 8px 16px;
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
 
-.header-nav ul::-webkit-scrollbar {
-  display: none;
-}
+    .nav-button:hover {
+      color: #8000ff;
+      background: rgba(128, 0, 255, 0.1);
+      border-color: rgba(128, 0, 255, 0.3);
+      transform: translateY(-2px);
+    }
 
-.header-nav li {
-  display: flex;
-  align-items: center;
-}
+    .nav-button.active {
+      color: #8000ff;
+      background: rgba(128, 0, 255, 0.15);
+      border-color: rgba(128, 0, 255, 0.4);
+    }
 
-.header-nav a {
-  color: #cccccc;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-size: clamp(10px, 2vw, 14px);
-  padding: 4px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: clamp(28px, 4vw, 35px);
-  height: clamp(28px, 4vw, 35px);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  flex-shrink: 0;
-}
+    /* Responsive para los botones de navegación */
+    @media (max-width: 1024px) {
+      .header-nav-buttons {
+        gap: 10px;
+      }
+      
+      .nav-button {
+        font-size: 12px;
+        padding: 6px 12px;
+      }
+    }
 
-.header-nav a:hover {
-  color: #8000ff;
-  background: rgba(128, 0, 255, 0.1);
-  border-color: rgba(128, 0, 255, 0.3);
-  transform: translateY(-2px);
-}
+    @media (max-width: 768px) {
+      .header-left {
+        gap: 15px;
+      }
+      
+      .header-nav-buttons {
+        gap: 8px;
+      }
+      
+      .nav-button {
+        font-size: 11px;
+        padding: 5px 10px;
+      }
+    }
 
-/* Colores específicos para cada plataforma */
-.header-nav a[href*="facebook"]:hover { color: #1877f2; }
-.header-nav a[href*="instagram"]:hover { color: #e4405f; }
-.header-nav a[href*="linkedin"]:hover { color: #0077b5; }
-.header-nav a[href*="github"]:hover { color: #24292e; }
-.header-nav a[href*="google"]:hover { color: #4285f4; }
-.header-nav a[href*="mailto"]:hover { color: #ff6b35; }
+    @media (max-width: 640px) {
+      .header-nav-buttons {
+        display: none;
+      }
+    }
+
+    /* Botón hamburguesa para navegación en móviles */
+    .mobile-nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #8000ff;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-nav-toggle:hover {
+      background: rgba(128, 0, 255, 0.1);
+    }
+
+    .mobile-nav-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(128, 0, 255, 0.2);
+      padding: 20px;
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-nav-menu.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-nav-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .mobile-nav-buttons .nav-button {
+      width: 100%;
+      text-align: center;
+      padding: 12px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 640px) {
+      .mobile-nav-toggle {
+        display: block;
+      }
+      
+      .mobile-nav-menu {
+        display: block;
+      }
+    }
+
+
+
+
+
+ .site-header.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .header-logo {
+      font-size: clamp(16px, 3vw, 20px);
+      color: #8000ff;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .header-nav ul {
+      display: flex;
+      list-style: none;
+      gap: clamp(8px, 1.5vw, 15px);
+      margin: 0;
+      padding: 0;
+      align-items: center;
+    }
+
+    .header-nav a {
+      color: #cccccc;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: clamp(12px, 2vw, 16px);
+      padding: 6px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: clamp(32px, 4vw, 40px);
+      height: clamp(32px, 4vw, 40px);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .header-nav a:hover {
+      color: #8000ff;
+      background: rgba(128, 0, 255, 0.1);
+      border-color: rgba(128, 0, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* Colores específicos para cada plataforma */
+    .header-nav a[href*="facebook"]:hover { color: #1877f2; }
+    .header-nav a[href*="instagram"]:hover { color: #e4405f; }
+    .header-nav a[href*="linkedin"]:hover { color: #0077b5; }
+    .header-nav a[href*="github"]:hover { color: #24292e; }
+    .header-nav a[href*="google"]:hover { color: #4285f4; }
+    .header-nav a[href*="mailto"]:hover { color: #ff6b35; }
+
 
 /* Menú hamburguesa para móviles muy pequeños */
 .mobile-menu-toggle {

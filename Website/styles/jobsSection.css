@@ -1,16 +1,28 @@
 /* ===== SECCIÓN TRABAJOS CON NAVEGACIÓN HORIZONTAL ===== */
 
 .section-jobs {
-  background-color: #080012;
+  background: linear-gradient(135deg, #000000 0%, #120024 50%, #1a0033 100%);
   z-index: 5;
   position: relative;
   min-height: 100vh;
   padding: 40px 0;
-  overflow: hidden; /* Cambiar para ocultar el scroll */
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.section-jobs::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(128, 0, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .section-jobs .container {
