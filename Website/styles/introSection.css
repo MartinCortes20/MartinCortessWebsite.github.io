@@ -1,9 +1,9 @@
-/* ===== SECCIÓN ABOUT MEJORADA ===== */
+/* ===== SECCIÓN ABOUT COMPLETAMENTE RESPONSIVE ===== */
 
 .section-about {
   position: relative;
   background: linear-gradient(135deg, #000000 0%, #120024 50%, #1a0033 100%);
-  padding: 100px 20px;
+  padding: clamp(60px, 10vh, 100px) clamp(15px, 5vw, 20px);
   overflow: hidden;
   min-height: 100vh;
   display: flex;
@@ -27,39 +27,40 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 300px 400px;
-  gap: 60px;
+  gap: clamp(30px, 6vw, 60px);
   align-items: start;
   position: relative;
   z-index: 2;
+  width: 100%;
 }
 
 .about-text {
-  max-width: 600px;
+  max-width: 100%;
 }
 
 .about-text h2 {
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-size: clamp(2rem, 6vw, 4rem);
   font-weight: 300;
   letter-spacing: -0.02em;
-  margin-bottom: 2rem;
+  margin-bottom: clamp(1rem, 3vw, 2rem);
   color: #ffffff;
   line-height: 1.1;
 }
 
 .about-text .subtitle {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
   color: #8000ff;
-  margin-bottom: 3rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
   font-weight: 400;
   letter-spacing: 0.5px;
 }
 
 .about-text p {
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
   color: #cccccc;
-  margin-bottom: 1.5rem;
+  margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
   font-weight: 300;
-  line-height: 1.8;
+  line-height: 1.7;
 }
 
 .about-text p:last-child {
@@ -72,57 +73,74 @@
   position: relative;
 }
 
+/* ===== IMÁGENES APILADAS RESPONSIVE ===== */
 .about-image {
-  width: 300px;
-  height: 400px;
-  border-radius: 20px;
-  background: linear-gradient(135deg, rgba(128, 0, 255, 0.1), rgba(255, 107, 53, 0.1));
-  overflow: hidden;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(15px, 3vw, 20px);
   position: relative;
+}
+
+.image-stack {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(15px, 3vw, 20px);
+  width: 100%;
+}
+
+.stack-image {
+  width: 100%;
+  height: clamp(100px, 15vw, 120px);
+  object-fit: cover;
+  border-radius: clamp(10px, 2vw, 15px);
+  filter: grayscale(20%) brightness(0.9);
+  transition: all 0.8s ease-in-out;
+  opacity: 0;
+  transform: translateY(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.about-image::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-  pointer-events: none;
+.stack-image.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.about-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(20%) brightness(0.9);
-  transition: all 0.3s ease;
+.stack-image.fade-out {
+  opacity: 0;
+  transform: translateY(-20px);
 }
 
-.about-image:hover img {
+.stack-image:hover {
   filter: grayscale(0%) brightness(1);
-  transform: scale(1.05);
+  transform: scale(1.05) translateY(0);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
+/* ===== SKILLS RESPONSIVE ===== */
 .skills-highlight {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 2rem;
+  gap: clamp(8px, 2vw, 12px);
+  margin-top: clamp(1.5rem, 3vw, 2rem);
+  justify-content: flex-start;
 }
 
 .skill-tag {
   background: rgba(128, 0, 255, 0.1);
   color: #8000ff;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 0.9rem;
+  padding: clamp(4px, 1vw, 6px) clamp(12px, 3vw, 16px);
+  border-radius: clamp(15px, 3vw, 20px);
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
   font-weight: 500;
   border: 1px solid rgba(128, 0, 255, 0.2);
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .skill-tag:hover {
@@ -136,30 +154,25 @@
   transform-origin: 50% 50%;
 }
 
-.split-text span {
-  display: inline-block;
-}
-
-/* ===== ZONA DE BURBUJAS ORGANIZADAS ===== */
+/* ===== ZONA DE BURBUJAS MEJORADA ===== */
 .tech-bubbles-zone {
   position: relative;
   width: 100%;
-  min-height: 500px;
-  padding: 20px;
+  min-height: clamp(450px, 65vw, 550px);
+  padding: clamp(20px, 4vw, 30px);
   overflow: hidden;
 }
 
 .zone-title {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 10px;
+  left: 20px;
   color: #8000ff;
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
   font-weight: 600;
   letter-spacing: 1px;
   opacity: 0.8;
   z-index: 10;
-  margin-bottom: 20px;
 }
 
 .bubble {
@@ -172,9 +185,10 @@
   align-items: center;
   justify-content: center;
   color: #fff;
-  transition: transform 0.2s ease;
+  transition: all 0.2s ease-out;
   cursor: grab;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transform-origin: center;
 }
 
 .bubble:active {
@@ -182,31 +196,35 @@
 }
 
 .bubble:hover {
-  transform: scale(1.05);
+  transform: scale(1.12);
+  box-shadow: 0 6px 25px rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  z-index: 10;
 }
 
 .bubble.dragging {
   z-index: 1000;
-  transform: scale(1.1);
+  transform: scale(1.15);
+  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.2);
 }
 
-/* Tamaños de burbujas */
+/* Tamaños de burbujas más consistentes */
 .bubble.small {
-  width: 60px;
-  height: 60px;
-  font-size: 22px;
+  width: clamp(65px, 9vw, 75px);
+  height: clamp(65px, 9vw, 75px);
+  font-size: clamp(22px, 3.5vw, 26px);
 }
 
 .bubble.medium {
-  width: 75px;
-  height: 75px;
-  font-size: 28px;
+  width: clamp(75px, 11vw, 85px);
+  height: clamp(75px, 11vw, 85px);
+  font-size: clamp(26px, 4.5vw, 32px);
 }
 
 .bubble.large {
-  width: 90px;
-  height: 90px;
-  font-size: 35px;
+  width: clamp(85px, 13vw, 95px);
+  height: clamp(85px, 13vw, 95px);
+  font-size: clamp(30px, 5.5vw, 38px);
 }
 
 /* Colores específicos para cada tecnología */
@@ -223,7 +241,7 @@
 .bubble[data-tech="express"] { color: #68a063; }
 .bubble[data-tech="nodejs"] { color: #68a063; }
 
-/* Tooltip mejorado */
+/* Tooltip responsive */
 .bubble::after {
   content: attr(data-tooltip);
   position: absolute;
@@ -232,9 +250,9 @@
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.9);
   color: white;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 12px;
+  padding: clamp(6px, 1.5vw, 8px) clamp(8px, 2vw, 12px);
+  border-radius: clamp(6px, 1.5vw, 8px);
+  font-size: clamp(10px, 2vw, 12px);
   font-weight: 500;
   white-space: nowrap;
   opacity: 0;
@@ -248,14 +266,37 @@
   transform: translateX(-50%) translateY(-5px);
 }
 
-/* ===== RESPONSIVE ===== */
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+
+/* Tablets Grandes (1200px - 1024px) */
 @media (max-width: 1200px) {
   .about-container {
     grid-template-columns: 1fr 280px 350px;
     gap: 40px;
   }
+
+  .tech-bubbles-zone {
+    min-height: 450px;
+  }
 }
 
+/* Tablets Medianas (1024px - 968px) */
+@media (max-width: 1024px) {
+  .about-container {
+    grid-template-columns: 1fr 260px 320px;
+    gap: 30px;
+  }
+
+  .about-image {
+    max-width: 260px;
+  }
+
+  .tech-bubbles-zone {
+    min-height: 400px;
+  }
+}
+
+/* Tablets Pequeñas y Móviles Grandes (968px - 768px) */
 @media (max-width: 968px) {
   .about-container {
     grid-template-columns: 1fr;
@@ -264,8 +305,7 @@
   }
   
   .about-image {
-    width: 250px;
-    height: 320px;
+    max-width: 280px;
     margin: 0 auto;
   }
   
@@ -278,37 +318,31 @@
   }
 
   .tech-bubbles-zone {
-    min-height: 400px;
-    margin-top: 40px;
+    min-height: 380px;
+    margin-top: 30px;
   }
 
-  .bubble.large {
-    width: 70px;
-    height: 70px;
-    font-size: 28px;
-  }
-
-  .bubble.medium {
-    width: 60px;
-    height: 60px;
-    font-size: 24px;
-  }
-
-  .bubble.small {
-    width: 50px;
-    height: 50px;
-    font-size: 20px;
+  .skills-highlight {
+    justify-content: center;
   }
 }
 
-@media (max-width: 480px) {
-  .about-image {
-    width: 200px;
-    height: 280px;
+/* Móviles Medianos (768px - 640px) */
+@media (max-width: 768px) {
+  .section-about {
+    padding: 50px 15px;
   }
-  
-  .skills-highlight {
-    justify-content: center;
+
+  .about-container {
+    gap: 30px;
+  }
+
+  .about-image {
+    max-width: 250px;
+  }
+
+  .stack-image {
+    height: clamp(90px, 12vw, 110px);
   }
 
   .tech-bubbles-zone {
@@ -317,20 +351,227 @@
   }
 
   .bubble.large {
-    width: 60px;
-    height: 60px;
-    font-size: 24px;
+    width: clamp(60px, 10vw, 70px);
+    height: clamp(60px, 10vw, 70px);
+    font-size: clamp(22px, 4vw, 28px);
   }
 
   .bubble.medium {
+    width: clamp(55px, 9vw, 65px);
+    height: clamp(55px, 9vw, 65px);
+    font-size: clamp(20px, 3.5vw, 26px);
+  }
+
+  .bubble.small {
+    width: clamp(45px, 8vw, 55px);
+    height: clamp(45px, 8vw, 55px);
+    font-size: clamp(18px, 3vw, 22px);
+  }
+}
+
+/* Móviles Pequeños (640px - 480px) */
+@media (max-width: 640px) {
+  .section-about {
+    padding: 40px 15px;
+  }
+
+  .about-container {
+    gap: 25px;
+  }
+
+  .about-image {
+    max-width: 220px;
+  }
+
+  .stack-image {
+    height: clamp(80px, 18vw, 100px);
+    border-radius: 10px;
+  }
+
+  .tech-bubbles-zone {
+    min-height: 320px;
+    padding: 12px;
+  }
+
+  .zone-title {
+    font-size: 0.75rem;
+  }
+}
+
+/* Móviles Muy Pequeños (480px - 360px) */
+@media (max-width: 480px) {
+  .section-about {
+    padding: 35px 12px;
+  }
+
+  .about-container {
+    gap: 20px;
+  }
+
+  .about-image {
+    max-width: 200px;
+  }
+
+  .stack-image {
+    height: clamp(70px, 20vw, 90px);
+  }
+
+  .tech-bubbles-zone {
+    min-height: 300px;
+    padding: 10px;
+  }
+
+  .bubble.large {
+    width: clamp(50px, 12vw, 60px);
+    height: clamp(50px, 12vw, 60px);
+    font-size: clamp(18px, 4vw, 24px);
+  }
+
+  .bubble.medium {
+    width: clamp(45px, 11vw, 55px);
+    height: clamp(45px, 11vw, 55px);
+    font-size: clamp(16px, 3.5vw, 22px);
+  }
+
+  .bubble.small {
+    width: clamp(40px, 10vw, 50px);
+    height: clamp(40px, 10vw, 50px);
+    font-size: clamp(14px, 3vw, 20px);
+  }
+
+  .skill-tag {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+  }
+}
+
+/* Móviles Extremadamente Pequeños (360px - 320px) */
+@media (max-width: 360px) {
+  .section-about {
+    padding: 30px 10px;
+  }
+
+  .about-container {
+    gap: 15px;
+  }
+
+  .about-image {
+    max-width: 180px;
+  }
+
+  .stack-image {
+    height: 70px;
+    border-radius: 8px;
+  }
+
+  .tech-bubbles-zone {
+    min-height: 280px;
+    padding: 8px;
+  }
+
+  .zone-title {
+    font-size: 0.7rem;
+  }
+
+  .bubble.large {
     width: 50px;
     height: 50px;
     font-size: 20px;
   }
 
-  .bubble.small {
+  .bubble.medium {
     width: 45px;
     height: 45px;
     font-size: 18px;
+  }
+
+  .bubble.small {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .skill-tag {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+  }
+}
+
+/* Móviles Ultra Pequeños (320px y menos) */
+@media (max-width: 320px) {
+  .section-about {
+    padding: 25px 8px;
+  }
+
+  .about-container {
+    gap: 12px;
+  }
+
+  .about-image {
+    max-width: 160px;
+  }
+
+  .stack-image {
+    height: 60px;
+    gap: 10px;
+  }
+
+  .tech-bubbles-zone {
+    min-height: 250px;
+    padding: 6px;
+  }
+
+  .bubble.large {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+  }
+
+  .bubble.medium {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .bubble.small {
+    width: 35px;
+    height: 35px;
+    font-size: 14px;
+  }
+}
+
+/* Orientación horizontal en móviles */
+@media (max-height: 500px) and (orientation: landscape) {
+  .section-about {
+    padding: 20px 15px;
+    min-height: auto;
+  }
+
+  .about-container {
+    grid-template-columns: 1fr 200px 250px;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .about-image {
+    max-width: 200px;
+  }
+
+  .stack-image {
+    height: 60px;
+  }
+
+  .tech-bubbles-zone {
+    min-height: 200px;
+  }
+
+  .about-text h2 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    margin-bottom: 1rem;
+  }
+
+  .about-text p {
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
   }
 }

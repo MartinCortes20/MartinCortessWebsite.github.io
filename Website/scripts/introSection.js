@@ -1,4 +1,4 @@
-// ===== SECCIÓN INTRO (ABOUT ME) CON BURBUJAS ORGANIZADAS =====
+// ===== SECCIÓN INTRO RESPONSIVE (ABOUT ME) CON BURBUJAS ORGANIZADAS =====
 
 // Tecnologías con sus iconos y colores
 const technologies = [
@@ -16,10 +16,68 @@ const technologies = [
   { name: 'Node.js', icon: 'fab fa-node-js', tech: 'nodejs', tooltip: 'Node.js' }
 ];
 
-// Obtener tamaño aleatorio para las burbujas
+// Array de imágenes para mostrar verticalmente
+const imageGallery = [
+  { src: './images/CamelloCabos.jpeg', alt: 'Martin Cortes - Photo 1' },
+  { src: './images/CamelloCabos.jpeg', alt: 'Martin Cortes - Photo 2' },
+  { src: './images/CamelloCabos.jpeg', alt: 'Martin Cortes - Photo 3' }
+];
+
+// Detectar tipo de dispositivo
+function getDeviceType() {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  
+  if (width <= 320) return 'mobile-xs';
+  if (width <= 480) return 'mobile-sm';
+  if (width <= 640) return 'mobile-md';
+  if (width <= 768) return 'mobile-lg';
+  if (width <= 968) return 'tablet-sm';
+  if (width <= 1024) return 'tablet-md';
+  if (width <= 1200) return 'tablet-lg';
+  return 'desktop';
+}
+
+// Obtener configuración responsive mejorada para burbujas
+function getResponsiveConfig() {
+  const deviceType = getDeviceType();
+  const configs = {
+    'mobile-xs': { cols: 3, rows: 4, spacing: 20 },
+    'mobile-sm': { cols: 3, rows: 4, spacing: 25 },
+    'mobile-md': { cols: 3, rows: 4, spacing: 30 },
+    'mobile-lg': { cols: 4, rows: 3, spacing: 35 },
+    'tablet-sm': { cols: 4, rows: 3, spacing: 40 },
+    'tablet-md': { cols: 4, rows: 3, spacing: 45 },
+    'tablet-lg': { cols: 4, rows: 3, spacing: 50 },
+    'desktop': { cols: 4, rows: 3, spacing: 55 }
+  };
+  
+  return configs[deviceType] || configs.desktop;
+}
+
+// Obtener tamaño de burbuja basado en dispositivo
 function getBubbleSize() {
-  const sizes = ['small', 'medium', 'large'];
-  const weights = [0.3, 0.5, 0.2]; // 30% small, 50% medium, 20% large
+  const deviceType = getDeviceType();
+  
+  // En móviles pequeños, usar más burbujas medianas para consistencia
+  if (['mobile-xs', 'mobile-sm'].includes(deviceType)) {
+    const sizes = ['medium', 'medium', 'large'];
+    const weights = [0.7, 0.2, 0.1];
+    const random = Math.random();
+    let weightSum = 0;
+    
+    for (let i = 0; i < weights.length; i++) {
+      weightSum += weights[i];
+      if (random <= weightSum) {
+        return sizes[i];
+      }
+    }
+    return 'medium';
+  }
+  
+  // Para tablets y desktop, distribución normal
+  const sizes = ['medium', 'medium', 'large'];
+  const weights = [0.6, 0.3, 0.1];
   const random = Math.random();
   let weightSum = 0;
   
@@ -32,65 +90,101 @@ function getBubbleSize() {
   return 'medium';
 }
 
-// Función para verificar colisiones entre burbujas
-function checkCollision(bubble1, bubble2) {
-  const rect1 = bubble1.getBoundingClientRect();
-  const rect2 = bubble2.getBoundingClientRect();
-  
-  const distance = Math.sqrt(
-    Math.pow(rect1.left + rect1.width/2 - rect2.left - rect2.width/2, 2) +
-    Math.pow(rect1.top + rect1.height/2 - rect2.top - rect2.height/2, 2)
-  );
-  
-  return distance < (rect1.width/2 + rect2.width/2 + 20); // 20px de separación mínima
-}
-
-// Encontrar posición válida sin colisiones
-function findValidPosition(container, bubble, existingBubbles) {
+// Layout tipo teclado numérico para las burbujas
+function positionBubblesInNumpadLayout(container, bubbles) {
   const containerRect = container.getBoundingClientRect();
-  const bubbleSize = bubble.classList.contains('large') ? 90 : 
-                    bubble.classList.contains('medium') ? 75 : 60;
+  const containerWidth = containerRect.width;
+  const containerHeight = containerRect.height;
   
-  let attempts = 0;
-  let validPosition = false;
-  let x, y;
-
-  while (!validPosition && attempts < 50) {
-    x = Math.random() * (containerRect.width - bubbleSize - 40) + 20;
-    y = Math.random() * (containerRect.height - bubbleSize - 60) + 40;
+  // Layout tipo teclado numérico: 3 columnas x 4 filas
+  // Distribución: [1,2,3], [4,5,6], [7,8,9], [*,0,#] 
+  const positions = [
+    // Fila 1: [1,2,3]
+    { col: 0, row: 0 }, // Swift
+    { col: 1, row: 0 }, // Flutter  
+    { col: 2, row: 0 }, // JavaScript
     
-    bubble.style.left = x + 'px';
-    bubble.style.top = y + 'px';
+    // Fila 2: [4,5,6]
+    { col: 0, row: 1 }, // Python
+    { col: 1, row: 1 }, // Java
+    { col: 2, row: 1 }, // HTML
     
-    validPosition = true;
+    // Fila 3: [7,8,9]
+    { col: 0, row: 2 }, // CSS
+    { col: 1, row: 2 }, // Figma
+    { col: 2, row: 2 }, // Postman
     
-    // Verificar colisiones con burbujas existentes
-    for (let existingBubble of existingBubbles) {
-      if (checkCollision(bubble, existingBubble)) {
-        validPosition = false;
-        break;
-      }
-    }
+    // Fila 4: [*,0,#]
+    { col: 0, row: 3 }, // React
+    { col: 1, row: 3 }, // Express
+    { col: 2, row: 3 }  // Node.js
+  ];
+  
+  // Calcular espaciado basado en el tamaño del contenedor
+  const cols = 3;
+  const rows = 4;
+  const padding = 40;
+  
+  const cellWidth = (containerWidth - padding * 2) / cols;
+  const cellHeight = (containerHeight - 100) / rows; // -100 para título y padding
+  
+  bubbles.forEach((bubble, index) => {
+    if (index >= positions.length) return;
     
-    attempts++;
-  }
-
-  // Si no encuentra posición válida, usar grid layout
-  if (!validPosition) {
-    const cols = Math.floor(containerRect.width / 100);
-    const index = existingBubbles.length;
-    const col = index % cols;
-    const row = Math.floor(index / cols);
+    const pos = positions[index];
     
-    x = col * 100 + 50;
-    y = row * 100 + 70;
+    // Calcular posición base
+    const baseX = pos.col * cellWidth + cellWidth / 2 + padding;
+    const baseY = pos.row * cellHeight + cellHeight / 2 + 80; // +80 para título
     
-    bubble.style.left = x + 'px';
-    bubble.style.top = y + 'px';
-  }
+    // Posicionar la burbuja
+    bubble.style.left = (baseX - 40) + 'px'; // -40 para centrar (tamaño promedio burbuja)
+    bubble.style.top = (baseY - 40) + 'px';
+    
+    // Agregar animación de flotación individual
+    addFloatingAnimation(bubble, index);
+  });
 }
 
-// Crear burbujas organizadas
+// Agregar animación de flotación a cada burbuja
+function addFloatingAnimation(bubble, index) {
+  // Cada burbuja tiene un patrón de flotación único
+  const duration = 3 + (index % 3); // 3-5 segundos
+  const delay = index * 0.2; // Desfase entre burbujas
+  const amplitude = 8 + (index % 5); // Amplitud de movimiento 8-12px
+  
+  // Flotación vertical
+  gsap.to(bubble, {
+    y: `+=${amplitude}`,
+    duration: duration,
+    repeat: -1,
+    yoyo: true,
+    ease: "sine.inOut",
+    delay: delay
+  });
+  
+  // Flotación horizontal más sutil
+  gsap.to(bubble, {
+    x: `+=${amplitude * 0.6}`,
+    duration: duration * 1.3,
+    repeat: -1,
+    yoyo: true,
+    ease: "sine.inOut",
+    delay: delay + 0.5
+  });
+  
+  // Rotación muy sutil
+  gsap.to(bubble, {
+    rotation: `+=${3 + (index % 3)}`,
+    duration: duration * 2,
+    repeat: -1,
+    yoyo: true,
+    ease: "sine.inOut",
+    delay: delay + 1
+  });
+}
+
+// Crear burbujas organizadas en layout teclado numérico
 function createOrganizedBubbles() {
   const container = document.getElementById('techBubblesZone');
   if (!container) {
@@ -104,6 +198,7 @@ function createOrganizedBubbles() {
   
   const createdBubbles = [];
   
+  // Crear todas las burbujas primero
   technologies.forEach((tech, index) => {
     const bubble = document.createElement('div');
     bubble.className = `bubble ${getBubbleSize()}`;
@@ -112,21 +207,26 @@ function createOrganizedBubbles() {
     bubble.innerHTML = `<i class="${tech.icon}"></i>`;
     
     container.appendChild(bubble);
-    
-    // Encontrar posición válida sin colisiones
-    findValidPosition(container, bubble, createdBubbles);
     createdBubbles.push(bubble);
-    
-    // Animación de aparición simple
+  });
+  
+  // Posicionar todas las burbujas en layout teclado numérico
+  positionBubblesInNumpadLayout(container, createdBubbles);
+  
+  // Aplicar animaciones y funcionalidad
+  createdBubbles.forEach((bubble, index) => {
+    // Animación de aparición escalonada
     gsap.fromTo(bubble, {
       scale: 0,
-      opacity: 0
+      opacity: 0,
+      y: 50
     }, {
       scale: 1,
       opacity: 1,
-      duration: 0.4,
-      delay: index * 0.05,
-      ease: 'power2.out',
+      y: 0,
+      duration: 0.6,
+      delay: index * 0.1,
+      ease: 'back.out(1.7)',
       scrollTrigger: {
         trigger: '.section-about',
         start: 'top 80%',
@@ -134,23 +234,124 @@ function createOrganizedBubbles() {
       }
     });
     
-    // Hacer las burbujas arrastrables (funcionalidad simple)
-    if (typeof Draggable !== 'undefined') {
+    // Hacer las burbujas arrastrables solo en dispositivos con puntero preciso
+    if (typeof Draggable !== 'undefined' && !isTouchDevice()) {
       Draggable.create(bubble, {
         type: "x,y",
         bounds: container,
         onDragStart: function() {
           bubble.classList.add('dragging');
+          // Pausar animaciones de flotación mientras se arrastra
+          gsap.killTweensOf(bubble);
         },
         onDragEnd: function() {
           bubble.classList.remove('dragging');
+          // Reiniciar animaciones de flotación
+          setTimeout(() => {
+            addFloatingAnimation(bubble, index);
+          }, 100);
         }
       });
     }
   });
 }
 
-// Animaciones de texto
+// Detectar dispositivos touch
+function isTouchDevice() {
+  return (('ontouchstart' in window) ||
+          (navigator.maxTouchPoints > 0) ||
+          (navigator.msMaxTouchPoints > 0));
+}
+
+// Crear imágenes apiladas verticalmente responsive
+function createVerticalImageStack() {
+  const imageContainer = document.querySelector('.about-image');
+  if (!imageContainer) return;
+
+  // Limpiar contenido existente
+  imageContainer.innerHTML = '';
+
+  // Crear contenedor de imágenes apiladas
+  const imageStack = document.createElement('div');
+  imageStack.className = 'image-stack';
+
+  // Crear imágenes
+  imageGallery.forEach((imageData, index) => {
+    const img = document.createElement('img');
+    img.src = imageData.src;
+    img.alt = imageData.alt;
+    img.className = 'stack-image';
+    img.loading = 'lazy'; // Lazy loading para mejor performance
+    imageStack.appendChild(img);
+  });
+
+  imageContainer.appendChild(imageStack);
+
+  // Animar aparición de imágenes una por una
+  animateImagesAppearance();
+}
+
+// Animar aparición de imágenes con efecto responsive
+function animateImagesAppearance() {
+  const images = document.querySelectorAll('.stack-image');
+  let currentIndex = 0;
+  let isVisible = true;
+  
+  // Ajustar tiempos según el dispositivo
+  const deviceType = getDeviceType();
+  const isMobile = ['mobile-xs', 'mobile-sm', 'mobile-md'].includes(deviceType);
+  
+  const timings = {
+    showDelay: isMobile ? 400 : 500,
+    hideDelay: isMobile ? 300 : 400,
+    displayTime: isMobile ? 1500 : 2000,
+    restartDelay: isMobile ? 800 : 1000
+  };
+
+  function toggleImageVisibility() {
+    if (isVisible) {
+      // Mostrar imagen actual
+      if (currentIndex < images.length) {
+        images[currentIndex].classList.add('visible');
+        currentIndex++;
+        
+        if (currentIndex >= images.length) {
+          setTimeout(() => {
+            isVisible = false;
+            currentIndex = 0;
+            toggleImageVisibility();
+          }, timings.displayTime);
+        }
+      }
+    } else {
+      // Ocultar imagen actual
+      if (currentIndex < images.length) {
+        images[currentIndex].classList.remove('visible');
+        images[currentIndex].classList.add('fade-out');
+        currentIndex++;
+        
+        if (currentIndex >= images.length) {
+          setTimeout(() => {
+            // Limpiar clases y reiniciar
+            images.forEach(img => {
+              img.classList.remove('visible', 'fade-out');
+            });
+            isVisible = true;
+            currentIndex = 0;
+            toggleImageVisibility();
+          }, timings.restartDelay);
+        } else {
+          setTimeout(toggleImageVisibility, timings.hideDelay);
+        }
+      }
+    }
+  }
+
+  // Iniciar la animación cuando la sección sea visible
+  gsap.delayedCall(1, toggleImageVisibility);
+}
+
+// Animaciones de texto responsive
 function setupTextAnimations() {
   // Animación del título
   const aboutTitle = document.querySelector('.section-about h2');
@@ -167,7 +368,10 @@ function setupTextAnimations() {
     aboutTitle.appendChild(span);
   });
 
-  // Animación de letras del título
+  // Animación de letras del título - ajustada para móviles
+  const deviceType = getDeviceType();
+  const isMobile = ['mobile-xs', 'mobile-sm', 'mobile-md'].includes(deviceType);
+  
   gsap.from('.section-about .char', {
     scrollTrigger: {
       trigger: '.section-about',
@@ -175,10 +379,10 @@ function setupTextAnimations() {
       toggleActions: 'play none none none'
     },
     opacity: 0,
-    y: 40,
-    rotateX: -90,
-    stagger: 0.05,
-    duration: 0.8,
+    y: isMobile ? 20 : 40,
+    rotateX: isMobile ? -45 : -90,
+    stagger: isMobile ? 0.03 : 0.05,
+    duration: isMobile ? 0.6 : 0.8,
     ease: 'back.out'
   });
 
@@ -190,8 +394,8 @@ function setupTextAnimations() {
       toggleActions: 'play none none none'
     },
     opacity: 0,
-    y: 20,
-    duration: 0.8,
+    y: isMobile ? 15 : 20,
+    duration: isMobile ? 0.6 : 0.8,
     delay: 0.3,
     ease: 'power2.out'
   });
@@ -204,9 +408,9 @@ function setupTextAnimations() {
       toggleActions: 'play none none none'
     },
     opacity: 0,
-    y: 30,
-    duration: 0.8,
-    stagger: 0.2,
+    y: isMobile ? 20 : 30,
+    duration: isMobile ? 0.6 : 0.8,
+    stagger: isMobile ? 0.15 : 0.2,
     delay: 0.5,
     ease: 'power2.out'
   });
@@ -219,8 +423,8 @@ function setupTextAnimations() {
       toggleActions: 'play none none none'
     },
     opacity: 0,
-    x: 50,
-    duration: 1,
+    x: isMobile ? 30 : 50,
+    duration: isMobile ? 0.8 : 1,
     ease: 'power2.out',
     delay: 0.7
   });
@@ -233,8 +437,8 @@ function setupTextAnimations() {
       toggleActions: 'play none none none'
     },
     opacity: 0,
-    x: -50,
-    duration: 1,
+    x: isMobile ? -30 : -50,
+    duration: isMobile ? 0.8 : 1,
     ease: 'power2.out',
     delay: 0.9
   });
@@ -247,9 +451,9 @@ function setupTextAnimations() {
       toggleActions: 'play none none none'
     },
     opacity: 0,
-    y: 20,
-    duration: 0.6,
-    stagger: 0.1,
+    y: isMobile ? 15 : 20,
+    duration: isMobile ? 0.5 : 0.6,
+    stagger: isMobile ? 0.08 : 0.1,
     delay: 0.8,
     ease: 'power2.out'
   });
@@ -261,7 +465,7 @@ function setupTextAnimations() {
 
     const textShuffle = gsap.timeline({
       repeat: -1,
-      repeatDelay: 1.5,
+      repeatDelay: isMobile ? 1.2 : 1.5,
       scrollTrigger: {
         trigger: '.section-about',
         start: 'top 80%'
@@ -270,27 +474,85 @@ function setupTextAnimations() {
 
     words.forEach((word, index) => {
       textShuffle.to('.text-shuffle', {
-        duration: 0.5,
+        duration: isMobile ? 0.4 : 0.5,
         text: word,
         ease: "power2.out",
-        delay: index > 0 ? 2 : 0
+        delay: index > 0 ? (isMobile ? 1.5 : 2) : 0
       });
     });
   }
 }
 
-// Función principal para configurar todas las animaciones
-function setupSection2Animations() {
-  setupTextAnimations();
-  createOrganizedBubbles();
+// Manejar redimensionamiento de ventana de forma optimizada
+let resizeTimeout;
+function handleResize() {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    createOrganizedBubbles();
+  }, 300); // Debounce de 300ms
 }
 
-// Inicializar cuando el DOM esté listo
+// Optimizar performance en dispositivos móviles
+function optimizeForMobile() {
+  const deviceType = getDeviceType();
+  const isMobile = ['mobile-xs', 'mobile-sm', 'mobile-md'].includes(deviceType);
+  
+  if (isMobile) {
+    // Reducir calidad de animaciones en móviles para mejor performance
+    gsap.config({
+      force3D: false,
+      nullTargetWarn: false
+    });
+    
+    // Deshabilitar algunas animaciones complejas en móviles muy pequeños
+    if (deviceType === 'mobile-xs') {
+      const bubbles = document.querySelectorAll('.bubble');
+      bubbles.forEach(bubble => {
+        bubble.style.transition = 'transform 0.15s ease-out';
+      });
+    }
+  }
+}
+
+// Función principal para configurar todas las animaciones
+function setupSection2Animations() {
+  optimizeForMobile();
+  setupTextAnimations();
+  createOrganizedBubbles();
+  createVerticalImageStack();
+}
+
+// Event listeners optimizados
 document.addEventListener('DOMContentLoaded', function() {
   setupSection2Animations();
   
-  // Recrear burbujas al redimensionar la ventana
-  window.addEventListener('resize', function() {
-    setTimeout(createOrganizedBubbles, 100);
+  // Manejar redimensionamiento con debounce
+  window.addEventListener('resize', handleResize);
+  
+  // Manejar cambio de orientación en móviles
+  window.addEventListener('orientationchange', function() {
+    setTimeout(() => {
+      createOrganizedBubbles();
+    }, 500); // Esperar a que complete el cambio de orientación
   });
+  
+  // Optimizar para dispositivos con memoria limitada
+  if (navigator.deviceMemory && navigator.deviceMemory < 4) {
+    // Reducir frecuencia de animaciones en dispositivos con poca memoria
+    const images = document.querySelectorAll('.stack-image');
+    images.forEach(img => {
+      img.style.transition = 'all 0.5s ease-in-out';
+    });
+  }
+});
+
+// Cleanup al salir de la página para liberar memoria
+window.addEventListener('beforeunload', function() {
+  // Limpiar intervals y timeouts si existen
+  if (resizeTimeout) {
+    clearTimeout(resizeTimeout);
+  }
+  
+  // Matar animaciones GSAP activas
+  gsap.killTweensOf("*");
 });
