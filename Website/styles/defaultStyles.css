@@ -1,5 +1,4 @@
 /* ===== ESTILOS BASE Y GENERALES ===== */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
 
 html, body {
@@ -21,7 +20,7 @@ body {
   width: 100%;
   min-height: 100vh;
   position: relative;
-  display: block; /* Asegurar flujo normal */
+  display: block;
 }
 
 .container {
@@ -33,32 +32,21 @@ body {
 
 /* Content Section Styles */
 h2 {
-  font-size: 42px;
+  font-size: clamp(24px, 5vw, 42px);
   margin-bottom: 20px;
   color: #8000ff;
   overflow: hidden;
 }
 
 p {
-  font-size: 18px;
+  font-size: clamp(14px, 3vw, 18px);
   line-height: 1.6;
   margin-bottom: 15px;
   font-weight: 400;
 }
 
-/* Responsive Styles */
-@media (max-width: 600px) {
-  h2 {
-    font-size: 32px;
-  }
-  
-  p {
-    font-size: 16px;
-  }
-  
-  .container {
-    padding: 0 15px;
-  }
+.container {
+  padding: 0 clamp(15px, 4vw, 20px);
 }
 
 /* ===== HEADER COMPLETAMENTE RESPONSIVE ===== */
@@ -69,14 +57,14 @@ p {
   left: 0;
   width: 100%;
   height: auto;
-  min-height: clamp(50px, 8vh, 70px);
+  min-height: clamp(45px, 8vh, 65px);
   background-color: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(128, 0, 255, 0.2);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: clamp(8px, 2vw, 15px) clamp(12px, 3vw, 25px);
+  padding: clamp(6px, 2vw, 12px) clamp(12px, 3vw, 20px);
   z-index: 100;
   transform: translateY(-100%);
   opacity: 0;
@@ -93,29 +81,35 @@ p {
 .header-left {
   display: flex;
   align-items: center;
-  gap: clamp(12px, 3vw, 25px);
+  gap: clamp(6px, 1.5vw, 15px);
   flex: 1;
-  min-width: 0; /* Para permitir shrinking */
+  min-width: 0;
+  max-width: 70%; /* Limitar el ancho para evitar que se encime */
 }
 
 .header-logo {
-  font-size: clamp(14px, 3.5vw, 22px);
+  font-size: clamp(10px, 2.2vw, 16px);
   color: #8000ff;
   font-weight: 900;
-  letter-spacing: clamp(0.3px, 0.5vw, 1px);
+  letter-spacing: clamp(0.1px, 0.2vw, 0.5px);
   white-space: nowrap;
-  flex-shrink: 0;
+  flex-shrink: 1; /* Permitir que se reduzca si es necesario */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 /* Navigation Buttons */
 .header-nav-buttons {
   display: flex;
-  gap: clamp(8px, 2vw, 15px);
+  gap: clamp(3px, 1vw, 8px);
   align-items: center;
   flex-wrap: nowrap;
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  flex-shrink: 1;
+  max-width: 100%;
 }
 
 .header-nav-buttons::-webkit-scrollbar {
@@ -125,16 +119,17 @@ p {
 .nav-button {
   color: #cccccc;
   text-decoration: none;
-  font-size: clamp(11px, 2.2vw, 14px);
-  padding: clamp(6px, 1.5vw, 10px) clamp(10px, 2.5vw, 16px);
-  border-radius: clamp(15px, 4vw, 25px);
+  font-size: clamp(8px, 1.6vw, 11px);
+  padding: clamp(3px, 0.8vw, 6px) clamp(6px, 1.5vw, 10px);
+  border-radius: clamp(10px, 2.5vw, 15px);
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
   white-space: nowrap;
   font-weight: 500;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.1px;
   flex-shrink: 0;
+  min-width: max-content;
 }
 
 .nav-button:hover {
@@ -155,16 +150,23 @@ p {
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  max-width: 25%; /* Limitar ancho de iconos sociales */
 }
 
 .header-nav ul {
   display: flex;
   list-style: none;
-  gap: clamp(4px, 1.2vw, 12px);
+  gap: clamp(2px, 0.8vw, 6px);
   margin: 0;
   padding: 0;
   align-items: center;
   flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.header-nav ul::-webkit-scrollbar {
+  display: none;
 }
 
 .header-nav li {
@@ -177,14 +179,14 @@ p {
   color: #cccccc;
   text-decoration: none;
   transition: all 0.3s ease;
-  font-size: clamp(10px, 2.2vw, 16px);
-  padding: clamp(4px, 1vw, 8px);
+  font-size: clamp(7px, 1.4vw, 12px);
+  padding: clamp(1px, 0.5vw, 4px);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: clamp(28px, 5vw, 42px);
-  height: clamp(28px, 5vw, 42px);
+  width: clamp(20px, 3.2vw, 30px);
+  height: clamp(20px, 3.2vw, 30px);
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   flex-shrink: 0;
@@ -194,7 +196,7 @@ p {
   color: #8000ff;
   background: rgba(128, 0, 255, 0.1);
   border-color: rgba(128, 0, 255, 0.3);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 /* Platform-specific hover colors */
@@ -211,9 +213,9 @@ p {
   background: none;
   border: none;
   color: #8000ff;
-  font-size: clamp(18px, 4vw, 24px);
+  font-size: clamp(16px, 3.5vw, 22px);
   cursor: pointer;
-  padding: clamp(6px, 1.5vw, 10px);
+  padding: clamp(4px, 1vw, 8px);
   border-radius: 6px;
   transition: all 0.3s ease;
   flex-shrink: 0;
@@ -233,7 +235,7 @@ p {
   background: rgba(0, 0, 0, 0.95);
   backdrop-filter: blur(15px);
   border-top: 1px solid rgba(128, 0, 255, 0.2);
-  padding: clamp(15px, 4vw, 25px);
+  padding: clamp(12px, 3vw, 20px);
   transform: translateY(-100%);
   opacity: 0;
   visibility: hidden;
@@ -250,75 +252,35 @@ p {
 .mobile-nav-buttons {
   display: flex;
   flex-direction: column;
-  gap: clamp(10px, 2.5vw, 15px);
-  margin-bottom: clamp(15px, 4vw, 25px);
+  gap: clamp(8px, 2vw, 12px);
+  margin-bottom: clamp(12px, 3vw, 20px);
 }
 
 .mobile-nav-buttons .nav-button {
   width: 100%;
   text-align: center;
-  padding: clamp(12px, 3vw, 16px);
-  font-size: clamp(13px, 3vw, 16px);
-  border-radius: 12px;
+  padding: clamp(10px, 2.5vw, 14px);
+  font-size: clamp(11px, 2.5vw, 14px);
+  border-radius: 10px;
 }
 
 /* Mobile Social Icons in Menu */
 .mobile-nav-menu .header-nav ul {
   justify-content: center;
   flex-wrap: wrap;
-  gap: clamp(12px, 3vw, 18px);
+  gap: clamp(8px, 2.5vw, 15px);
 }
 
 .mobile-nav-menu .header-nav a {
-  width: clamp(45px, 8vw, 55px);
-  height: clamp(45px, 8vw, 55px);
-  font-size: clamp(18px, 4vw, 22px);
+  width: clamp(36px, 6vw, 48px);
+  height: clamp(36px, 6vw, 48px);
+  font-size: clamp(14px, 3vw, 18px);
 }
 
-/* ===== RESPONSIVE BREAKPOINTS ===== */
+/* ===== MEDIA QUERIES OPTIMIZADAS ===== */
 
-/* Large Tablets (1024px - 768px) */
-@media (max-width: 1024px) {
-  .header-nav-buttons {
-    gap: 10px;
-  }
-  
-  .nav-button {
-    font-size: 12px;
-    padding: 6px 12px;
-  }
-  
-  .header-nav a {
-    width: 36px;
-    height: 36px;
-    font-size: 14px;
-  }
-}
-
-/* Medium Tablets (768px - 640px) */
-@media (max-width: 768px) {
-  .header-left {
-    gap: 15px;
-  }
-  
-  .header-nav-buttons {
-    gap: 8px;
-  }
-  
-  .nav-button {
-    font-size: 11px;
-    padding: 5px 10px;
-  }
-  
-  .header-nav a {
-    width: 32px;
-    height: 32px;
-    font-size: 12px;
-  }
-}
-
-/* Small Tablets and Large Phones (640px - 480px) */
-@media (max-width: 640px) {
+/* Celulares pequeños (hasta 325px) */
+@media (max-width: 325px) {
   .header-nav-buttons {
     display: none;
   }
@@ -331,91 +293,128 @@ p {
     display: block;
   }
   
-  .header-nav ul {
-    gap: 8px;
-  }
-  
-  .header-nav a {
-    width: 30px;
-    height: 30px;
-    font-size: 11px;
-    padding: 3px;
-  }
-}
-
-/* Medium Phones (480px - 360px) */
-@media (max-width: 480px) {
-  .site-header {
-    padding: 8px 12px;
-    min-height: 50px;
-  }
-  
   .header-logo {
-    font-size: 14px;
-    letter-spacing: 0.3px;
+    font-size: 9px;
+    max-width: 60%;
   }
   
-  .header-nav ul {
-    gap: 6px;
-  }
-  
-  .header-nav a {
-    width: 28px;
-    height: 28px;
-    font-size: 10px;
-    padding: 2px;
-  }
-  
-  .mobile-nav-toggle {
-    font-size: 20px;
-    padding: 6px;
-  }
-}
-
-/* Small Phones (360px - 320px) */
-@media (max-width: 360px) {
-  .site-header {
-    padding: 6px 10px;
-    min-height: 45px;
-  }
-  
-  .header-logo {
-    font-size: 12px;
-  }
-  
-  .header-nav ul {
+  .header-left {
+    max-width: 60%;
     gap: 4px;
   }
   
+  .header-nav {
+    max-width: 35%;
+  }
+  
+  .header-nav ul {
+    gap: 1px;
+  }
+  
   .header-nav a {
-    width: 26px;
-    height: 26px;
-    font-size: 9px;
+    width: 18px;
+    height: 18px;
+    font-size: 6px;
   }
   
-  .mobile-nav-toggle {
-    font-size: 18px;
-    padding: 4px;
-  }
-  
-  .mobile-nav-menu {
-    padding: 15px;
+  .site-header {
+    padding: 4px 8px;
+    min-height: 36px;
   }
 }
 
-/* Extra Small Phones (320px and below) */
-@media (max-width: 320px) {
+/* Celulares estándar (326px - 509px) */
+@media (min-width: 326px) and (max-width: 509px) {
+  .header-nav-buttons {
+    display: none;
+  }
+  
+  .mobile-nav-toggle {
+    display: block;
+  }
+  
+  .mobile-nav-menu {
+    display: block;
+  }
+  
+  .header-logo {
+    font-size: clamp(10px, 2.5vw, 12px);
+    max-width: 65%;
+  }
+  
+  .header-left {
+    max-width: 65%;
+    gap: clamp(4px, 1vw, 6px);
+  }
+  
+  .header-nav {
+    max-width: 30%;
+  }
+  
+  .header-nav ul {
+    gap: clamp(1px, 0.5vw, 3px);
+  }
+  
+  .header-nav a {
+    width: clamp(20px, 3.8vw, 24px);
+    height: clamp(20px, 3.8vw, 24px);
+    font-size: clamp(7px, 1.5vw, 9px);
+  }
+}
+
+/* Phablets / tablets pequeñas (510px - 670px) */
+@media (min-width: 510px) and (max-width: 670px) {
+  .header-nav-buttons {
+    display: none;
+  }
+  
+  .mobile-nav-toggle {
+    display: block;
+  }
+  
+  .mobile-nav-menu {
+    display: block;
+  }
+  
+  .header-logo {
+    font-size: clamp(14px, 2.8vw, 16px);
+  }
+  
+  .header-nav a {
+    width: clamp(28px, 4vw, 32px);
+    height: clamp(28px, 4vw, 32px);
+    font-size: clamp(10px, 1.8vw, 12px);
+  }
+}
+
+/* Tablets y pantallas medianas (671px - 1024px) */
+@media (min-width: 671px) and (max-width: 1024px) {
+  .header-nav-buttons {
+    display: flex;
+    gap: clamp(6px, 1.2vw, 10px);
+  }
+  
+  .nav-button {
+    font-size: clamp(10px, 1.5vw, 12px);
+    padding: clamp(5px, 1vw, 7px) clamp(10px, 1.5vw, 12px);
+  }
+  
+  .header-nav a {
+    width: clamp(30px, 3.5vw, 34px);
+    height: clamp(30px, 3.5vw, 34px);
+    font-size: clamp(11px, 1.5vw, 13px);
+  }
+}
+
+/* Landscape en móviles */
+@media (max-height: 500px) and (orientation: landscape) {
   .site-header {
-    padding: 5px 8px;
-    min-height: 42px;
+    min-height: 38px;
+    padding: 4px 12px;
   }
   
   .header-logo {
     font-size: 11px;
-  }
-  
-  .header-nav ul {
-    gap: 3px;
   }
   
   .header-nav a {
@@ -424,68 +423,22 @@ p {
     font-size: 8px;
   }
   
-  .mobile-nav-toggle {
-    font-size: 16px;
-  }
-  
   .mobile-nav-menu {
-    padding: 12px;
-  }
-  
-  .mobile-nav-buttons .nav-button {
-    padding: 10px;
-    font-size: 12px;
-  }
-  
-  .mobile-nav-menu .header-nav a {
-    width: 40px;
-    height: 40px;
-    font-size: 16px;
-  }
-}
-
-/* Landscape orientation on mobile devices */
-@media (max-height: 500px) and (orientation: landscape) {
-  .site-header {
-    min-height: 40px;
-    padding: 5px 15px;
-  }
-  
-  .header-logo {
-    font-size: 12px;
-  }
-  
-  .header-nav a {
-    width: 28px;
-    height: 28px;
-    font-size: 10px;
-  }
-  
-  .mobile-nav-menu {
-    padding: 10px;
+    padding: 8px 12px;
   }
   
   .mobile-nav-buttons {
-    gap: 8px;
-    margin-bottom: 15px;
+    gap: 6px;
+    margin-bottom: 12px;
   }
   
   .mobile-nav-buttons .nav-button {
-    padding: 8px;
-    font-size: 12px;
+    padding: 6px;
+    font-size: 10px;
   }
 }
 
-/* High DPI displays */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  .header-nav a,
-  .nav-button,
-  .mobile-nav-toggle {
-    border-width: 0.5px;
-  }
-}
-
-/* Reduced motion accessibility */
+/* Preferencias de accesibilidad */
 @media (prefers-reduced-motion: reduce) {
   .site-header,
   .nav-button,
@@ -500,7 +453,7 @@ p {
   }
 }
 
-/* High contrast mode */
+/* Alto contraste */
 @media (prefers-contrast: high) {
   .site-header {
     background-color: rgba(0, 0, 0, 0.95);
@@ -515,5 +468,14 @@ p {
   .nav-button:hover,
   .header-nav a:hover {
     border-color: #8000ff;
+  }
+}
+
+/* Pantallas de alta densidad */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .header-nav a,
+  .nav-button,
+  .mobile-nav-toggle {
+    border-width: 0.5px;
   }
 }
