@@ -49,41 +49,71 @@
   padding: 20px 0;
   gap: 40px;
   width: fit-content;
-  transition: transform 0.6s ease-in-out; /* Transición más suave */
+  transition: transform 0.6s ease-in-out;
   justify-content: center;
+  /* CAMBIO: Background unificado con la sección */
+  background: transparent;
 }
 
 .job-card {
   width: 350px;
   height: 450px;
   margin: 0 20px;
-  background-color: rgba(128, 0, 255, 0.1);
+  /* CAMBIO: Background que se integra con el fondo de la sección */
+  background: linear-gradient(135deg, 
+    rgba(18, 0, 36, 0.8) 0%, 
+    rgba(26, 0, 51, 0.8) 50%, 
+    rgba(18, 0, 36, 0.8) 100%);
   border-radius: 10px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 2px solid #8000ff;
+  border: 2px solid rgba(128, 0, 255, 0.6);
   flex-shrink: 0;
   position: relative;
+  /* Efecto de backdrop para mejor integración */
+  backdrop-filter: blur(10px);
 }
 
 .job-card:hover {
   transform: scale(1.05);
   box-shadow: 0 10px 30px rgba(128, 0, 255, 0.3);
+  border-color: #8000ff;
+  background: linear-gradient(135deg, 
+    rgba(18, 0, 36, 0.9) 0%, 
+    rgba(26, 0, 51, 0.9) 50%, 
+    rgba(18, 0, 36, 0.9) 100%);
 }
 
 .job-image {
   width: 100%;
   height: 200px;
-  background-color: rgba(128, 0, 255, 0.3);
+  background: linear-gradient(135deg, 
+    rgba(128, 0, 255, 0.2) 0%, 
+    rgba(255, 107, 53, 0.2) 100%);
   overflow: hidden;
+  position: relative;
+}
+
+.job-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, 
+    transparent 0%, 
+    rgba(128, 0, 255, 0.1) 50%, 
+    transparent 100%);
 }
 
 .job-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 0.9;
 }
 
 .job-content {
@@ -91,6 +121,10 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  /* Background que se integra con el fondo */
+  background: linear-gradient(180deg, 
+    rgba(18, 0, 36, 0.3) 0%, 
+    rgba(26, 0, 51, 0.3) 100%);
 }
 
 .job-title {
@@ -98,6 +132,7 @@
   font-weight: 700;
   margin-bottom: 10px;
   color: #8000ff;
+  text-shadow: 0 0 10px rgba(128, 0, 255, 0.3);
 }
 
 .job-company {
@@ -132,6 +167,12 @@
   align-items: center;
   gap: 10px;
   z-index: 10;
+  /* Background que se integra con la sección */
+  background: rgba(18, 0, 36, 0.7);
+  padding: 15px 25px;
+  border-radius: 20px;
+  border: 1px solid rgba(128, 0, 255, 0.3);
+  backdrop-filter: blur(10px);
 }
 
 .jobs-indicator .indicator-dots {
@@ -154,6 +195,7 @@
   background-color: #8000ff;
   border-color: white;
   transform: scale(1.2);
+  box-shadow: 0 0 10px rgba(128, 0, 255, 0.5);
 }
 
 .jobs-indicator .indicator-dots .dot:hover {
@@ -175,12 +217,37 @@
   transition: transform 0.3s ease;
 }
 
+.section-status {
+  margin-top: 5px;
+}
+
+.status-text {
+  font-size: 11px;
+  color: #8000ff;
+  font-weight: 500;
+}
+
+/* NUEVO: Hint de navegación */
+.navigation-hint {
+  margin-top: 5px;
+  padding-top: 5px;
+  border-top: 1px solid rgba(128, 0, 255, 0.2);
+}
+
+.hint-text {
+  font-size: 10px;
+  color: rgba(128, 0, 255, 0.7);
+  font-weight: 400;
+  transition: color 0.3s ease;
+}
+
 .jobs-indicator .direction-text {
   font-size: 12px;
   color: rgba(128, 0, 255, 0.7);
+  font-weight: 500;
 }
 
-/* ===== EFECTOS VISUALES ===== */
+/* ===== EFECTOS VISUALES MEJORADOS ===== */
 .jobs-container::before {
   content: '';
   position: absolute;
@@ -188,7 +255,10 @@
   left: -50px;
   width: 50px;
   height: 100%;
-  background: linear-gradient(to right, #080012, transparent);
+  background: linear-gradient(to right, 
+    rgba(18, 0, 36, 1) 0%, 
+    rgba(18, 0, 36, 0.8) 30%, 
+    transparent 100%);
   z-index: 5;
   pointer-events: none;
 }
@@ -200,7 +270,10 @@
   right: -50px;
   width: 50px;
   height: 100%;
-  background: linear-gradient(to left, #080012, transparent);
+  background: linear-gradient(to left, 
+    rgba(18, 0, 36, 1) 0%, 
+    rgba(18, 0, 36, 0.8) 30%, 
+    transparent 100%);
   z-index: 5;
   pointer-events: none;
 }
@@ -245,6 +318,7 @@
   
   .jobs-indicator {
     bottom: 15px;
+    padding: 12px 20px;
   }
   
   .jobs-indicator .indicator-dots .dot {
@@ -269,6 +343,10 @@
   
   .job-content {
     padding: 15px;
+  }
+  
+  .jobs-indicator {
+    padding: 10px 15px;
   }
 }
 
@@ -308,4 +386,10 @@
 
 .job-card:hover::before {
   left: 100%;
+}
+
+/* ===== EFECTOS DE INTEGRACIÓN CON EL FONDO ===== */
+.job-card > * {
+  position: relative;
+  z-index: 2;
 }

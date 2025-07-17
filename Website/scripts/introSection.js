@@ -1,4 +1,4 @@
-// ===== SECCIÓN INTRO RESPONSIVE (ABOUT ME) CON BURBUJAS ORGANIZADAS =====
+// ===== SECCIÓN INTRO RESPONSIVE (ABOUT ME) - 3 COLUMNAS CON FOTOS SIMULTÁNEAS =====
 
 // Tecnologías con sus iconos y colores
 const technologies = [
@@ -16,19 +16,18 @@ const technologies = [
   { name: 'Node.js', icon: 'fab fa-node-js', tech: 'nodejs', tooltip: 'Node.js' }
 ];
 
-// Array de imágenes para mostrar verticalmente
+// Array de imágenes para mostrar simultáneamente
 const imageGallery = [
   { src: './images/CamelloCabos.jpeg', alt: 'Martin Cortes - Photo 1' },
-  { src: './images/CamelloCabos.jpeg', alt: 'Martin Cortes - Photo 2' },
-  { src: './images/CamelloCabos.jpeg', alt: 'Martin Cortes - Photo 3' }
+  { src: './images/escomFriends.jpg', alt: 'Martin Cortes - Photo 2' },
+  { src: './images/motorBike.jpg', alt: 'Martin Cortes - Photo 3' }
 ];
 
 // Detectar tipo de dispositivo
 function getDeviceType() {
   const width = window.innerWidth;
-  const height = window.innerHeight;
   
-  if (width <= 320) return 'mobile-xs';
+  if (width <= 360) return 'mobile-xs';
   if (width <= 480) return 'mobile-sm';
   if (width <= 640) return 'mobile-md';
   if (width <= 768) return 'mobile-lg';
@@ -38,31 +37,14 @@ function getDeviceType() {
   return 'desktop';
 }
 
-// Obtener configuración responsive mejorada para burbujas
-function getResponsiveConfig() {
-  const deviceType = getDeviceType();
-  const configs = {
-    'mobile-xs': { cols: 3, rows: 4, spacing: 20 },
-    'mobile-sm': { cols: 3, rows: 4, spacing: 25 },
-    'mobile-md': { cols: 3, rows: 4, spacing: 30 },
-    'mobile-lg': { cols: 4, rows: 3, spacing: 35 },
-    'tablet-sm': { cols: 4, rows: 3, spacing: 40 },
-    'tablet-md': { cols: 4, rows: 3, spacing: 45 },
-    'tablet-lg': { cols: 4, rows: 3, spacing: 50 },
-    'desktop': { cols: 4, rows: 3, spacing: 55 }
-  };
-  
-  return configs[deviceType] || configs.desktop;
-}
-
 // Obtener tamaño de burbuja basado en dispositivo
 function getBubbleSize() {
   const deviceType = getDeviceType();
   
-  // En móviles pequeños, usar más burbujas medianas para consistencia
-  if (['mobile-xs', 'mobile-sm'].includes(deviceType)) {
-    const sizes = ['medium', 'medium', 'large'];
-    const weights = [0.7, 0.2, 0.1];
+  // En móviles, usar más burbujas medianas para mejor visibilidad
+  if (['mobile-xs', 'mobile-sm', 'mobile-md'].includes(deviceType)) {
+    const sizes = ['small', 'medium', 'medium', 'large'];
+    const weights = [0.25, 0.5, 0.2, 0.05];
     const random = Math.random();
     let weightSum = 0;
     
@@ -75,9 +57,9 @@ function getBubbleSize() {
     return 'medium';
   }
   
-  // Para tablets y desktop, distribución normal
-  const sizes = ['medium', 'medium', 'large'];
-  const weights = [0.6, 0.3, 0.1];
+  // Para tablets y desktop, distribución balanceada
+  const sizes = ['small', 'medium', 'large'];
+  const weights = [0.3, 0.6, 0.1];
   const random = Math.random();
   let weightSum = 0;
   
@@ -90,70 +72,63 @@ function getBubbleSize() {
   return 'medium';
 }
 
-// Layout tipo teclado numérico para las burbujas
-function positionBubblesInNumpadLayout(container, bubbles) {
+// Layout compacto en grid 3x4 para las burbujas (más pegado a la izquierda)
+function positionBubblesInGrid(container, bubbles) {
   const containerRect = container.getBoundingClientRect();
   const containerWidth = containerRect.width;
   const containerHeight = containerRect.height;
   
-  // Layout tipo teclado numérico: 3 columnas x 4 filas
-  // Distribución: [1,2,3], [4,5,6], [7,8,9], [*,0,#] 
+  // Configuración del grid: 3 columnas x 4 filas
   const positions = [
-    // Fila 1: [1,2,3]
-    { col: 0, row: 0 }, // Swift
-    { col: 1, row: 0 }, // Flutter  
-    { col: 2, row: 0 }, // JavaScript
-    
-    // Fila 2: [4,5,6]
-    { col: 0, row: 1 }, // Python
-    { col: 1, row: 1 }, // Java
-    { col: 2, row: 1 }, // HTML
-    
-    // Fila 3: [7,8,9]
-    { col: 0, row: 2 }, // CSS
-    { col: 1, row: 2 }, // Figma
-    { col: 2, row: 2 }, // Postman
-    
-    // Fila 4: [*,0,#]
-    { col: 0, row: 3 }, // React
-    { col: 1, row: 3 }, // Express
-    { col: 2, row: 3 }  // Node.js
+    // Fila 1: [Swift, Flutter, JavaScript]
+    { col: 0, row: 0 }, { col: 1, row: 0 }, { col: 2, row: 0 },
+    // Fila 2: [Python, Java, HTML]
+    { col: 0, row: 1 }, { col: 1, row: 1 }, { col: 2, row: 1 },
+    // Fila 3: [CSS, Figma, Postman]
+    { col: 0, row: 2 }, { col: 1, row: 2 }, { col: 2, row: 2 },
+    // Fila 4: [React, Express, Node.js]
+    { col: 0, row: 3 }, { col: 1, row: 3 }, { col: 2, row: 3 }
   ];
   
-  // Calcular espaciado basado en el tamaño del contenedor
+  // Calcular espaciado más compacto y pegado a la izquierda
   const cols = 3;
   const rows = 4;
-  const padding = 40;
+  const padding = 10; // Reducido de 20 a 10
+  const leftOffset = 5; // Offset adicional hacia la izquierda
+  const topOffset = 35; // Espacio para el título
+  const bottomPadding = 25; // Espacio adicional en la parte inferior
   
-  const cellWidth = (containerWidth - padding * 2) / cols;
-  const cellHeight = (containerHeight - 100) / rows; // -100 para título y padding
+  const cellWidth = (containerWidth - padding * 2 - leftOffset) / cols;
+  const cellHeight = (containerHeight - topOffset - padding - bottomPadding) / rows;
   
   bubbles.forEach((bubble, index) => {
     if (index >= positions.length) return;
     
     const pos = positions[index];
     
-    // Calcular posición base
-    const baseX = pos.col * cellWidth + cellWidth / 2 + padding;
-    const baseY = pos.row * cellHeight + cellHeight / 2 + 80; // +80 para título
+    // Calcular posición centrada en cada celda, más hacia la izquierda
+    const baseX = pos.col * cellWidth + cellWidth / 2 + padding - leftOffset;
+    const baseY = pos.row * cellHeight + cellHeight / 2 + topOffset;
+    
+    // Obtener el tamaño real de la burbuja para centrar correctamente
+    const bubbleSize = parseInt(getComputedStyle(bubble).width) / 2 || 32;
     
     // Posicionar la burbuja
-    bubble.style.left = (baseX - 40) + 'px'; // -40 para centrar (tamaño promedio burbuja)
-    bubble.style.top = (baseY - 40) + 'px';
+    bubble.style.left = (baseX - bubbleSize) + 'px';
+    bubble.style.top = (baseY - bubbleSize) + 'px';
     
-    // Agregar animación de flotación individual
+    // Agregar animación de flotación sutil
     addFloatingAnimation(bubble, index);
   });
 }
 
-// Agregar animación de flotación a cada burbuja
+// Animación de flotación sutil para las burbujas
 function addFloatingAnimation(bubble, index) {
-  // Cada burbuja tiene un patrón de flotación único
-  const duration = 3 + (index % 3); // 3-5 segundos
-  const delay = index * 0.2; // Desfase entre burbujas
-  const amplitude = 8 + (index % 5); // Amplitud de movimiento 8-12px
+  const duration = 3.5 + (index % 3) * 0.5; // 3.5-5 segundos
+  const delay = index * 0.12; // Desfase entre burbujas
+  const amplitude = 3 + (index % 4); // Amplitud 3-6px
   
-  // Flotación vertical
+  // Flotación vertical muy suave
   gsap.to(bubble, {
     y: `+=${amplitude}`,
     duration: duration,
@@ -163,29 +138,29 @@ function addFloatingAnimation(bubble, index) {
     delay: delay
   });
   
-  // Flotación horizontal más sutil
+  // Flotación horizontal mínima
   gsap.to(bubble, {
-    x: `+=${amplitude * 0.6}`,
+    x: `+=${amplitude * 0.3}`,
     duration: duration * 1.3,
     repeat: -1,
     yoyo: true,
     ease: "sine.inOut",
-    delay: delay + 0.5
+    delay: delay + 0.4
   });
   
-  // Rotación muy sutil
+  // Micro rotación para dinamismo
   gsap.to(bubble, {
-    rotation: `+=${3 + (index % 3)}`,
+    rotation: `+=${2 + (index % 2)}`,
     duration: duration * 2,
     repeat: -1,
     yoyo: true,
     ease: "sine.inOut",
-    delay: delay + 1
+    delay: delay + 0.8
   });
 }
 
-// Crear burbujas organizadas en layout teclado numérico
-function createOrganizedBubbles() {
+// Crear burbujas organizadas en grid compacto
+function createOptimizedBubbles() {
   const container = document.getElementById('techBubblesZone');
   if (!container) {
     console.warn('Container techBubblesZone not found');
@@ -198,7 +173,7 @@ function createOrganizedBubbles() {
   
   const createdBubbles = [];
   
-  // Crear todas las burbujas primero
+  // Crear todas las burbujas
   technologies.forEach((tech, index) => {
     const bubble = document.createElement('div');
     bubble.className = `bubble ${getBubbleSize()}`;
@@ -210,46 +185,48 @@ function createOrganizedBubbles() {
     createdBubbles.push(bubble);
   });
   
-  // Posicionar todas las burbujas en layout teclado numérico
-  positionBubblesInNumpadLayout(container, createdBubbles);
+  // Esperar a que el DOM se actualice antes de posicionar
+  setTimeout(() => {
+    positionBubblesInGrid(container, createdBubbles);
+  }, 100);
   
-  // Aplicar animaciones y funcionalidad
+  // Aplicar animaciones de entrada
   createdBubbles.forEach((bubble, index) => {
     // Animación de aparición escalonada
     gsap.fromTo(bubble, {
       scale: 0,
       opacity: 0,
-      y: 50
+      y: 40,
+      rotation: 180
     }, {
       scale: 1,
       opacity: 1,
       y: 0,
+      rotation: 0,
       duration: 0.6,
-      delay: index * 0.1,
-      ease: 'back.out(1.7)',
+      delay: index * 0.08,
+      ease: 'back.out(1.5)',
       scrollTrigger: {
         trigger: '.section-about',
-        start: 'top 80%',
+        start: 'top 75%',
         toggleActions: 'play none none none'
       }
     });
     
-    // Hacer las burbujas arrastrables solo en dispositivos con puntero preciso
-    if (typeof Draggable !== 'undefined' && !isTouchDevice()) {
+    // Hacer las burbujas arrastrables solo en desktop
+    if (typeof Draggable !== 'undefined' && !isTouchDevice() && getDeviceType() === 'desktop') {
       Draggable.create(bubble, {
         type: "x,y",
         bounds: container,
         onDragStart: function() {
           bubble.classList.add('dragging');
-          // Pausar animaciones de flotación mientras se arrastra
           gsap.killTweensOf(bubble);
         },
         onDragEnd: function() {
           bubble.classList.remove('dragging');
-          // Reiniciar animaciones de flotación
           setTimeout(() => {
             addFloatingAnimation(bubble, index);
-          }, 100);
+          }, 150);
         }
       });
     }
@@ -263,8 +240,8 @@ function isTouchDevice() {
           (navigator.msMaxTouchPoints > 0));
 }
 
-// Crear imágenes apiladas verticalmente responsive
-function createVerticalImageStack() {
+// Crear imágenes simultáneas (todas visibles al mismo tiempo)
+function createSimultaneousImages() {
   const imageContainer = document.querySelector('.about-image');
   if (!imageContainer) return;
 
@@ -275,85 +252,83 @@ function createVerticalImageStack() {
   const imageStack = document.createElement('div');
   imageStack.className = 'image-stack';
 
-  // Crear imágenes
+  // Crear todas las imágenes simultáneamente
   imageGallery.forEach((imageData, index) => {
     const img = document.createElement('img');
     img.src = imageData.src;
     img.alt = imageData.alt;
     img.className = 'stack-image';
-    img.loading = 'lazy'; // Lazy loading para mejor performance
+    img.loading = 'lazy';
+    
+    // Agregar data-index para animaciones
+    img.setAttribute('data-index', index);
+    
     imageStack.appendChild(img);
   });
 
   imageContainer.appendChild(imageStack);
 
-  // Animar aparición de imágenes una por una
-  animateImagesAppearance();
+  // Animar aparición de todas las imágenes
+  animateSimultaneousImages();
 }
 
-// Animar aparición de imágenes con efecto responsive
-function animateImagesAppearance() {
+// Animar aparición de todas las imágenes al mismo tiempo
+function animateSimultaneousImages() {
   const images = document.querySelectorAll('.stack-image');
-  let currentIndex = 0;
-  let isVisible = true;
   
   // Ajustar tiempos según el dispositivo
   const deviceType = getDeviceType();
   const isMobile = ['mobile-xs', 'mobile-sm', 'mobile-md'].includes(deviceType);
   
-  const timings = {
-    showDelay: isMobile ? 400 : 500,
-    hideDelay: isMobile ? 300 : 400,
-    displayTime: isMobile ? 1500 : 2000,
-    restartDelay: isMobile ? 800 : 1000
-  };
-
-  function toggleImageVisibility() {
-    if (isVisible) {
-      // Mostrar imagen actual
-      if (currentIndex < images.length) {
-        images[currentIndex].classList.add('visible');
-        currentIndex++;
-        
-        if (currentIndex >= images.length) {
-          setTimeout(() => {
-            isVisible = false;
-            currentIndex = 0;
-            toggleImageVisibility();
-          }, timings.displayTime);
-        }
+  // Animación inicial de aparición escalonada pero rápida
+  images.forEach((img, index) => {
+    gsap.fromTo(img, {
+      opacity: 0,
+      y: 30,
+      scale: 0.95,
+      rotateX: -15
+    }, {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      rotateX: 0,
+      duration: isMobile ? 0.7 : 0.9,
+      delay: index * (isMobile ? 0.1 : 0.15),
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.about-image',
+        start: 'top 80%',
+        toggleActions: 'play none none none'
       }
-    } else {
-      // Ocultar imagen actual
-      if (currentIndex < images.length) {
-        images[currentIndex].classList.remove('visible');
-        images[currentIndex].classList.add('fade-out');
-        currentIndex++;
-        
-        if (currentIndex >= images.length) {
-          setTimeout(() => {
-            // Limpiar clases y reiniciar
-            images.forEach(img => {
-              img.classList.remove('visible', 'fade-out');
-            });
-            isVisible = true;
-            currentIndex = 0;
-            toggleImageVisibility();
-          }, timings.restartDelay);
-        } else {
-          setTimeout(toggleImageVisibility, timings.hideDelay);
-        }
-      }
+    });
+    
+    // Animación sutil de hover y flotación individual para desktop
+    if (!isMobile) {
+      // Flotación muy sutil para cada imagen
+      gsap.to(img, {
+        y: 2 + (index * 1.5),
+        duration: 2.5 + (index * 0.3),
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: index * 0.4
+      });
+      
+      // Micro rotación alternada
+      gsap.to(img, {
+        rotateZ: (index % 2 === 0 ? 0.5 : -0.5),
+        duration: 4 + (index * 0.5),
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: index * 0.6
+      });
     }
-  }
-
-  // Iniciar la animación cuando la sección sea visible
-  gsap.delayedCall(1, toggleImageVisibility);
+  });
 }
 
-// Animaciones de texto responsive
-function setupTextAnimations() {
-  // Animación del título
+// Animaciones de texto responsive mejoradas
+function setupEnhancedTextAnimations() {
   const aboutTitle = document.querySelector('.section-about h2');
   if (!aboutTitle) return;
   
@@ -368,7 +343,7 @@ function setupTextAnimations() {
     aboutTitle.appendChild(span);
   });
 
-  // Animación de letras del título - ajustada para móviles
+  // Animación de letras del título - más dramática
   const deviceType = getDeviceType();
   const isMobile = ['mobile-xs', 'mobile-sm', 'mobile-md'].includes(deviceType);
   
@@ -379,14 +354,14 @@ function setupTextAnimations() {
       toggleActions: 'play none none none'
     },
     opacity: 0,
-    y: isMobile ? 20 : 40,
+    y: isMobile ? 30 : 50,
     rotateX: isMobile ? -45 : -90,
-    stagger: isMobile ? 0.03 : 0.05,
-    duration: isMobile ? 0.6 : 0.8,
-    ease: 'back.out'
+    stagger: isMobile ? 0.04 : 0.06,
+    duration: isMobile ? 0.7 : 1,
+    ease: 'back.out(1.5)'
   });
 
-  // Animación del subtítulo
+  // Animación del subtítulo con efecto de escritura
   gsap.from('.subtitle', {
     scrollTrigger: {
       trigger: '.section-about',
@@ -394,13 +369,13 @@ function setupTextAnimations() {
       toggleActions: 'play none none none'
     },
     opacity: 0,
-    y: isMobile ? 15 : 20,
-    duration: isMobile ? 0.6 : 0.8,
-    delay: 0.3,
+    x: isMobile ? -20 : -30,
+    duration: isMobile ? 0.8 : 1,
+    delay: 0.4,
     ease: 'power2.out'
   });
 
-  // Animación del texto
+  // Animación de párrafos con efecto de revelado
   gsap.from('.about-text p:not(.subtitle)', {
     scrollTrigger: {
       trigger: '.section-about',
@@ -408,14 +383,14 @@ function setupTextAnimations() {
       toggleActions: 'play none none none'
     },
     opacity: 0,
-    y: isMobile ? 20 : 30,
-    duration: isMobile ? 0.6 : 0.8,
-    stagger: isMobile ? 0.15 : 0.2,
-    delay: 0.5,
+    y: isMobile ? 25 : 35,
+    duration: isMobile ? 0.7 : 0.9,
+    stagger: isMobile ? 0.2 : 0.25,
+    delay: 0.6,
     ease: 'power2.out'
   });
 
-  // Animación de la imagen
+  // Animación de la columna de imágenes
   gsap.from('.about-image', {
     scrollTrigger: {
       trigger: '.section-about',
@@ -424,9 +399,9 @@ function setupTextAnimations() {
     },
     opacity: 0,
     x: isMobile ? 30 : 50,
-    duration: isMobile ? 0.8 : 1,
+    duration: isMobile ? 0.8 : 1.1,
     ease: 'power2.out',
-    delay: 0.7
+    delay: 0.8
   });
 
   // Animación de la zona de burbujas
@@ -438,12 +413,12 @@ function setupTextAnimations() {
     },
     opacity: 0,
     x: isMobile ? -30 : -50,
-    duration: isMobile ? 0.8 : 1,
+    duration: isMobile ? 0.8 : 1.1,
     ease: 'power2.out',
-    delay: 0.9
+    delay: 1
   });
 
-  // Animación de las habilidades
+  // Animación de las habilidades con efecto rebote
   gsap.from('.skill-tag', {
     scrollTrigger: {
       trigger: '.skills-highlight',
@@ -451,21 +426,22 @@ function setupTextAnimations() {
       toggleActions: 'play none none none'
     },
     opacity: 0,
-    y: isMobile ? 15 : 20,
-    duration: isMobile ? 0.5 : 0.6,
-    stagger: isMobile ? 0.08 : 0.1,
-    delay: 0.8,
-    ease: 'power2.out'
+    y: isMobile ? 20 : 25,
+    scale: 0.8,
+    duration: isMobile ? 0.6 : 0.7,
+    stagger: isMobile ? 0.1 : 0.12,
+    delay: 1.2,
+    ease: 'back.out(1.3)'
   });
 
-  // Efecto de texto shuffling para palabras cambiantes
+  // Efecto de texto shuffling mejorado
   const textShuffleElement = document.querySelector('.text-shuffle');
   if (textShuffleElement) {
     const words = ["passionate", "creative", "innovative", "dedicated", "self-taught", "focused", "curious", "driven"];
 
     const textShuffle = gsap.timeline({
       repeat: -1,
-      repeatDelay: isMobile ? 1.2 : 1.5,
+      repeatDelay: isMobile ? 1.5 : 2,
       scrollTrigger: {
         trigger: '.section-about',
         start: 'top 80%'
@@ -474,85 +450,109 @@ function setupTextAnimations() {
 
     words.forEach((word, index) => {
       textShuffle.to('.text-shuffle', {
-        duration: isMobile ? 0.4 : 0.5,
+        duration: isMobile ? 0.5 : 0.6,
         text: word,
         ease: "power2.out",
-        delay: index > 0 ? (isMobile ? 1.5 : 2) : 0
+        delay: index > 0 ? (isMobile ? 1.8 : 2.5) : 0
       });
     });
   }
 }
 
-// Manejar redimensionamiento de ventana de forma optimizada
+// Manejar redimensionamiento optimizado
 let resizeTimeout;
 function handleResize() {
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
-    createOrganizedBubbles();
-  }, 300); // Debounce de 300ms
+    createOptimizedBubbles();
+  }, 250);
 }
 
-// Optimizar performance en dispositivos móviles
-function optimizeForMobile() {
+// Optimizar performance según el dispositivo
+function optimizePerformance() {
   const deviceType = getDeviceType();
   const isMobile = ['mobile-xs', 'mobile-sm', 'mobile-md'].includes(deviceType);
   
   if (isMobile) {
-    // Reducir calidad de animaciones en móviles para mejor performance
+    // Configurar GSAP para móviles
     gsap.config({
       force3D: false,
       nullTargetWarn: false
     });
     
-    // Deshabilitar algunas animaciones complejas en móviles muy pequeños
+    // Reducir complejidad en dispositivos muy pequeños
     if (deviceType === 'mobile-xs') {
       const bubbles = document.querySelectorAll('.bubble');
       bubbles.forEach(bubble => {
-        bubble.style.transition = 'transform 0.15s ease-out';
+        bubble.style.transition = 'transform 0.2s ease-out';
       });
     }
+  } else {
+    // Configurar para desktop
+    gsap.config({
+      force3D: true,
+      nullTargetWarn: false
+    });
   }
 }
 
-// Función principal para configurar todas las animaciones
-function setupSection2Animations() {
-  optimizeForMobile();
-  setupTextAnimations();
-  createOrganizedBubbles();
-  createVerticalImageStack();
+// Función principal para configurar la sección
+function setupAboutSection() {
+  optimizePerformance();
+  setupEnhancedTextAnimations();
+  createOptimizedBubbles();
+  createSimultaneousImages();
 }
 
 // Event listeners optimizados
 document.addEventListener('DOMContentLoaded', function() {
-  setupSection2Animations();
+  setupAboutSection();
   
-  // Manejar redimensionamiento con debounce
+  // Manejar redimensionamiento con debounce mejorado
   window.addEventListener('resize', handleResize);
   
   // Manejar cambio de orientación en móviles
   window.addEventListener('orientationchange', function() {
     setTimeout(() => {
-      createOrganizedBubbles();
-    }, 500); // Esperar a que complete el cambio de orientación
+      createOptimizedBubbles();
+    }, 600); // Tiempo extra para orientación
   });
   
-  // Optimizar para dispositivos con memoria limitada
+  // Optimización para dispositivos con poca memoria
   if (navigator.deviceMemory && navigator.deviceMemory < 4) {
-    // Reducir frecuencia de animaciones en dispositivos con poca memoria
     const images = document.querySelectorAll('.stack-image');
     images.forEach(img => {
-      img.style.transition = 'all 0.5s ease-in-out';
+      img.style.transition = 'all 0.4s ease-in-out';
+    });
+    
+    // Reducir frecuencia de animaciones
+    const bubbles = document.querySelectorAll('.bubble');
+    bubbles.forEach(bubble => {
+      bubble.style.animationDuration = '4s';
     });
   }
+  
+  // Pausar animaciones cuando la pestaña no está visible (ahorro de batería)
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      gsap.globalTimeline.pause();
+    } else {
+      gsap.globalTimeline.resume();
+    }
+  });
 });
 
-// Cleanup al salir de la página para liberar memoria
+// Cleanup mejorado al salir
 window.addEventListener('beforeunload', function() {
-  // Limpiar intervals y timeouts si existen
   if (resizeTimeout) {
     clearTimeout(resizeTimeout);
   }
   
-  // Matar animaciones GSAP activas
+  // Limpiar todas las animaciones GSAP
   gsap.killTweensOf("*");
+  
+  // Limpiar ScrollTrigger
+  if (typeof ScrollTrigger !== 'undefined') {
+    ScrollTrigger.killAll();
+  }
 });

@@ -1,9 +1,12 @@
-// ===== SECCIÓN TRABAJOS CON NAVEGACIÓN HORIZONTAL =====
+// ===== SECCIÓN TRABAJOS CON NAVEGACIÓN HORIZONTAL Y AUTO-CENTRADO =====
 
 function setupHorizontalJobsNavigation() {
   let currentJobIndex = 0;
   let isScrolling = false;
-  let scrollDirection = 'right'; // 'right' o 'left'
+  let sectionLocked = false; // Para controlar cuando la sección está "bloqueada"
+  let isChangingSection = false; // NUEVO: Para prevenir loops al cambiar sección
+  let autoSnapTimeout;
+  
   const jobs = document.querySelectorAll('.job-card');
   const jobsContainer = document.querySelector('.jobs-container');
   const jobsSection = document.querySelector('.section-jobs');
@@ -29,10 +32,109 @@ function setupHorizontalJobsNavigation() {
   
   const updateJobPosition = setupJobsDisplay();
   
-  // Manejar el scroll del mouse
+  // ===== NUEVA FUNCIÓN: AUTO-SNAP AL ENTRAR A LA SECCIÓN =====
+  function autoSnapToSection() {
+    if (isInJobsSection() && !sectionLocked) {
+      // Centrar automáticamente la sección en la pantalla
+      jobsSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'center'
+      });
+      
+      // Bloquear la sección por un momento para permitir la navegación horizontal
+      sectionLocked = true;
+      
+      // Desbloquear después de un tiempo si no hay actividad
+      clearTimeout(autoSnapTimeout);
+      autoSnapTimeout = setTimeout(() => {
+        sectionLocked = false;
+      }, 3000); // 3 segundos de gracia
+    }
+  }
+  
+  // ===== DETECTAR CUANDO SE ENTRA A LA SECCIÓN =====
+  function setupIntersectionObserver() {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -20% 0px', // Activar cuando la sección esté al 20% visible
+      threshold: [0.3, 0.7] // Activar entre 30% y 70% de visibilidad
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
+          // La sección está visible, hacer auto-snap
+          if (!isChangingSection) { // NUEVO: Solo auto-snap si no estamos cambiando sección
+            setTimeout(autoSnapToSection, 100); // Pequeño delay para suavizar
+          }
+        } else if (!entry.isIntersecting) {
+          // La sección ya no está visible, desbloquear
+          sectionLocked = false;
+          isChangingSection = false; // NUEVO: Resetear flag cuando salimos de la sección
+          clearTimeout(autoSnapTimeout);
+        }
+      });
+    }, observerOptions);
+    
+    observer.observe(jobsSection);
+    return observer;
+  }
+  
+  // Mejorar la detección de estar en la sección
+  function isInJobsSection() {
+    const rect = jobsSection.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    
+    // Considerar que estamos en la sección si está visible al menos 40%
+    const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+    const visibilityRatio = visibleHeight / windowHeight;
+    
+    return visibilityRatio > 0.4;
+  }
+  
+  // ===== FUNCIONES DE NAVEGACIÓN SIMPLIFICADAS =====
+  function goToNextSection() {
+    console.log('Jobs: Intentando ir a la siguiente sección');
+    // Ir simplemente a la siguiente sección (contact-me)
+    const nextSection = jobsSection.nextElementSibling;
+    console.log('Jobs: Siguiente sección encontrada:', nextSection);
+    if (nextSection) {
+      sectionLocked = false;
+      nextSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      console.log('Jobs: No hay siguiente sección');
+    }
+  }
+  
+  function goToPreviousSection() {
+    console.log('Jobs: Intentando ir a la sección anterior');
+    // Ir simplemente a la sección anterior (projects)
+    const prevSection = jobsSection.previousElementSibling;
+    console.log('Jobs: Sección anterior encontrada:', prevSection);
+    if (prevSection) {
+      sectionLocked = false;
+      prevSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      console.log('Jobs: No hay sección anterior');
+    }
+  }
+  
+  // ===== LÓGICA SIMPLIFICADA DE NAVEGACIÓN =====
   function handleWheelScroll(e) {
+    // NUEVO: Si estamos cambiando de sección, ignorar todos los scrolls
+    if (isChangingSection) {
+      e.preventDefault();
+      return;
+    }
+    
     // Solo manejar si estamos en la sección de trabajos
-    if (!jobsSection.contains(e.target)) return;
+    if (!isInJobsSection()) return;
+    
+    // Si la sección no está centrada, centrarla primero
+    if (!sectionLocked) {
+      autoSnapToSection();
+      return;
+    }
     
     e.preventDefault();
     
@@ -40,88 +142,84 @@ function setupHorizontalJobsNavigation() {
     
     isScrolling = true;
     
+    // Extender el tiempo de bloqueo cuando hay actividad
+    clearTimeout(autoSnapTimeout);
+    autoSnapTimeout = setTimeout(() => {
+      sectionLocked = false;
+    }, 3000);
+    
     // Determinar dirección del scroll
     const deltaY = e.deltaY;
     
+    console.log('Jobs - Scroll detectado:', deltaY > 0 ? 'ABAJO' : 'ARRIBA', 'Job actual:', currentJobIndex, 'Total jobs:', jobs.length);
+    
     if (deltaY > 0) {
-      // Scroll hacia abajo
-      handleDownScroll();
+      // Scroll hacia abajo - navegar hacia adelante
+      handleScrollDown();
     } else {
-      // Scroll hacia arriba
-      handleUpScroll();
+      // Scroll hacia arriba - navegar hacia atrás
+      handleScrollUp();
     }
     
-    // Resetear flag después de la animación (scroll más lento)
+    // Resetear flag después de la animación
     setTimeout(() => {
       isScrolling = false;
-    }, 950); // Un poco más lento que proyectos
+    }, 700);
   }
   
-  function handleDownScroll() {
-    if (scrollDirection === 'right') {
-      // Navegando hacia la derecha
-      if (currentJobIndex < jobs.length - 1) {
-        currentJobIndex++;
-        updateJobPosition();
-        updateJobIndicator();
-      } else {
-        // Se acabaron los trabajos hacia la derecha, ir a la siguiente sección
-        goToNextSection();
-      }
+  function handleScrollDown() {
+    console.log('Jobs - HandleScrollDown - Índice actual:', currentJobIndex, 'Máximo:', jobs.length - 1);
+    
+    if (currentJobIndex < jobs.length - 1) {
+      // Hay más trabajos, avanzar
+      console.log('Jobs - Avanzando al trabajo:', currentJobIndex + 1);
+      currentJobIndex++;
+      updateJobPosition();
+      updateJobIndicator();
     } else {
-      // Navegando hacia la izquierda, cambiar dirección
-      scrollDirection = 'right';
-      if (currentJobIndex < jobs.length - 1) {
-        currentJobIndex++;
-        updateJobPosition();
-        updateJobIndicator();
-      } else {
+      // No hay más trabajos, ir a la siguiente sección
+      console.log('Jobs - Fin de trabajos, yendo a la siguiente sección');
+      isChangingSection = true; // NUEVO: Bloquear scrolls mientras cambiamos
+      sectionLocked = false; 
+      clearTimeout(autoSnapTimeout);
+      
+      setTimeout(() => {
         goToNextSection();
-      }
+        // NUEVO: Resetear el flag después de un tiempo
+        setTimeout(() => {
+          isChangingSection = false;
+        }, 1500); // 1.5 segundos para que termine la animación
+      }, 200);
     }
   }
   
-  function handleUpScroll() {
-    if (scrollDirection === 'left') {
-      // Navegando hacia la izquierda
-      if (currentJobIndex > 0) {
-        currentJobIndex--;
-        updateJobPosition();
-        updateJobIndicator();
-      } else {
-        // Se acabaron los trabajos hacia la izquierda, ir a la sección anterior
-        goToPreviousSection();
-      }
+  function handleScrollUp() {
+    console.log('Jobs - HandleScrollUp - Índice actual:', currentJobIndex);
+    
+    if (currentJobIndex > 0) {
+      // Hay trabajos anteriores, retroceder
+      console.log('Jobs - Retrocediendo al trabajo:', currentJobIndex - 1);
+      currentJobIndex--;
+      updateJobPosition();
+      updateJobIndicator();
     } else {
-      // Navegando hacia la derecha, cambiar dirección
-      scrollDirection = 'left';
-      if (currentJobIndex > 0) {
-        currentJobIndex--;
-        updateJobPosition();
-        updateJobIndicator();
-      } else {
+      // No hay trabajos anteriores, ir a la sección anterior
+      console.log('Jobs - Inicio de trabajos, yendo a la sección anterior');
+      isChangingSection = true; // NUEVO: Bloquear scrolls mientras cambiamos
+      sectionLocked = false; 
+      clearTimeout(autoSnapTimeout);
+      
+      setTimeout(() => {
         goToPreviousSection();
-      }
+        // NUEVO: Resetear el flag después de un tiempo
+        setTimeout(() => {
+          isChangingSection = false;
+        }, 1500); // 1.5 segundos para que termine la animación
+      }, 200);
     }
   }
   
-  function goToNextSection() {
-    // Ir a la siguiente sección
-    const nextSection = jobsSection.nextElementSibling;
-    if (nextSection) {
-      nextSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-  
-  function goToPreviousSection() {
-    // Ir a la sección anterior
-    const prevSection = jobsSection.previousElementSibling;
-    if (prevSection) {
-      prevSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-  
-  // Crear indicador visual para trabajos
+  // Crear indicador visual mejorado para trabajos
   function createJobIndicator() {
     const indicator = document.createElement('div');
     indicator.className = 'jobs-indicator';
@@ -132,8 +230,11 @@ function setupHorizontalJobsNavigation() {
         ).join('')}
       </div>
       <div class="indicator-direction">
-        <span class="direction-arrow">→</span>
-        <span class="direction-text">Explora mi experiencia</span>
+        <span class="direction-arrow">⟷</span>
+        <span class="direction-text">Swipe to explore experience</span>
+      </div>
+      <div class="navigation-hint">
+        <span class="hint-text">↑ Projects | Contact ↓</span>
       </div>
     `;
     
@@ -147,66 +248,102 @@ function setupHorizontalJobsNavigation() {
         currentJobIndex = index;
         updateJobPosition();
         updateJobIndicator();
+        
+        // Extender el bloqueo al interactuar manualmente
+        sectionLocked = true;
+        clearTimeout(autoSnapTimeout);
+        autoSnapTimeout = setTimeout(() => {
+          sectionLocked = false;
+        }, 5000);
       });
     });
   }
   
   function updateJobIndicator() {
     const dots = document.querySelectorAll('.jobs-indicator .dot');
-    const directionArrow = document.querySelector('.jobs-indicator .direction-arrow');
+    const hintText = document.querySelector('.jobs-indicator .hint-text');
     
     dots.forEach((dot, index) => {
       dot.classList.toggle('active', index === currentJobIndex);
     });
     
-    // Actualizar flecha de dirección
-    if (directionArrow) {
-      directionArrow.textContent = scrollDirection === 'right' ? '→' : '←';
+    // Actualizar hint de navegación según la posición
+    if (hintText) {
+      if (currentJobIndex === 0) {
+        hintText.textContent = '↑ Projects | Continue →';
+        hintText.style.color = '#ff6b35';
+      } else if (currentJobIndex === jobs.length - 1) {
+        hintText.textContent = '← Continue | Contact ↓';
+        hintText.style.color = '#ff6b35';
+      } else {
+        hintText.textContent = '↑ Projects | Contact ↓';
+        hintText.style.color = 'rgba(128, 0, 255, 0.7)';
+      }
     }
   }
   
-  // Manejar navegación con teclado
+  // Manejar navegación con teclado mejorada
   function handleKeyNavigation(e) {
     if (!isInJobsSection()) return;
+    
+    // Auto-centrar si no está bloqueada la sección
+    if (!sectionLocked) {
+      autoSnapToSection();
+      return;
+    }
     
     switch(e.key) {
       case 'ArrowRight':
         e.preventDefault();
-        if (currentJobIndex < jobs.length - 1) {
-          scrollDirection = 'right';
-          currentJobIndex++;
-          updateJobPosition();
-          updateJobIndicator();
-        }
+        handleScrollDown(); // Usar la misma lógica que scroll hacia abajo
         break;
       case 'ArrowLeft':
         e.preventDefault();
-        if (currentJobIndex > 0) {
-          scrollDirection = 'left';
-          currentJobIndex--;
-          updateJobPosition();
-          updateJobIndicator();
-        }
+        handleScrollUp(); // Usar la misma lógica que scroll hacia arriba
         break;
       case 'ArrowDown':
         e.preventDefault();
-        handleDownScroll();
+        handleScrollDown();
         break;
       case 'ArrowUp':
         e.preventDefault();
-        handleUpScroll();
+        handleScrollUp();
+        break;
+      case 'Escape':
+        // Salir de la sección de trabajos
+        sectionLocked = false;
         break;
     }
+    
+    // Extender el bloqueo al usar teclado
+    extendSectionLock();
   }
   
-  function isInJobsSection() {
-    const rect = jobsSection.getBoundingClientRect();
-    return rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2;
+  function extendSectionLock() {
+    sectionLocked = true;
+    clearTimeout(autoSnapTimeout);
+    autoSnapTimeout = setTimeout(() => {
+      sectionLocked = false;
+    }, 4000);
   }
   
   // Recalcular posición al redimensionar la ventana
   function handleResize() {
     updateJobPosition();
+    // Re-centrar si estamos en la sección
+    if (isInJobsSection() && sectionLocked) {
+      setTimeout(autoSnapToSection, 100);
+    }
+  }
+  
+  // ===== FUNCIÓN DE LIMPIEZA =====
+  function cleanup() {
+    if (autoSnapTimeout) {
+      clearTimeout(autoSnapTimeout);
+    }
+    document.removeEventListener('wheel', handleWheelScroll);
+    document.removeEventListener('keydown', handleKeyNavigation);
+    window.removeEventListener('resize', handleResize);
   }
   
   // Inicializar todo
@@ -215,17 +352,25 @@ function setupHorizontalJobsNavigation() {
       createJobIndicator();
       updateJobPosition();
       
+      // Configurar el observer para auto-snap
+      const observer = setupIntersectionObserver();
+      
       // Event listeners
       document.addEventListener('wheel', handleWheelScroll, { passive: false });
       document.addEventListener('keydown', handleKeyNavigation);
       window.addEventListener('resize', handleResize);
       
       // Limpiar event listeners al salir
-      window.addEventListener('beforeunload', () => {
-        document.removeEventListener('wheel', handleWheelScroll);
-        document.removeEventListener('keydown', handleKeyNavigation);
-        window.removeEventListener('resize', handleResize);
-      });
+      window.addEventListener('beforeunload', cleanup);
+      
+      // Auto-snap inicial si ya estamos en la sección
+      setTimeout(() => {
+        if (isInJobsSection()) {
+          autoSnapToSection();
+        }
+      }, 500);
+      
+      return { cleanup, observer };
     }
   }
   

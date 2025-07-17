@@ -1,4 +1,4 @@
-/* ===== SECCIÓN ABOUT COMPLETAMENTE RESPONSIVE ===== */
+/* ===== SECCIÓN ABOUT COMPLETAMENTE RESPONSIVE - 3 COLUMNAS ===== */
 
 .section-about {
   position: relative;
@@ -26,8 +26,8 @@
   max-width: 1400px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 300px 400px;
-  gap: clamp(30px, 6vw, 60px);
+  grid-template-columns: 1fr 280px 320px;
+  gap: clamp(15px, 2.5vw, 25px); /* Reducido de 25px-45px a 15px-25px */
   align-items: start;
   position: relative;
   z-index: 2;
@@ -73,51 +73,41 @@
   position: relative;
 }
 
-/* ===== IMÁGENES APILADAS RESPONSIVE ===== */
+/* ===== IMÁGENES SIMULTÁNEAS RESPONSIVE ===== */
 .about-image {
   width: 100%;
-  max-width: 300px;
+  max-width: 280px;
   height: auto;
   display: flex;
   flex-direction: column;
-  gap: clamp(15px, 3vw, 20px);
+  gap: clamp(10px, 2vw, 15px);
   position: relative;
 }
 
 .image-stack {
   display: flex;
   flex-direction: column;
-  gap: clamp(15px, 3vw, 20px);
+  gap: clamp(10px, 2vw, 15px);
   width: 100%;
 }
 
 .stack-image {
   width: 100%;
-  height: clamp(100px, 15vw, 120px);
+  height: clamp(130px, 18vw, 160px); /* Aumentado aún más: de 110px-140px a 130px-160px */
   object-fit: cover;
-  border-radius: clamp(10px, 2vw, 15px);
+  border-radius: clamp(8px, 1.5vw, 12px);
   filter: grayscale(20%) brightness(0.9);
-  transition: all 0.8s ease-in-out;
-  opacity: 0;
-  transform: translateY(20px);
+  transition: all 0.6s ease-in-out;
+  opacity: 1; /* Siempre visibles */
+  transform: translateY(0);
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.stack-image.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.stack-image.fade-out {
-  opacity: 0;
-  transform: translateY(-20px);
-}
-
 .stack-image:hover {
   filter: grayscale(0%) brightness(1);
-  transform: scale(1.05) translateY(0);
+  transform: scale(1.03);
   box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
 }
@@ -154,21 +144,24 @@
   transform-origin: 50% 50%;
 }
 
-/* ===== ZONA DE BURBUJAS MEJORADA ===== */
+/* ===== ZONA DE BURBUJAS MÁS COMPACTA Y PEGADA A LA IZQUIERDA ===== */
 .tech-bubbles-zone {
   position: relative;
   width: 100%;
-  min-height: clamp(450px, 65vw, 550px);
-  padding: clamp(20px, 4vw, 30px);
+  max-width: 320px;
+  min-height: clamp(480px, 60vw, 550px); /* Aumentado de 380px-450px a 480px-550px */
+  padding: clamp(12px, 2.5vw, 18px);
+  padding-left: clamp(5px, 1vw, 8px); /* Padding izquierdo reducido */
+  padding-bottom: clamp(20px, 4vw, 30px); /* Padding inferior adicional */
   overflow: hidden;
 }
 
 .zone-title {
   position: absolute;
-  top: 10px;
-  left: 20px;
+  top: 8px;
+  left: 8px; /* Reducido de 15px a 8px */
   color: #8000ff;
-  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+  font-size: clamp(0.7rem, 1.6vw, 0.85rem);
   font-weight: 600;
   letter-spacing: 1px;
   opacity: 0.8;
@@ -196,7 +189,7 @@
 }
 
 .bubble:hover {
-  transform: scale(1.12);
+  transform: scale(1.1);
   box-shadow: 0 6px 25px rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.3);
   z-index: 10;
@@ -204,27 +197,27 @@
 
 .bubble.dragging {
   z-index: 1000;
-  transform: scale(1.15);
+  transform: scale(1.12);
   box-shadow: 0 8px 30px rgba(255, 255, 255, 0.2);
 }
 
-/* Tamaños de burbujas más consistentes */
+/* Tamaños de burbujas optimizados */
 .bubble.small {
-  width: clamp(65px, 9vw, 75px);
-  height: clamp(65px, 9vw, 75px);
-  font-size: clamp(22px, 3.5vw, 26px);
+  width: clamp(55px, 8vw, 65px);
+  height: clamp(55px, 8vw, 65px);
+  font-size: clamp(20px, 3.5vw, 24px);
 }
 
 .bubble.medium {
-  width: clamp(75px, 11vw, 85px);
-  height: clamp(75px, 11vw, 85px);
-  font-size: clamp(26px, 4.5vw, 32px);
+  width: clamp(65px, 9vw, 75px);
+  height: clamp(65px, 9vw, 75px);
+  font-size: clamp(24px, 4vw, 28px);
 }
 
 .bubble.large {
-  width: clamp(85px, 13vw, 95px);
-  height: clamp(85px, 13vw, 95px);
-  font-size: clamp(30px, 5.5vw, 38px);
+  width: clamp(75px, 10vw, 85px);
+  height: clamp(75px, 10vw, 85px);
+  font-size: clamp(28px, 5vw, 32px);
 }
 
 /* Colores específicos para cada tecnología */
@@ -245,14 +238,14 @@
 .bubble::after {
   content: attr(data-tooltip);
   position: absolute;
-  top: -45px;
+  top: -38px;
   left: 50%;
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.9);
   color: white;
-  padding: clamp(6px, 1.5vw, 8px) clamp(8px, 2vw, 12px);
-  border-radius: clamp(6px, 1.5vw, 8px);
-  font-size: clamp(10px, 2vw, 12px);
+  padding: clamp(4px, 1vw, 6px) clamp(6px, 1.5vw, 10px);
+  border-radius: clamp(4px, 1vw, 6px);
+  font-size: clamp(9px, 1.8vw, 11px);
   font-weight: 500;
   white-space: nowrap;
   opacity: 0;
@@ -263,7 +256,7 @@
 
 .bubble:hover::after {
   opacity: 1;
-  transform: translateX(-50%) translateY(-5px);
+  transform: translateX(-50%) translateY(-3px);
 }
 
 /* ===== RESPONSIVE BREAKPOINTS ===== */
@@ -271,20 +264,8 @@
 /* Tablets Grandes (1200px - 1024px) */
 @media (max-width: 1200px) {
   .about-container {
-    grid-template-columns: 1fr 280px 350px;
-    gap: 40px;
-  }
-
-  .tech-bubbles-zone {
-    min-height: 450px;
-  }
-}
-
-/* Tablets Medianas (1024px - 968px) */
-@media (max-width: 1024px) {
-  .about-container {
-    grid-template-columns: 1fr 260px 320px;
-    gap: 30px;
+    grid-template-columns: 1fr 260px 300px;
+    gap: 20px; /* Reducido de 35px a 20px */
   }
 
   .about-image {
@@ -292,11 +273,33 @@
   }
 
   .tech-bubbles-zone {
-    min-height: 400px;
+    max-width: 300px;
+    min-height: 500px; /* Aumentado de 420px a 500px */
+    padding-left: 5px; /* Padding izquierdo reducido */
+    padding-bottom: 25px; /* Padding inferior adicional */
   }
 }
 
-/* Tablets Pequeñas y Móviles Grandes (968px - 768px) */
+/* Tablets Medianas (1024px - 968px) */
+@media (max-width: 1024px) {
+  .about-container {
+    grid-template-columns: 1fr 240px 280px;
+    gap: 18px; /* Reducido de 30px a 18px */
+  }
+
+  .about-image {
+    max-width: 240px;
+  }
+
+  .tech-bubbles-zone {
+    max-width: 280px;
+    min-height: 480px; /* Aumentado de 400px a 480px */
+    padding-left: 4px; /* Padding izquierdo reducido */
+    padding-bottom: 25px; /* Padding inferior adicional */
+  }
+}
+
+/* Tablets Pequeñas (968px - 768px) */
 @media (max-width: 968px) {
   .about-container {
     grid-template-columns: 1fr;
@@ -305,8 +308,15 @@
   }
   
   .about-image {
-    max-width: 280px;
+    max-width: 320px;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+
+  .stack-image {
+    height: clamp(115px, 17vw, 145px); /* Aumentado para tablets */
   }
   
   .about-text {
@@ -318,8 +328,10 @@
   }
 
   .tech-bubbles-zone {
-    min-height: 380px;
-    margin-top: 30px;
+    max-width: 100%;
+    min-height: 420px; /* Aumentado de 350px a 420px */
+    margin: 0 auto;
+    padding-bottom: 20px; /* Padding inferior adicional */
   }
 
   .skills-highlight {
@@ -327,7 +339,7 @@
   }
 }
 
-/* Móviles Medianos (768px - 640px) */
+/* Móviles Grandes (768px - 640px) */
 @media (max-width: 768px) {
   .section-about {
     padding: 50px 15px;
@@ -338,38 +350,42 @@
   }
 
   .about-image {
-    max-width: 250px;
+    max-width: 100%;
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   .stack-image {
-    height: clamp(90px, 12vw, 110px);
+    height: clamp(105px, 14vw, 130px); /* Aumentado para móviles grandes */
   }
 
   .tech-bubbles-zone {
-    min-height: 350px;
+    max-width: 100%;
+    min-height: 400px; /* Aumentado de 320px a 400px */
     padding: 15px;
+    padding-bottom: 20px; /* Padding inferior adicional */
   }
 
   .bubble.large {
-    width: clamp(60px, 10vw, 70px);
-    height: clamp(60px, 10vw, 70px);
-    font-size: clamp(22px, 4vw, 28px);
+    width: clamp(60px, 9vw, 70px);
+    height: clamp(60px, 9vw, 70px);
+    font-size: clamp(22px, 4vw, 26px);
   }
 
   .bubble.medium {
-    width: clamp(55px, 9vw, 65px);
-    height: clamp(55px, 9vw, 65px);
-    font-size: clamp(20px, 3.5vw, 26px);
+    width: clamp(55px, 8vw, 65px);
+    height: clamp(55px, 8vw, 65px);
+    font-size: clamp(20px, 3.5vw, 24px);
   }
 
   .bubble.small {
-    width: clamp(45px, 8vw, 55px);
-    height: clamp(45px, 8vw, 55px);
+    width: clamp(50px, 7vw, 60px);
+    height: clamp(50px, 7vw, 60px);
     font-size: clamp(18px, 3vw, 22px);
   }
 }
 
-/* Móviles Pequeños (640px - 480px) */
+/* Móviles Medianos (640px - 480px) */
 @media (max-width: 640px) {
   .section-about {
     padding: 40px 15px;
@@ -380,25 +396,26 @@
   }
 
   .about-image {
-    max-width: 220px;
+    gap: 10px;
   }
 
   .stack-image {
-    height: clamp(80px, 18vw, 100px);
-    border-radius: 10px;
+    height: clamp(95px, 16vw, 120px); /* Aumentado para móviles medianos */
+    border-radius: 8px;
   }
 
   .tech-bubbles-zone {
-    min-height: 320px;
+    min-height: 380px; /* Aumentado de 300px a 380px */
     padding: 12px;
+    padding-bottom: 20px; /* Padding inferior adicional */
   }
 
   .zone-title {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
   }
 }
 
-/* Móviles Muy Pequeños (480px - 360px) */
+/* Móviles Pequeños (480px - 360px) */
 @media (max-width: 480px) {
   .section-about {
     padding: 35px 12px;
@@ -409,34 +426,35 @@
   }
 
   .about-image {
-    max-width: 200px;
+    gap: 8px;
   }
 
   .stack-image {
-    height: clamp(70px, 20vw, 90px);
+    height: clamp(90px, 18vw, 110px); /* Aumentado para móviles pequeños */
   }
 
   .tech-bubbles-zone {
-    min-height: 300px;
+    min-height: 360px; /* Aumentado de 280px a 360px */
     padding: 10px;
+    padding-bottom: 20px; /* Padding inferior adicional */
   }
 
   .bubble.large {
-    width: clamp(50px, 12vw, 60px);
-    height: clamp(50px, 12vw, 60px);
-    font-size: clamp(18px, 4vw, 24px);
+    width: clamp(50px, 10vw, 60px);
+    height: clamp(50px, 10vw, 60px);
+    font-size: clamp(18px, 4vw, 22px);
   }
 
   .bubble.medium {
-    width: clamp(45px, 11vw, 55px);
-    height: clamp(45px, 11vw, 55px);
-    font-size: clamp(16px, 3.5vw, 22px);
+    width: clamp(45px, 9vw, 55px);
+    height: clamp(45px, 9vw, 55px);
+    font-size: clamp(16px, 3.5vw, 20px);
   }
 
   .bubble.small {
-    width: clamp(40px, 10vw, 50px);
-    height: clamp(40px, 10vw, 50px);
-    font-size: clamp(14px, 3vw, 20px);
+    width: clamp(40px, 8vw, 50px);
+    height: clamp(40px, 8vw, 50px);
+    font-size: clamp(14px, 3vw, 18px);
   }
 
   .skill-tag {
@@ -445,7 +463,7 @@
   }
 }
 
-/* Móviles Extremadamente Pequeños (360px - 320px) */
+/* Móviles Muy Pequeños (360px y menos) */
 @media (max-width: 360px) {
   .section-about {
     padding: 30px 10px;
@@ -456,21 +474,22 @@
   }
 
   .about-image {
-    max-width: 180px;
+    gap: 6px;
   }
 
   .stack-image {
-    height: 70px;
-    border-radius: 8px;
+    height: 85px; /* Aumentado de 75px a 85px para móviles muy pequeños */
+    border-radius: 6px;
   }
 
   .tech-bubbles-zone {
-    min-height: 280px;
+    min-height: 320px; /* Aumentado de 250px a 320px */
     padding: 8px;
+    padding-bottom: 15px; /* Padding inferior adicional */
   }
 
   .zone-title {
-    font-size: 0.7rem;
+    font-size: 0.6rem;
   }
 
   .bubble.large {
@@ -497,49 +516,6 @@
   }
 }
 
-/* Móviles Ultra Pequeños (320px y menos) */
-@media (max-width: 320px) {
-  .section-about {
-    padding: 25px 8px;
-  }
-
-  .about-container {
-    gap: 12px;
-  }
-
-  .about-image {
-    max-width: 160px;
-  }
-
-  .stack-image {
-    height: 60px;
-    gap: 10px;
-  }
-
-  .tech-bubbles-zone {
-    min-height: 250px;
-    padding: 6px;
-  }
-
-  .bubble.large {
-    width: 45px;
-    height: 45px;
-    font-size: 18px;
-  }
-
-  .bubble.medium {
-    width: 40px;
-    height: 40px;
-    font-size: 16px;
-  }
-
-  .bubble.small {
-    width: 35px;
-    height: 35px;
-    font-size: 14px;
-  }
-}
-
 /* Orientación horizontal en móviles */
 @media (max-height: 500px) and (orientation: landscape) {
   .section-about {
@@ -555,14 +531,17 @@
 
   .about-image {
     max-width: 200px;
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .stack-image {
-    height: 60px;
+    height: 50px;
   }
 
   .tech-bubbles-zone {
-    min-height: 200px;
+    max-width: 250px;
+    min-height: 180px;
   }
 
   .about-text h2 {
