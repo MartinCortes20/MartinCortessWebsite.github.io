@@ -1,28 +1,166 @@
-// ===== SECCIÓN TRABAJOS CON NAVEGACIÓN HORIZONTAL Y AUTO-CENTRADO =====
+// ===== SECCIÓN TRABAJOS CON NAVEGACIÓN ADAPTATIVA =====
 
 function setupHorizontalJobsNavigation() {
   let currentJobIndex = 0;
   let isScrolling = false;
-  let sectionLocked = false; // Para controlar cuando la sección está "bloqueada"
-  let isChangingSection = false; // NUEVO: Para prevenir loops al cambiar sección
+  let sectionLocked = false;
+  let isChangingSection = false;
   let autoSnapTimeout;
+  let isMobileDevice = false;
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchEndX = 0;
+  let touchEndY = 0;
   
   const jobs = document.querySelectorAll('.job-card');
   const jobsContainer = document.querySelector('.jobs-container');
   const jobsSection = document.querySelector('.section-jobs');
   
-  // Configurar el container para mostrar solo un trabajo
+  if (!jobs.length || !jobsContainer || !jobsSection) {
+    console.warn('Jobs: Elementos necesarios no encontrados');
+    return;
+  }
+  
+  // Detectar si es dispositivo móvil o tablet
+  function detectMobileDevice() {
+    const width = window.innerWidth;
+    isMobileDevice = width <= 968;
+    
+    const hasTouch = ('ontouchstart' in window) || 
+                     (navigator.maxTouchPoints > 0) || 
+                     (navigator.msMaxTouchPoints > 0);
+    
+    return isMobileDevice && hasTouch;
+  }
+  
+  // Configurar el container según el dispositivo
   function setupJobsDisplay() {
-    jobsContainer.style.transform = 'translateX(0px)';
+    if (detectMobileDevice()) {
+      setupMobileScrolling();
+    } else {
+      return setupDesktopNavigation();
+    }
+  }
+  
+  // ===== CONFIGURACIÓN PARA MÓVILES =====
+  function setupMobileScrolling() {
+    jobsContainer.style.transform = 'none';
+    jobsContainer.style.transition = 'none';
+    
+    jobsContainer.style.overflowX = 'auto';
+    jobsContainer.style.overflowY = 'hidden';
+    jobsContainer.style.scrollBehavior = 'smooth';
+    jobsContainer.style.scrollSnapType = 'x mandatory';
+    
+    jobs.forEach(card => {
+      card.style.scrollSnapAlign = 'center';
+    });
+    
+    let scrollTimeout;
+    jobsContainer.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(updateCurrentJobFromScroll, 150);
+    });
+    
+    setupTouchGestures();
+  }
+  
+  // ===== GESTOS TOUCH PARA MÓVILES =====
+  function setupTouchGestures() {
+    jobsSection.addEventListener('touchstart', handleTouchStart, { passive: true });
+    jobsSection.addEventListener('touchmove', handleTouchMove, { passive: false });
+    jobsSection.addEventListener('touchend', handleTouchEnd, { passive: true });
+  }
+  
+  function handleTouchStart(e) {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }
+  
+  function handleTouchMove(e) {
+    const touchCurrentX = e.touches[0].clientX;
+    const touchCurrentY = e.touches[0].clientY;
+    
+    const deltaX = Math.abs(touchCurrentX - touchStartX);
+    const deltaY = Math.abs(touchCurrentY - touchStartY);
+    
+    // Si el gesto es más horizontal, permitir scroll del contenedor
+    if (deltaX > deltaY) {
+      return;
+    }
+    
+    // Si el gesto es más vertical y estamos en el área de trabajos, manejarlo
+    if (deltaY > deltaX && deltaY > 20) {
+      const jobsRect = jobsContainer.getBoundingClientRect();
+      const touchX = e.touches[0].clientX;
+      
+      if (touchX >= jobsRect.left && touchX <= jobsRect.right) {
+        e.preventDefault();
+      }
+    }
+  }
+  
+  function handleTouchEnd(e) {
+    touchEndX = e.changedTouches[0].clientX;
+    touchEndY = e.changedTouches[0].clientY;
+    
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = touchEndY - touchStartY;
+    
+    const minSwipeDistance = 50;
+    
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      // Gesto horizontal - manejado por el scroll nativo
+      return;
+    } else if (Math.abs(deltaY) > minSwipeDistance) {
+      // Gesto vertical - navegar entre secciones
+      if (deltaY < 0) {
+        // Swipe hacia arriba - sección anterior
+        goToPreviousSection();
+      } else {
+        // Swipe hacia abajo - siguiente sección
+        goToNextSection();
+      }
+    }
+  }
+  
+  // Actualizar trabajo actual basado en scroll
+  function updateCurrentJobFromScroll() {
+    if (!isMobileDevice) return;
+    
+    const containerRect = jobsContainer.getBoundingClientRect();
+    const containerCenter = containerRect.left + containerRect.width / 2;
+    
+    let closestIndex = 0;
+    let closestDistance = Infinity;
+    
+    jobs.forEach((job, index) => {
+      const jobRect = job.getBoundingClientRect();
+      const jobCenter = jobRect.left + jobRect.width / 2;
+      const distance = Math.abs(jobCenter - containerCenter);
+      
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
+    
+    if (closestIndex !== currentJobIndex) {
+      currentJobIndex = closestIndex;
+      updateJobIndicator();
+    }
+  }
+  
+  // ===== CONFIGURACIÓN PARA DESKTOP =====
+  function setupDesktopNavigation() {
+    jobsContainer.style.overflowX = 'hidden';
     jobsContainer.style.transition = 'transform 0.6s ease-in-out';
     
-    // Calcular el ancho de cada trabajo incluyendo el gap y márgenes
-    const jobWidth = 350 + 40 + 40; // ancho de la tarjeta + gap + márgenes
+    const jobWidth = 350 + 40 + 40;
     
-    // Calcular offset para centrar el trabajo
     function updateJobPosition() {
       const containerWidth = jobsSection.offsetWidth;
-      const centerOffset = (containerWidth - 350) / 2; // Centrar la tarjeta de 350px
+      const centerOffset = (containerWidth - 350) / 2;
       const offset = centerOffset - (currentJobIndex * jobWidth);
       jobsContainer.style.transform = `translateX(${offset}px)`;
     }
@@ -30,47 +168,69 @@ function setupHorizontalJobsNavigation() {
     return updateJobPosition;
   }
   
-  const updateJobPosition = setupJobsDisplay();
+  // ===== NAVEGACIÓN ENTRE SECCIONES =====
+  function goToNextSection() {
+    console.log('Jobs: Navegando a la siguiente sección');
+    const nextSection = jobsSection.nextElementSibling;
+    if (nextSection) {
+      sectionLocked = false;
+      isChangingSection = true;
+      nextSection.scrollIntoView({ behavior: 'smooth' });
+      
+      setTimeout(() => {
+        isChangingSection = false;
+      }, 1500);
+    }
+  }
   
-  // ===== NUEVA FUNCIÓN: AUTO-SNAP AL ENTRAR A LA SECCIÓN =====
+  function goToPreviousSection() {
+    console.log('Jobs: Navegando a la sección anterior');
+    const prevSection = jobsSection.previousElementSibling;
+    if (prevSection) {
+      sectionLocked = false;
+      isChangingSection = true;
+      prevSection.scrollIntoView({ behavior: 'smooth' });
+      
+      setTimeout(() => {
+        isChangingSection = false;
+      }, 1500);
+    }
+  }
+  
+  // ===== AUTO-SNAP PARA DESKTOP =====
   function autoSnapToSection() {
-    if (isInJobsSection() && !sectionLocked) {
-      // Centrar automáticamente la sección en la pantalla
+    if (!isMobileDevice && isInJobsSection() && !sectionLocked) {
       jobsSection.scrollIntoView({ 
         behavior: 'smooth',
         block: 'center'
       });
       
-      // Bloquear la sección por un momento para permitir la navegación horizontal
       sectionLocked = true;
       
-      // Desbloquear después de un tiempo si no hay actividad
       clearTimeout(autoSnapTimeout);
       autoSnapTimeout = setTimeout(() => {
         sectionLocked = false;
-      }, 3000); // 3 segundos de gracia
+      }, 3000);
     }
   }
   
-  // ===== DETECTAR CUANDO SE ENTRA A LA SECCIÓN =====
+  // ===== INTERSECTION OBSERVER =====
   function setupIntersectionObserver() {
     const observerOptions = {
       root: null,
-      rootMargin: '-20% 0px -20% 0px', // Activar cuando la sección esté al 20% visible
-      threshold: [0.3, 0.7] // Activar entre 30% y 70% de visibilidad
+      rootMargin: '-20% 0px -20% 0px',
+      threshold: [0.3, 0.7]
     };
     
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
-          // La sección está visible, hacer auto-snap
-          if (!isChangingSection) { // NUEVO: Solo auto-snap si no estamos cambiando sección
-            setTimeout(autoSnapToSection, 100); // Pequeño delay para suavizar
+          if (!isChangingSection && !isMobileDevice) {
+            setTimeout(autoSnapToSection, 100);
           }
         } else if (!entry.isIntersecting) {
-          // La sección ya no está visible, desbloquear
           sectionLocked = false;
-          isChangingSection = false; // NUEVO: Resetear flag cuando salimos de la sección
+          isChangingSection = false;
           clearTimeout(autoSnapTimeout);
         }
       });
@@ -80,57 +240,22 @@ function setupHorizontalJobsNavigation() {
     return observer;
   }
   
-  // Mejorar la detección de estar en la sección
   function isInJobsSection() {
     const rect = jobsSection.getBoundingClientRect();
     const windowHeight = window.innerHeight;
-    
-    // Considerar que estamos en la sección si está visible al menos 40%
     const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
     const visibilityRatio = visibleHeight / windowHeight;
-    
     return visibilityRatio > 0.4;
   }
   
-  // ===== FUNCIONES DE NAVEGACIÓN SIMPLIFICADAS =====
-  function goToNextSection() {
-    console.log('Jobs: Intentando ir a la siguiente sección');
-    // Ir simplemente a la siguiente sección (contact-me)
-    const nextSection = jobsSection.nextElementSibling;
-    console.log('Jobs: Siguiente sección encontrada:', nextSection);
-    if (nextSection) {
-      sectionLocked = false;
-      nextSection.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      console.log('Jobs: No hay siguiente sección');
-    }
-  }
-  
-  function goToPreviousSection() {
-    console.log('Jobs: Intentando ir a la sección anterior');
-    // Ir simplemente a la sección anterior (projects)
-    const prevSection = jobsSection.previousElementSibling;
-    console.log('Jobs: Sección anterior encontrada:', prevSection);
-    if (prevSection) {
-      sectionLocked = false;
-      prevSection.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      console.log('Jobs: No hay sección anterior');
-    }
-  }
-  
-  // ===== LÓGICA SIMPLIFICADA DE NAVEGACIÓN =====
+  // ===== NAVEGACIÓN CON WHEEL (SOLO DESKTOP) =====
   function handleWheelScroll(e) {
-    // NUEVO: Si estamos cambiando de sección, ignorar todos los scrolls
-    if (isChangingSection) {
-      e.preventDefault();
+    if (isMobileDevice || isChangingSection) {
       return;
     }
     
-    // Solo manejar si estamos en la sección de trabajos
     if (!isInJobsSection()) return;
     
-    // Si la sección no está centrada, centrarla primero
     if (!sectionLocked) {
       autoSnapToSection();
       return;
@@ -142,121 +267,131 @@ function setupHorizontalJobsNavigation() {
     
     isScrolling = true;
     
-    // Extender el tiempo de bloqueo cuando hay actividad
     clearTimeout(autoSnapTimeout);
     autoSnapTimeout = setTimeout(() => {
       sectionLocked = false;
     }, 3000);
     
-    // Determinar dirección del scroll
     const deltaY = e.deltaY;
     
-    console.log('Jobs - Scroll detectado:', deltaY > 0 ? 'ABAJO' : 'ARRIBA', 'Job actual:', currentJobIndex, 'Total jobs:', jobs.length);
-    
     if (deltaY > 0) {
-      // Scroll hacia abajo - navegar hacia adelante
       handleScrollDown();
     } else {
-      // Scroll hacia arriba - navegar hacia atrás
       handleScrollUp();
     }
     
-    // Resetear flag después de la animación
     setTimeout(() => {
       isScrolling = false;
     }, 700);
   }
   
   function handleScrollDown() {
-    console.log('Jobs - HandleScrollDown - Índice actual:', currentJobIndex, 'Máximo:', jobs.length - 1);
-    
     if (currentJobIndex < jobs.length - 1) {
-      // Hay más trabajos, avanzar
-      console.log('Jobs - Avanzando al trabajo:', currentJobIndex + 1);
       currentJobIndex++;
-      updateJobPosition();
+      if (!isMobileDevice && typeof updateJobPosition === 'function') {
+        updateJobPosition();
+      }
       updateJobIndicator();
     } else {
-      // No hay más trabajos, ir a la siguiente sección
-      console.log('Jobs - Fin de trabajos, yendo a la siguiente sección');
-      isChangingSection = true; // NUEVO: Bloquear scrolls mientras cambiamos
-      sectionLocked = false; 
+      isChangingSection = true;
+      sectionLocked = false;
       clearTimeout(autoSnapTimeout);
       
       setTimeout(() => {
         goToNextSection();
-        // NUEVO: Resetear el flag después de un tiempo
         setTimeout(() => {
           isChangingSection = false;
-        }, 1500); // 1.5 segundos para que termine la animación
+        }, 1500);
       }, 200);
     }
   }
   
   function handleScrollUp() {
-    console.log('Jobs - HandleScrollUp - Índice actual:', currentJobIndex);
-    
     if (currentJobIndex > 0) {
-      // Hay trabajos anteriores, retroceder
-      console.log('Jobs - Retrocediendo al trabajo:', currentJobIndex - 1);
       currentJobIndex--;
-      updateJobPosition();
+      if (!isMobileDevice && typeof updateJobPosition === 'function') {
+        updateJobPosition();
+      }
       updateJobIndicator();
     } else {
-      // No hay trabajos anteriores, ir a la sección anterior
-      console.log('Jobs - Inicio de trabajos, yendo a la sección anterior');
-      isChangingSection = true; // NUEVO: Bloquear scrolls mientras cambiamos
-      sectionLocked = false; 
+      isChangingSection = true;
+      sectionLocked = false;
       clearTimeout(autoSnapTimeout);
       
       setTimeout(() => {
         goToPreviousSection();
-        // NUEVO: Resetear el flag después de un tiempo
         setTimeout(() => {
           isChangingSection = false;
-        }, 1500); // 1.5 segundos para que termine la animación
+        }, 1500);
       }, 200);
     }
   }
   
-  // Crear indicador visual mejorado para trabajos
+  // ===== INDICADOR VISUAL =====
   function createJobIndicator() {
     const indicator = document.createElement('div');
     indicator.className = 'jobs-indicator';
+    
+    const dotsHtml = Array.from(jobs).map((_, index) => 
+      `<span class="dot ${index === 0 ? 'active' : ''}" data-index="${index}"></span>`
+    ).join('');
+    
+    const directionText = isMobileDevice ? 'Swipe to explore experience' : 'Scroll to navigate';
+    const hintText = isMobileDevice ? '⇅ Swipe up/down for sections' : '↑ Projects | Contact ↓';
+    
     indicator.innerHTML = `
       <div class="indicator-dots">
-        ${Array.from(jobs).map((_, index) => 
-          `<span class="dot ${index === 0 ? 'active' : ''}" data-index="${index}"></span>`
-        ).join('')}
+        ${dotsHtml}
       </div>
       <div class="indicator-direction">
         <span class="direction-arrow">⟷</span>
-        <span class="direction-text">Swipe to explore experience</span>
+        <span class="direction-text">${directionText}</span>
       </div>
       <div class="navigation-hint">
-        <span class="hint-text">↑ Projects | Contact ↓</span>
+        <span class="hint-text">${hintText}</span>
       </div>
     `;
     
     jobsSection.appendChild(indicator);
     
-    // Agregar eventos a los dots
+    // Eventos para los dots
     const dots = indicator.querySelectorAll('.dot');
     dots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        const index = parseInt(dot.dataset.index);
-        currentJobIndex = index;
-        updateJobPosition();
-        updateJobIndicator();
-        
-        // Extender el bloqueo al interactuar manualmente
-        sectionLocked = true;
-        clearTimeout(autoSnapTimeout);
-        autoSnapTimeout = setTimeout(() => {
-          sectionLocked = false;
-        }, 5000);
-      });
+      dot.addEventListener('click', handleDotClick);
     });
+  }
+  
+  function handleDotClick(e) {
+    const index = parseInt(e.target.dataset.index);
+    currentJobIndex = index;
+    
+    if (isMobileDevice) {
+      // En móviles, hacer scroll al trabajo correspondiente
+      const targetJob = jobs[index];
+      if (targetJob) {
+        targetJob.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center'
+        });
+      }
+    } else {
+      // En desktop, usar la función de posicionamiento
+      if (typeof updateJobPosition === 'function') {
+        updateJobPosition();
+      }
+    }
+    
+    updateJobIndicator();
+    
+    // Extender bloqueo
+    if (!isMobileDevice) {
+      sectionLocked = true;
+      clearTimeout(autoSnapTimeout);
+      autoSnapTimeout = setTimeout(() => {
+        sectionLocked = false;
+      }, 5000);
+    }
   }
   
   function updateJobIndicator() {
@@ -267,26 +402,39 @@ function setupHorizontalJobsNavigation() {
       dot.classList.toggle('active', index === currentJobIndex);
     });
     
-    // Actualizar hint de navegación según la posición
+    // Actualizar hint según dispositivo y posición
     if (hintText) {
-      if (currentJobIndex === 0) {
-        hintText.textContent = '↑ Projects | Continue →';
-        hintText.style.color = '#ff6b35';
-      } else if (currentJobIndex === jobs.length - 1) {
-        hintText.textContent = '← Continue | Contact ↓';
-        hintText.style.color = '#ff6b35';
+      if (isMobileDevice) {
+        if (currentJobIndex === 0) {
+          hintText.textContent = '⇅ Swipe up: Projects | Continue →';
+          hintText.style.color = '#ff6b35';
+        } else if (currentJobIndex === jobs.length - 1) {
+          hintText.textContent = '← Continue | Swipe down: Contact ⇅';
+          hintText.style.color = '#ff6b35';
+        } else {
+          hintText.textContent = '⇅ Swipe up/down for sections';
+          hintText.style.color = 'rgba(128, 0, 255, 0.7)';
+        }
       } else {
-        hintText.textContent = '↑ Projects | Contact ↓';
-        hintText.style.color = 'rgba(128, 0, 255, 0.7)';
+        // Desktop hints
+        if (currentJobIndex === 0) {
+          hintText.textContent = '↑ Projects | Continue →';
+          hintText.style.color = '#ff6b35';
+        } else if (currentJobIndex === jobs.length - 1) {
+          hintText.textContent = '← Continue | Contact ↓';
+          hintText.style.color = '#ff6b35';
+        } else {
+          hintText.textContent = '↑ Projects | Contact ↓';
+          hintText.style.color = 'rgba(128, 0, 255, 0.7)';
+        }
       }
     }
   }
   
-  // Manejar navegación con teclado mejorada
+  // ===== NAVEGACIÓN CON TECLADO (SOLO DESKTOP) =====
   function handleKeyNavigation(e) {
-    if (!isInJobsSection()) return;
+    if (isMobileDevice || !isInJobsSection()) return;
     
-    // Auto-centrar si no está bloqueada la sección
     if (!sectionLocked) {
       autoSnapToSection();
       return;
@@ -295,11 +443,11 @@ function setupHorizontalJobsNavigation() {
     switch(e.key) {
       case 'ArrowRight':
         e.preventDefault();
-        handleScrollDown(); // Usar la misma lógica que scroll hacia abajo
+        handleScrollDown();
         break;
       case 'ArrowLeft':
         e.preventDefault();
-        handleScrollUp(); // Usar la misma lógica que scroll hacia arriba
+        handleScrollUp();
         break;
       case 'ArrowDown':
         e.preventDefault();
@@ -310,76 +458,129 @@ function setupHorizontalJobsNavigation() {
         handleScrollUp();
         break;
       case 'Escape':
-        // Salir de la sección de trabajos
         sectionLocked = false;
         break;
     }
     
-    // Extender el bloqueo al usar teclado
     extendSectionLock();
   }
   
   function extendSectionLock() {
-    sectionLocked = true;
-    clearTimeout(autoSnapTimeout);
-    autoSnapTimeout = setTimeout(() => {
-      sectionLocked = false;
-    }, 4000);
-  }
-  
-  // Recalcular posición al redimensionar la ventana
-  function handleResize() {
-    updateJobPosition();
-    // Re-centrar si estamos en la sección
-    if (isInJobsSection() && sectionLocked) {
-      setTimeout(autoSnapToSection, 100);
+    if (!isMobileDevice) {
+      sectionLocked = true;
+      clearTimeout(autoSnapTimeout);
+      autoSnapTimeout = setTimeout(() => {
+        sectionLocked = false;
+      }, 4000);
     }
   }
   
-  // ===== FUNCIÓN DE LIMPIEZA =====
+  // ===== MANEJO DE REDIMENSIONAMIENTO =====
+  function handleResize() {
+    const wasMobile = isMobileDevice;
+    detectMobileDevice();
+    
+    // Si cambió el tipo de dispositivo, reconfigurar
+    if (wasMobile !== isMobileDevice) {
+      const updateJobPosition = setupJobsDisplay();
+      updateIndicatorForDevice();
+      
+      // Guardar la función de actualización para desktop
+      if (!isMobileDevice && typeof updateJobPosition === 'function') {
+        window.updateJobPosition = updateJobPosition;
+      }
+    }
+    
+    if (!isMobileDevice && typeof window.updateJobPosition === 'function') {
+      window.updateJobPosition();
+      if (isInJobsSection() && sectionLocked) {
+        setTimeout(autoSnapToSection, 100);
+      }
+    }
+  }
+  
+  function updateIndicatorForDevice() {
+    const indicator = document.querySelector('.jobs-indicator');
+    if (indicator) {
+      indicator.remove();
+      createJobIndicator();
+    }
+  }
+  
+  // ===== FUNCIONES DE LIMPIEZA =====
   function cleanup() {
     if (autoSnapTimeout) {
       clearTimeout(autoSnapTimeout);
     }
+    
+    // Remover event listeners
     document.removeEventListener('wheel', handleWheelScroll);
     document.removeEventListener('keydown', handleKeyNavigation);
     window.removeEventListener('resize', handleResize);
-  }
-  
-  // Inicializar todo
-  function init() {
-    if (jobs.length > 0) {
-      createJobIndicator();
-      updateJobPosition();
-      
-      // Configurar el observer para auto-snap
-      const observer = setupIntersectionObserver();
-      
-      // Event listeners
-      document.addEventListener('wheel', handleWheelScroll, { passive: false });
-      document.addEventListener('keydown', handleKeyNavigation);
-      window.addEventListener('resize', handleResize);
-      
-      // Limpiar event listeners al salir
-      window.addEventListener('beforeunload', cleanup);
-      
-      // Auto-snap inicial si ya estamos en la sección
-      setTimeout(() => {
-        if (isInJobsSection()) {
-          autoSnapToSection();
-        }
-      }, 500);
-      
-      return { cleanup, observer };
+    
+    // Remover touch listeners si existen
+    if (jobsSection) {
+      jobsSection.removeEventListener('touchstart', handleTouchStart);
+      jobsSection.removeEventListener('touchmove', handleTouchMove);
+      jobsSection.removeEventListener('touchend', handleTouchEnd);
+    }
+    
+    if (jobsContainer) {
+      jobsContainer.removeEventListener('scroll', updateCurrentJobFromScroll);
+    }
+    
+    // Limpiar variable global
+    if (window.updateJobPosition) {
+      delete window.updateJobPosition;
     }
   }
   
-  // Inicializar después de que las animaciones GSAP estén listas
+  // ===== FUNCIÓN DE INICIALIZACIÓN =====
+  function init() {
+    console.log('Jobs: Iniciando navegación horizontal');
+    
+    // Detectar dispositivo y configurar
+    detectMobileDevice();
+    const updateJobPosition = setupJobsDisplay();
+    createJobIndicator();
+    
+    // Guardar función para desktop
+    if (!isMobileDevice && typeof updateJobPosition === 'function') {
+      window.updateJobPosition = updateJobPosition;
+    }
+    
+    // Configurar intersection observer
+    const observer = setupIntersectionObserver();
+    
+    // Event listeners según dispositivo
+    if (!isMobileDevice) {
+      document.addEventListener('wheel', handleWheelScroll, { passive: false });
+      document.addEventListener('keydown', handleKeyNavigation);
+    }
+    
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('beforeunload', cleanup);
+    
+    // Auto-snap inicial solo para desktop
+    setTimeout(() => {
+      if (!isMobileDevice && isInJobsSection()) {
+        autoSnapToSection();
+      }
+    }, 500);
+    
+    console.log('Jobs: Navegación inicializada correctamente');
+    return { cleanup, observer };
+  }
+  
+  // Inicializar después de que GSAP esté listo
   setTimeout(init, 1200);
 }
 
-// Animaciones GSAP para trabajos
+// ===== ANIMACIONES GSAP ACTUALIZADAS =====
 function setupSection5Animations() {
+  // Detectar si es móvil para ajustar animaciones
+  const isMobile = window.innerWidth <= 968;
+  
   // Animación para el título
   gsap.from('.section-jobs h2', {
     scrollTrigger: {
@@ -388,48 +589,99 @@ function setupSection5Animations() {
       toggleActions: 'play none none none'
     },
     opacity: 0,
-    y: 30,
-    duration: 0.8,
+    y: isMobile ? 20 : 30,
+    duration: isMobile ? 0.6 : 0.8,
     ease: 'back.out'
   });
 
-  // Animación de entrada para la primera tarjeta de trabajo
-  gsap.from('.job-card:first-child', {
-    scrollTrigger: {
-      trigger: '.section-jobs',
-      start: 'top 60%',
-      toggleActions: 'play none none none'
-    },
-    opacity: 0,
-    y: 50,
-    duration: 0.8,
-    ease: 'back.out'
-  });
-
-  // Efecto wobble al hover (diferente al de proyectos)
-  function addWobbleEffect() {
-    const jobs = document.querySelectorAll('.job-card');
-    jobs.forEach(job => {
-      job.addEventListener('mouseenter', () => {
-        gsap.to(job, {
-          keyframes: [
-            { rotate: -3, duration: 0.15 },
-            { rotate: 2, duration: 0.15 },
-            { rotate: -1, duration: 0.1 },
-            { rotate: 0, duration: 0.1 }
-          ],
-          ease: 'power1.inOut'
-        });
-      });
+  // Animación de entrada para las tarjetas
+  if (isMobile) {
+    // En móviles, animar todas las tarjetas visibles
+    gsap.from('.job-card', {
+      scrollTrigger: {
+        trigger: '.section-jobs',
+        start: 'top 60%',
+        toggleActions: 'play none none none'
+      },
+      opacity: 0,
+      y: 30,
+      duration: 0.6,
+      stagger: 0.1,
+      ease: 'back.out'
+    });
+  } else {
+    // En desktop, solo la primera tarjeta
+    gsap.from('.job-card:first-child', {
+      scrollTrigger: {
+        trigger: '.section-jobs',
+        start: 'top 60%',
+        toggleActions: 'play none none none'
+      },
+      opacity: 0,
+      y: 50,
+      duration: 0.8,
+      ease: 'back.out'
     });
   }
 
-  // Inicializar efecto después de cargar la página
+  // Efecto wobble al hover (solo desktop)
+  function addWobbleEffect() {
+    if (window.innerWidth > 968) {
+      const jobs = document.querySelectorAll('.job-card');
+      jobs.forEach(job => {
+        job.addEventListener('mouseenter', () => {
+          gsap.to(job, {
+            keyframes: [
+              { rotate: -2.5, duration: 0.12 },
+              { rotate: 1.8, duration: 0.12 },
+              { rotate: -1, duration: 0.08 },
+              { rotate: 0, duration: 0.08 }
+            ],
+            ease: 'power1.inOut'
+          });
+        });
+      });
+    }
+  }
+
   setTimeout(addWobbleEffect, 500);
 }
 
-// Inicializar cuando el DOM esté listo
+// ===== OPTIMIZACIÓN PARA RENDIMIENTO =====
+function optimizeForDevice() {
+  const isMobile = window.innerWidth <= 968;
+  
+  if (isMobile) {
+    // Configurar para mejor rendimiento en móviles
+    gsap.config({
+      force3D: false,
+      nullTargetWarn: false
+    });
+    
+    // Reducir complejidad visual en dispositivos lentos
+    if (navigator.deviceMemory && navigator.deviceMemory < 4) {
+      const jobs = document.querySelectorAll('.job-card');
+      jobs.forEach(job => {
+        job.style.backdropFilter = 'none';
+        job.style.transition = 'transform 0.2s ease';
+      });
+    }
+  }
+}
+
+// ===== INICIALIZACIÓN PRINCIPAL =====
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('Jobs: DOM cargado, iniciando configuración');
+  optimizeForDevice();
   setupSection5Animations();
   setupHorizontalJobsNavigation();
+  
+  // Pausar animaciones cuando la pestaña no está visible
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      gsap.globalTimeline.pause();
+    } else {
+      gsap.globalTimeline.resume();
+    }
+  });
 });

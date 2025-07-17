@@ -223,49 +223,309 @@
   }
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+
+/* Tablets Pequeñas (968px - 768px) - CENTRADO Y OPTIMIZADO */
+@media (max-width: 968px) {
   .section-contact {
-    padding: 60px 20px;
+    padding: clamp(50px, 8vh, 70px) 20px !important;
+    margin: 0 !important;
+    box-sizing: border-box;
+    text-align: center;
   }
 
-  .contact-icons {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1.5rem;
+  .contact-container {
+    max-width: calc(100% - 40px);
+    margin: 0 auto;
+    text-align: center;
   }
-  
-  .contact-icon {
-    width: 120px;
-    height: 120px;
-  }
-  
-  .contact-icon i {
-    font-size: 2rem;
+
+  .contact-container h2 {
+    font-size: clamp(2rem, 6vw, 2.5rem);
+    margin-bottom: clamp(1rem, 3vw, 1.5rem);
+    text-align: center;
   }
 
   .contact-container p {
-    font-size: 1.1rem;
-    margin-bottom: 3rem;
+    font-size: clamp(1rem, 3vw, 1.1rem);
+    margin-bottom: clamp(2.5rem, 5vw, 3rem);
+    text-align: center;
+    max-width: 90%;
   }
-}
 
-@media (max-width: 480px) {
   .contact-icons {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: clamp(1.2rem, 3vw, 1.8rem);
+    max-width: 100%;
+    padding: 0;
+    justify-items: center;
   }
   
   .contact-icon {
-    width: 100px;
-    height: 100px;
+    width: clamp(110px, 20vw, 130px);
+    height: clamp(110px, 20vw, 130px);
+    margin: 0 auto;
   }
   
   .contact-icon i {
-    font-size: 1.8rem;
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
   }
 
   .contact-name {
-    font-size: 0.8rem;
-    bottom: -2rem;
+    font-size: clamp(0.75rem, 2vw, 0.85rem);
+    bottom: clamp(-2.2rem, -4vw, -2rem);
+  }
+
+  /* Reducir efectos hover en tablets */
+  .contact-icon:hover {
+    transform: translateY(-3px);
+  }
+}
+
+/* Móviles Grandes (768px - 640px) */
+@media (max-width: 768px) {
+  .section-contact {
+    padding: clamp(40px, 7vh, 60px) 20px !important;
+  }
+
+  .contact-container {
+    max-width: calc(100% - 40px);
+  }
+
+  .contact-container h2 {
+    font-size: clamp(1.8rem, 5.5vw, 2.2rem);
+    margin-bottom: clamp(0.8rem, 2.5vw, 1.2rem);
+  }
+
+  .contact-container p {
+    font-size: clamp(0.9rem, 2.8vw, 1rem);
+    margin-bottom: clamp(2rem, 4vw, 2.5rem);
+    max-width: 95%;
+  }
+
+  .contact-icons {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+  }
+  
+  .contact-icon {
+    width: clamp(100px, 18vw, 120px);
+    height: clamp(100px, 18vw, 120px);
+  }
+  
+  .contact-icon i {
+    font-size: clamp(1.6rem, 3.5vw, 2rem);
+  }
+
+  .contact-name {
+    font-size: clamp(0.7rem, 1.8vw, 0.8rem);
+    bottom: clamp(-2rem, -3.5vw, -1.8rem);
+  }
+}
+
+/* Móviles Medianos (640px - 480px) */
+@media (max-width: 640px) {
+  .section-contact {
+    padding: clamp(35px, 6vh, 50px) 20px !important;
+  }
+
+  .contact-icons {
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(0.8rem, 2vw, 1.2rem);
+    max-width: 90%;
+  }
+  
+  .contact-icon {
+    width: clamp(90px, 16vw, 110px);
+    height: clamp(90px, 16vw, 110px);
+  }
+  
+  .contact-icon i {
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+  }
+
+  .contact-name {
+    font-size: clamp(0.65rem, 1.6vw, 0.75rem);
+    bottom: clamp(-1.8rem, -3vw, -1.6rem);
+  }
+}
+
+/* Móviles Pequeños (480px - 360px) */
+@media (max-width: 480px) {
+  .section-contact {
+    padding: clamp(30px, 5vh, 45px) 20px !important;
+  }
+
+  .contact-container h2 {
+    font-size: clamp(1.5rem, 4.5vw, 1.8rem);
+    margin-bottom: clamp(0.6rem, 2vw, 1rem);
+  }
+
+  .contact-container p {
+    font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+    margin-bottom: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .contact-icons {
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(0.6rem, 1.5vw, 1rem);
+    max-width: 85%;
+  }
+  
+  .contact-icon {
+    width: clamp(80px, 14vw, 100px);
+    height: clamp(80px, 14vw, 100px);
+  }
+  
+  .contact-icon i {
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  }
+
+  .contact-name {
+    font-size: clamp(0.6rem, 1.4vw, 0.7rem);
+    bottom: clamp(-1.6rem, -2.5vw, -1.4rem);
+  }
+
+  /* Simplificar hover en móviles pequeños */
+  .contact-icon:hover {
+    transform: translateY(-2px);
+  }
+
+  .contact-icon:hover i {
+    transform: scale(1.05);
+  }
+}
+
+/* Móviles Muy Pequeños (360px y menos) */
+@media (max-width: 360px) {
+  .section-contact {
+    padding: clamp(25px, 4vh, 40px) 20px !important;
+  }
+
+  .contact-container h2 {
+    font-size: clamp(1.3rem, 4vw, 1.6rem);
+  }
+
+  .contact-container p {
+    font-size: clamp(0.75rem, 2.2vw, 0.85rem);
+    margin-bottom: clamp(1.2rem, 2.5vw, 1.8rem);
+  }
+
+  .contact-icons {
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(0.5rem, 1.2vw, 0.8rem);
+    max-width: 80%;
+  }
+  
+  .contact-icon {
+    width: clamp(70px, 12vw, 90px);
+    height: clamp(70px, 12vw, 90px);
+  }
+  
+  .contact-icon i {
+    font-size: clamp(1rem, 2.2vw, 1.4rem);
+  }
+
+  .contact-name {
+    font-size: clamp(0.55rem, 1.2vw, 0.65rem);
+    bottom: clamp(-1.4rem, -2vw, -1.2rem);
+  }
+}
+
+/* ===== OPTIMIZACIONES PARA MÓVILES ===== */
+
+/* Reducir animaciones en móviles para mejor rendimiento */
+@media (max-width: 968px) {
+  /* Simplificar animación de flotación */
+  .contact-icon:nth-child(odd),
+  .contact-icon:nth-child(even) {
+    animation: none;
+  }
+
+  /* Reducir partículas en móviles */
+  .particles {
+    display: none;
+  }
+
+  /* Simplificar efectos de hover */
+  .contact-icon:hover .contact-icon-inner {
+    box-shadow: 0 10px 20px rgba(128, 0, 255, 0.15);
+  }
+
+  /* Eliminar backdrop-filter en dispositivos lentos */
+  .contact-icon-inner {
+    backdrop-filter: none;
+  }
+}
+
+/* Orientación horizontal en móviles */
+@media (max-height: 500px) and (orientation: landscape) {
+  .section-contact {
+    padding: 20px;
+    min-height: auto;
+  }
+
+  .contact-container h2 {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    margin-bottom: 0.8rem;
+  }
+
+  .contact-container p {
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-icons {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 1rem;
+    max-width: 100%;
+  }
+
+  .contact-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .contact-icon i {
+    font-size: 1.4rem;
+  }
+
+  .contact-name {
+    font-size: 0.6rem;
+    bottom: -1.2rem;
+  }
+}
+
+/* Preferencias de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .contact-icon,
+  .contact-icon i,
+  .contact-name,
+  .particle {
+    animation: none;
+    transition: none;
+  }
+  
+  .contact-icon:hover {
+    transform: none;
+  }
+  
+  .contact-icon:hover i {
+    transform: none;
+  }
+}
+
+/* Alto contraste */
+@media (prefers-contrast: high) {
+  .contact-icon-inner {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .contact-icon:hover .contact-icon-inner {
+    border-color: #8000ff;
+  }
+  
+  .contact-name {
+    color: #ffffff;
   }
 }
