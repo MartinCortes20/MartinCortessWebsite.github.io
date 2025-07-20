@@ -5,12 +5,15 @@
   z-index: 3;
   position: relative;
   min-height: 100vh;
-  padding: 40px 0;
-  overflow: hidden;
+  padding: 40px 0 !important; /* Solo padding vertical */
+  margin: 0 !important;
+  width: 100vw !important; /* Forzar ancho completo */
+  overflow-x: hidden !important;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .section-projects::before {
@@ -26,14 +29,15 @@
 }
 
 .section-projects .container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+  width: 100% !important;
+  max-width: none !important; /* Quitar límite de ancho */
+  margin: 0 !important;
+  padding: 0 !important; /* Eliminar padding horizontal del container */
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .section-projects h2 {
@@ -41,17 +45,48 @@
   font-size: 2.5rem;
   margin-bottom: 40px;
   text-align: center;
+  padding: 0 20px; /* Solo el título con padding para no tocar bordes */
 }
 
 .projects-container {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 40px;
-  width: fit-content;
-  transition: transform 0.6s ease-in-out;
-  padding: 20px 0;
-  justify-content: center;
+  width: 100vw !important; /* Ancho completo de la pantalla */
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 20px 0 !important; /* Solo padding vertical */
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  
+  /* Configuración para el scroll horizontal */
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 30px !important;
+  
+  /* Empezar desde el borde izquierdo */
+  justify-content: flex-start !important;
+  align-items: center;
+  
+  /* Padding lateral mínimo solo para que no toquen el borde */
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  
+  /* Mejorar scroll */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain; /* Prevenir rebote */
+  
+  /* Transición suave */
+  transition: none !important;
+  transform: none !important;
+  
   background: transparent;
+  box-sizing: border-box;
+}
+
+.projects-container::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
 .project-card {
@@ -67,9 +102,12 @@
   flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 2px solid rgba(128, 0, 255, 0.6);
-  flex-shrink: 0;
+  flex-shrink: 0 !important;
+  scroll-snap-align: center;
   position: relative;
   backdrop-filter: blur(10px);
+  margin: 0 !important; /* Eliminar margin de las tarjetas */
+  box-sizing: border-box;
 }
 
 .project-card:hover {

@@ -281,14 +281,13 @@
     margin: 0 !important;
     box-sizing: border-box;
     touch-action: pan-y pan-x;
-    overflow: hidden; /* Ocultar cualquier overflow */
+    overflow-x: visible;
   }
 
   .section-jobs .container {
     padding: 0;
     max-width: calc(100% - 40px);
     margin: 0 auto;
-    overflow: hidden; /* Ocultar overflow del contenedor */
   }
 
   .section-jobs h2 {
@@ -307,16 +306,10 @@
     padding: 15px 0;
     gap: 20px;
     width: 100%;
-    max-width: 100%; /* Limitar ancho máximo */
     justify-content: flex-start;
     transform: none !important;
     transition: none !important;
     margin: 0;
-    /* Limitar el scroll para evitar arrastre */
-    overscroll-behavior-x: contain;
-    -webkit-overflow-scrolling: touch;
-    /* Asegurar que no se extienda más allá del contenedor */
-    box-sizing: border-box;
   }
 
   .jobs-container::-webkit-scrollbar {
@@ -329,8 +322,6 @@
     flex-shrink: 0;
     scroll-snap-align: center;
     margin: 0 10px;
-    /* Asegurar que las tarjetas no causen overflow */
-    box-sizing: border-box;
   }
 
   .job-card:hover {
@@ -378,7 +369,6 @@
     font-size: 9px;
   }
 
-  /* Eliminar gradientes laterales que pueden causar overflow */
   .jobs-container::before,
   .jobs-container::after {
     display: none;
