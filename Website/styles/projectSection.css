@@ -5,15 +5,12 @@
   z-index: 3;
   position: relative;
   min-height: 100vh;
-  padding: 40px 0 !important; /* Solo padding vertical */
-  margin: 0 !important;
-  width: 100vw !important; /* Forzar ancho completo */
-  overflow-x: hidden !important;
+  padding: 40px 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-sizing: border-box;
 }
 
 .section-projects::before {
@@ -29,15 +26,14 @@
 }
 
 .section-projects .container {
-  width: 100% !important;
-  max-width: none !important; /* Quitar límite de ancho */
-  margin: 0 !important;
-  padding: 0 !important; /* Eliminar padding horizontal del container */
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-sizing: border-box;
 }
 
 .section-projects h2 {
@@ -45,48 +41,18 @@
   font-size: 2.5rem;
   margin-bottom: 40px;
   text-align: center;
-  padding: 0 20px; /* Solo el título con padding para no tocar bordes */
 }
 
 .projects-container {
-  width: 100vw !important; /* Ancho completo de la pantalla */
-  max-width: none !important;
-  margin: 0 !important;
-  padding: 20px 0 !important; /* Solo padding vertical */
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  
-  /* Configuración para el scroll horizontal */
-  display: flex !important;
-  flex-wrap: nowrap !important;
-  gap: 30px !important;
-  
-  /* Empezar desde el borde izquierdo */
-  justify-content: flex-start !important;
-  align-items: center;
-  
-  /* Padding lateral mínimo solo para que no toquen el borde */
-  padding-left: 20px !important;
-  padding-right: 20px !important;
-  
-  /* Mejorar scroll */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-x: contain; /* Prevenir rebote */
-  
-  /* Transición suave */
-  transition: none !important;
-  transform: none !important;
-  
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 30px 0 50px 0; /* Más padding inferior para evitar recortes */
+  gap: 30px;
+  width: fit-content;
+  transition: transform 0.5s ease-in-out;
+  justify-content: flex-start;
   background: transparent;
-  box-sizing: border-box;
-}
-
-.projects-container::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+  min-height: 550px; /* Altura mínima para asegurar que las tarjetas se vean completas */
 }
 
 .project-card {
@@ -102,12 +68,9 @@
   flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 2px solid rgba(128, 0, 255, 0.6);
-  flex-shrink: 0 !important;
-  scroll-snap-align: center;
+  flex-shrink: 0;
   position: relative;
   backdrop-filter: blur(10px);
-  margin: 0 !important; /* Eliminar margin de las tarjetas */
-  box-sizing: border-box;
 }
 
 .project-card:hover {
@@ -212,13 +175,13 @@
   backdrop-filter: blur(10px);
 }
 
-.indicator-dots {
+.projects-indicator .indicator-dots {
   display: flex;
   gap: 8px;
   margin-bottom: 10px;
 }
 
-.indicator-dots .dot {
+.projects-indicator .indicator-dots .dot {
   width: 12px;
   height: 12px;
   border-radius: 50%;
@@ -228,19 +191,19 @@
   border: 2px solid transparent;
 }
 
-.indicator-dots .dot.active {
+.projects-indicator .indicator-dots .dot.active {
   background-color: #8000ff;
   border-color: white;
   transform: scale(1.2);
   box-shadow: 0 0 10px rgba(128, 0, 255, 0.5);
 }
 
-.indicator-dots .dot:hover {
+.projects-indicator .indicator-dots .dot:hover {
   background-color: rgba(128, 0, 255, 0.7);
   transform: scale(1.1);
 }
 
-.indicator-direction {
+.projects-indicator .indicator-direction {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -248,15 +211,16 @@
   font-size: 14px;
 }
 
-.direction-arrow {
+.projects-indicator .direction-arrow {
   font-size: 18px;
   font-weight: bold;
   transition: transform 0.3s ease;
 }
 
-.direction-text {
+.projects-indicator .direction-text {
   font-size: 12px;
   color: rgba(128, 0, 255, 0.7);
+  font-weight: 500;
 }
 
 .section-status {
@@ -313,23 +277,25 @@
   pointer-events: none;
 }
 
-/* ===== RESPONSIVE BREAKPOINTS ===== */
+/* ===== RESPONSIVE BREAKPOINTS CORREGIDOS ===== */
 
 /* Tablets Pequeñas (968px - 768px) - MÓVIL CON TOUCH */
 @media (max-width: 968px) {
   .section-projects {
-    padding: clamp(35px, 7vh, 50px) 20px !important;
+    padding: clamp(35px, 7vh, 50px) 0 clamp(80px, 12vh, 120px) 0 !important; /* Más padding inferior en móviles */
     margin: 0 !important;
     box-sizing: border-box;
     touch-action: pan-y pan-x;
-    overflow: hidden; /* Ocultar cualquier overflow */
+    overflow-x: visible;
+    min-height: clamp(600px, 80vh, 750px); /* Altura mínima para evitar recortes */
   }
 
   .section-projects .container {
-    padding: 0;
-    max-width: calc(100% - 40px);
-    margin: 0 auto;
-    overflow: hidden; /* Ocultar overflow del contenedor */
+    padding: 0 20px; /* Solo padding para el título */
+    max-width: 100%;
+    margin: 0;
+    width: 100%;
+    min-height: clamp(500px, 70vh, 650px); /* Altura mínima del container */
   }
 
   .section-projects h2 {
@@ -345,18 +311,16 @@
     -ms-overflow-style: none;
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
-    padding: 15px 0;
-    gap: 20px;
-    width: 100%;
-    max-width: 100%; /* Limitar ancho máximo */
+    padding: 20px 20px 60px 20px; /* Más padding inferior para evitar recortes */
+    gap: 15px; /* Gap reducido */
+    width: 100vw; /* Ocupar todo el ancho de la pantalla */
+    max-width: none;
     justify-content: flex-start;
     transform: none !important;
     transition: none !important;
-    /* Limitar el scroll para evitar arrastre */
-    overscroll-behavior-x: contain;
-    -webkit-overflow-scrolling: touch;
-    /* Asegurar que no se extienda más allá del contenedor */
+    margin: 0;
     box-sizing: border-box;
+    min-height: clamp(450px, 65vh, 500px); /* Altura mínima para las tarjetas */
   }
 
   .projects-container::-webkit-scrollbar {
@@ -364,13 +328,11 @@
   }
 
   .project-card {
-    width: clamp(260px, 70vw, 300px);
-    height: clamp(350px, 60vh, 400px);
+    width: clamp(240px, 65vw, 280px); /* Tarjetas más pequeñas */
+    height: clamp(320px, 55vh, 370px); /* Altura reducida */
     flex-shrink: 0;
     scroll-snap-align: center;
-    margin: 0 10px;
-    /* Asegurar que las tarjetas no causen overflow */
-    box-sizing: border-box;
+    margin: 0 5px; /* Margen reducido */
   }
 
   .project-card:hover {
@@ -378,25 +340,25 @@
   }
 
   .project-image {
-    height: clamp(140px, 25vh, 180px);
+    height: clamp(120px, 22vh, 150px); /* Imagen más pequeña */
   }
 
   .project-content {
-    padding: clamp(12px, 3vw, 18px);
+    padding: clamp(10px, 2.5vw, 15px);
   }
 
   .project-title {
-    font-size: clamp(18px, 4vw, 22px);
-    margin-bottom: clamp(8px, 2vw, 12px);
+    font-size: clamp(16px, 3.5vw, 20px);
+    margin-bottom: clamp(6px, 1.5vw, 10px);
   }
 
   .project-description {
-    font-size: clamp(13px, 3vw, 15px);
+    font-size: clamp(12px, 2.8vw, 14px);
     line-height: 1.3;
   }
 
   .project-link {
-    padding: clamp(10px, 2vw, 15px);
+    padding: clamp(8px, 2vw, 12px);
   }
 
   .projects-indicator {
@@ -404,7 +366,7 @@
     padding: 12px 20px;
   }
 
-  .direction-text {
+  .projects-indicator .direction-text {
     font-size: 11px;
   }
 
@@ -412,7 +374,6 @@
     font-size: 9px;
   }
 
-  /* Eliminar gradientes laterales que pueden causar overflow */
   .projects-container::before,
   .projects-container::after {
     display: none;
@@ -422,29 +383,40 @@
 /* Móviles Grandes (768px - 640px) */
 @media (max-width: 768px) {
   .section-projects {
-    padding: clamp(30px, 6vh, 45px) 20px !important;
+    padding: clamp(30px, 6vh, 45px) 0 clamp(70px, 10vh, 100px) 0 !important; /* Más padding inferior */
+    min-height: clamp(550px, 75vh, 700px);
+  }
+
+  .projects-container {
+    padding: 15px 15px 50px 15px; /* Más padding inferior */
+    gap: 12px;
+    min-height: clamp(400px, 60vh, 450px);
   }
 
   .project-card {
-    width: clamp(240px, 65vw, 280px);
-    height: clamp(320px, 55vh, 370px);
-    margin: 0 8px;
+    width: clamp(220px, 60vw, 260px); /* Aún más pequeñas */
+    height: clamp(300px, 50vh, 350px);
+    margin: 0 4px;
   }
 
   .project-image {
-    height: clamp(120px, 22vh, 160px);
+    height: clamp(110px, 20vh, 140px);
   }
 
   .project-content {
-    padding: clamp(10px, 2.5vw, 15px);
+    padding: clamp(8px, 2vw, 12px);
   }
 
   .project-title {
-    font-size: clamp(16px, 3.5vw, 20px);
+    font-size: clamp(15px, 3.2vw, 18px);
   }
 
   .project-description {
-    font-size: clamp(12px, 2.8vw, 14px);
+    font-size: clamp(11px, 2.5vw, 13px);
+  }
+
+  .project-link {
+    padding: clamp(6px, 1.5vw, 10px);
   }
 
   .projects-indicator {
@@ -452,7 +424,7 @@
     padding: 10px 18px;
   }
 
-  .indicator-dots .dot {
+  .projects-indicator .indicator-dots .dot {
     width: 10px;
     height: 10px;
   }
@@ -461,83 +433,92 @@
 /* Móviles Medianos (640px - 480px) */
 @media (max-width: 640px) {
   .section-projects {
-    padding: clamp(25px, 5vh, 40px) 20px !important;
-  }
-
-  .project-card {
-    width: clamp(220px, 60vw, 260px);
-    height: clamp(300px, 50vh, 350px);
-    margin: 0 6px;
-  }
-
-  .project-image {
-    height: clamp(110px, 20vh, 140px);
+    padding: clamp(25px, 5vh, 40px) 0 clamp(60px, 8vh, 80px) 0 !important; /* Más padding inferior */
+    min-height: clamp(500px, 70vh, 650px);
   }
 
   .projects-container {
-    gap: 15px;
-    padding: 12px 0;
+    padding: 12px 12px 45px 12px; /* Más padding inferior */
+    gap: 10px;
+    min-height: clamp(380px, 55vh, 420px);
+  }
+
+  .project-card {
+    width: clamp(200px, 55vw, 240px);
+    height: clamp(280px, 45vh, 320px);
+    margin: 0 3px;
+  }
+
+  .project-image {
+    height: clamp(100px, 18vh, 120px);
   }
 }
 
 /* Móviles Pequeños (480px - 360px) */
 @media (max-width: 480px) {
   .section-projects {
-    padding: clamp(20px, 4vh, 35px) 20px !important;
-  }
-
-  .project-card {
-    width: clamp(200px, 55vw, 240px);
-    height: clamp(280px, 45vh, 320px);
-    margin: 0 5px;
-  }
-
-  .project-image {
-    height: clamp(100px, 18vh, 120px);
-  }
-
-  .project-content {
-    padding: clamp(8px, 2vw, 12px);
-  }
-
-  .project-title {
-    font-size: clamp(14px, 3vw, 18px);
-  }
-
-  .project-description {
-    font-size: clamp(11px, 2.5vw, 13px);
-  }
-
-  .project-link {
-    padding: clamp(8px, 1.5vw, 12px);
-  }
-
-  .projects-indicator {
-    bottom: 10px;
-    padding: 8px 15px;
+    padding: clamp(20px, 4vh, 35px) 0 clamp(50px, 7vh, 70px) 0 !important; /* Más padding inferior */
+    min-height: clamp(450px, 65vh, 600px);
   }
 
   .projects-container {
-    gap: 12px;
-    padding: 10px 0;
+    padding: 10px 10px 40px 10px; /* Más padding inferior */
+    gap: 8px;
+    min-height: clamp(360px, 50vh, 400px);
   }
-}
 
-/* Móviles Muy Pequeños (360px y menos) */
-@media (max-width: 360px) {
   .project-card {
-    width: clamp(180px, 50vw, 220px);
+    width: clamp(180px, 50vw, 220px); /* Tarjetas más compactas */
     height: clamp(260px, 40vh, 300px);
-    margin: 0 4px;
+    margin: 0 2px;
   }
 
   .project-image {
     height: clamp(90px, 16vh, 110px);
   }
 
+  .project-content {
+    padding: clamp(6px, 1.5vw, 10px);
+  }
+
+  .project-title {
+    font-size: clamp(13px, 2.8vw, 16px);
+  }
+
+  .project-description {
+    font-size: clamp(10px, 2.2vw, 12px);
+  }
+
+  .project-link {
+    padding: clamp(5px, 1.2vw, 8px);
+  }
+
+  .projects-indicator {
+    bottom: 10px;
+    padding: 8px 15px;
+  }
+}
+
+/* Móviles Muy Pequeños (360px y menos) */
+@media (max-width: 360px) {
+  .section-projects {
+    min-height: clamp(400px, 60vh, 550px);
+  }
+
   .projects-container {
-    gap: 10px;
-    padding: 8px 0;
+    padding: 8px 8px 35px 8px; /* Más padding inferior */
+    gap: 6px;
+    min-height: clamp(320px, 45vh, 380px);
+  }
+
+  .project-card {
+    width: clamp(160px, 45vw, 200px); /* Máximo compacto */
+    height: clamp(240px, 35vh, 280px);
+    margin: 0 1px;
+  }
+
+  .project-image {
+    height: clamp(80px, 14vh, 100px);
   }
 
   .projects-indicator {
@@ -546,44 +527,44 @@
 }
 
 /* ===== ANIMACIONES ADICIONALES ===== */
-@keyframes pulse {
+@keyframes projectPulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.05); }
   100% { transform: scale(1); }
 }
 
 .projects-indicator .dot.active {
-  animation: pulse 2s infinite;
+  animation: projectPulse 2s infinite;
 }
 
-.direction-arrow {
-  animation: bounce 2s infinite;
+.projects-indicator .direction-arrow {
+  animation: projectBounce 2s infinite;
 }
 
-@keyframes bounce {
+@keyframes projectBounce {
   0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
   40% { transform: translateY(-5px); }
   60% { transform: translateY(-3px); }
 }
 
-/* ===== EFECTOS DE INTEGRACIÓN CON EL FONDO ===== */
+/* ===== EFECTO HOVER ESPECIAL PARA PROYECTOS ===== */
 .project-card::before {
   content: '';
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, 
-    transparent 0%, 
-    rgba(128, 0, 255, 0.05) 25%, 
-    transparent 50%, 
-    rgba(255, 107, 53, 0.05) 75%, 
-    transparent 100%);
-  pointer-events: none;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(128, 0, 255, 0.1), transparent);
+  transition: left 0.5s;
   z-index: 1;
 }
 
+.project-card:hover::before {
+  left: 100%;
+}
+
+/* ===== EFECTOS DE INTEGRACIÓN CON EL FONDO ===== */
 .project-card > * {
   position: relative;
   z-index: 2;
@@ -591,7 +572,6 @@
 
 /* ===== MEJORAS PARA TOUCH EN MÓVILES ===== */
 @media (max-width: 968px) {
-  /* Mejorar área de toque */
   .project-card {
     cursor: pointer;
     user-select: none;
@@ -599,18 +579,15 @@
     -webkit-touch-callout: none;
   }
 
-  /* Feedback visual en toque */
   .project-card:active {
     transform: scale(0.98);
     transition: transform 0.1s ease;
   }
 
-  /* Optimizar transiciones para móviles */
   .project-card {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
-  /* Indicador móvil específico */
   .projects-indicator .direction-text {
     content: "Swipe horizontally";
   }
@@ -619,17 +596,22 @@
 /* Orientación horizontal en móviles */
 @media (max-height: 500px) and (orientation: landscape) {
   .section-projects {
-    padding: 15px 20px;
+    padding: 15px 0 40px 0; /* Más padding inferior incluso en landscape */
     min-height: auto;
   }
 
+  .projects-container {
+    padding: 10px 15px 30px 15px; /* Más padding inferior */
+    min-height: clamp(250px, 80vh, 300px);
+  }
+
   .project-card {
-    height: clamp(240px, 70vh, 280px);
-    width: clamp(200px, 45vw, 250px);
+    height: clamp(200px, 60vh, 240px);
+    width: clamp(180px, 40vw, 220px);
   }
 
   .project-image {
-    height: clamp(80px, 25vh, 100px);
+    height: clamp(70px, 20vh, 90px);
   }
 
   .projects-indicator {
@@ -654,7 +636,7 @@
     animation: none;
   }
   
-  .direction-arrow {
+  .projects-indicator .direction-arrow {
     animation: none;
   }
 }

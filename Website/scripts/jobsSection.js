@@ -1,8 +1,9 @@
-// ===== SECCIÓN TRABAJOS - SOLO NAVEGACIÓN CON DOTS =====
+// ===== SECCIÓN TRABAJOS - NAVEGACIÓN CON DOTS CORREGIDA =====
 
 function setupHorizontalJobsNavigation() {
   let currentJobIndex = 0;
   let isMobileDevice = false;
+  let updateJobPosition = null;
   
   const jobs = document.querySelectorAll('.job-card');
   const jobsContainer = document.querySelector('.jobs-container');
@@ -19,6 +20,7 @@ function setupHorizontalJobsNavigation() {
   function setupJobsDisplay() {
     if (detectMobileDevice()) {
       setupMobileScrolling();
+      return null;
     } else {
       return setupDesktopNavigation();
     }
@@ -26,67 +28,120 @@ function setupHorizontalJobsNavigation() {
   
   // ===== CONFIGURACIÓN PARA MÓVILES =====
   function setupMobileScrolling() {
-    // Resetear posición inicial
+    console.log('Jobs: Configurando scroll móvil');
+    
+    // Resetear transformaciones de desktop
     jobsContainer.style.transform = 'none';
     jobsContainer.style.transition = 'none';
     
-    // Configurar scroll horizontal con límites
+    // Configurar scroll horizontal
     jobsContainer.style.overflowX = 'auto';
     jobsContainer.style.overflowY = 'hidden';
     jobsContainer.style.scrollBehavior = 'smooth';
     jobsContainer.style.scrollSnapType = 'x mandatory';
-    
-    // Prevenir el overscroll que causa la pestañita negra
     jobsContainer.style.overscrollBehaviorX = 'contain';
     jobsContainer.style.webkitOverflowScrolling = 'touch';
     
-    // Limitar el ancho del contenedor para evitar scroll extra
-    jobsContainer.style.maxWidth = '100%';
-    jobsContainer.style.boxSizing = 'border-box';
+    // Asegurar que el container ocupe todo el ancho disponible
+    jobsContainer.style.width = '100%';
+    jobsContainer.style.maxWidth = 'none';
+    jobsContainer.style.justifyContent = 'flex-start';
     
     // Configurar scroll snap para cada tarjeta
     jobs.forEach(card => {
       card.style.scrollSnapAlign = 'center';
-      card.style.boxSizing = 'border-box';
+      card.style.flexShrink = '0';
     });
     
-    // Scroll al primer trabajo
-    if (jobs.length > 0) {
-      setTimeout(() => {
-        jobs[0].scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'center'
-        });
-      }, 100);
+    // Scroll inicial al primer trabajo
+    setTimeout(() => {
+      if (jobs.length > 0) {
+        jobsContainer.scrollLeft = 0;
+        console.log('Jobs: Scroll inicial a la izquierda en móvil');
+      }
+    }, 100);
+    
+    // Listener para detectar scroll y actualizar dots
+    setupMobileScrollListener();
+  }
+  
+  // ===== LISTENER PARA SCROLL EN MÓVILES =====
+  function setupMobileScrollListener() {
+    let scrollTimeout;
+    
+    jobsContainer.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        updateCurrentIndexFromScroll();
+      }, 150);
+    });
+  }
+  
+  // ===== ACTUALIZAR ÍNDICE BASADO EN SCROLL =====
+  function updateCurrentIndexFromScroll() {
+    if (!isMobileDevice) return;
+    
+    const containerRect = jobsContainer.getBoundingClientRect();
+    const containerCenter = containerRect.left + containerRect.width / 2;
+    
+    let closestIndex = 0;
+    let closestDistance = Infinity;
+    
+    jobs.forEach((job, index) => {
+      const jobRect = job.getBoundingClientRect();
+      const jobCenter = jobRect.left + jobRect.width / 2;
+      const distance = Math.abs(containerCenter - jobCenter);
+      
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
+    
+    if (closestIndex !== currentJobIndex) {
+      currentJobIndex = closestIndex;
+      updateJobIndicator();
+      console.log('Jobs: Índice actualizado por scroll:', currentJobIndex);
     }
   }
   
   // ===== CONFIGURACIÓN PARA DESKTOP =====
   function setupDesktopNavigation() {
-    // Configurar contenedor para desktop
-    jobsContainer.style.overflowX = 'hidden';
+    console.log('Jobs: Configurando navegación desktop');
+    
+    // Resetear estilos de móvil
+    jobsContainer.style.overflowX = 'visible';
+    jobsContainer.style.scrollBehavior = 'auto';
+    jobsContainer.style.scrollSnapType = 'none';
+    
+    // Configurar para navegación con transform
     jobsContainer.style.transition = 'transform 0.6s ease-in-out';
+    jobsContainer.style.display = 'flex';
+    jobsContainer.style.justifyContent = 'flex-start';
     
-    const jobWidth = 350 + 40 + 40; // ancho de tarjeta + gap + márgenes
+    // Calcular ancho de cada trabajo (tarjeta + gap + márgenes)
+    const jobWidth = 350 + 40 + 40; // width + gap + margins
     
-    function updateJobPosition() {
+    function updatePosition() {
+      // Calcular offset para mostrar trabajo actual en el extremo izquierdo
       const containerWidth = jobsSection.offsetWidth;
-      const centerOffset = (containerWidth - 350) / 2;
-      const offset = centerOffset - (currentJobIndex * jobWidth);
+      const leftMargin = 50; // Margen desde el borde izquierdo
+      const offset = leftMargin - (currentJobIndex * jobWidth);
+      
       jobsContainer.style.transform = `translateX(${offset}px)`;
+      console.log(`Jobs: Desktop - Moviendo a trabajo ${currentJobIndex}, offset: ${offset}px`);
     }
     
-    // Mostrar primer trabajo inicialmente
+    // Posición inicial (primer trabajo en extremo izquierdo)
     currentJobIndex = 0;
-    updateJobPosition();
+    updatePosition();
     
-    return updateJobPosition;
+    return updatePosition;
   }
   
   // ===== INDICADOR VISUAL CON DOTS =====
   function createJobIndicator() {
-    // Eliminar indicador existente si existe
+    // Eliminar indicador existente
     const existingIndicator = document.querySelector('.jobs-indicator');
     if (existingIndicator) {
       existingIndicator.remove();
@@ -99,13 +154,15 @@ function setupHorizontalJobsNavigation() {
       `<span class="dot ${index === 0 ? 'active' : ''}" data-index="${index}"></span>`
     ).join('');
     
+    const directionText = isMobileDevice ? 'Swipe or click dots' : 'Click dots to navigate';
+    
     indicator.innerHTML = `
       <div class="indicator-dots">
         ${dotsHtml}
       </div>
       <div class="indicator-direction">
         <span class="direction-arrow">⟷</span>
-        <span class="direction-text">Click dots to navigate</span>
+        <span class="direction-text">${directionText}</span>
       </div>
     `;
     
@@ -113,36 +170,43 @@ function setupHorizontalJobsNavigation() {
     
     // Eventos para los dots
     const dots = indicator.querySelectorAll('.dot');
-    dots.forEach(dot => {
-      dot.addEventListener('click', handleDotClick);
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => handleDotClick(index));
     });
     
     console.log('Jobs: Indicador creado con', dots.length, 'dots');
   }
   
   // ===== MANEJO DE CLICKS EN DOTS =====
-  function handleDotClick(e) {
-    const index = parseInt(e.target.dataset.index);
+  function handleDotClick(index) {
     console.log('Jobs: Click en dot', index);
     
     // Actualizar índice actual
     currentJobIndex = index;
     
     if (isMobileDevice) {
-      // En móviles, hacer scroll al trabajo correspondiente
+      // En móviles, scroll al trabajo correspondiente
       const targetJob = jobs[index];
       if (targetJob) {
-        targetJob.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'center'
+        // Calcular posición de scroll para centrar la tarjeta
+        const containerRect = jobsContainer.getBoundingClientRect();
+        const jobRect = targetJob.getBoundingClientRect();
+        
+        const scrollLeft = jobsContainer.scrollLeft + 
+                          (jobRect.left - containerRect.left) - 
+                          (containerRect.width - jobRect.width) / 2;
+        
+        jobsContainer.scrollTo({
+          left: scrollLeft,
+          behavior: 'smooth'
         });
+        
         console.log('Jobs: Scrolling a trabajo', index, 'en móvil');
       }
     } else {
       // En desktop, usar transform
-      if (typeof window.updateJobPosition === 'function') {
-        window.updateJobPosition();
+      if (updateJobPosition) {
+        updateJobPosition();
         console.log('Jobs: Actualizando posición a trabajo', index, 'en desktop');
       }
     }
@@ -171,44 +235,38 @@ function setupHorizontalJobsNavigation() {
     const wasMobile = isMobileDevice;
     detectMobileDevice();
     
-    // Si cambió el tipo de dispositivo, reconfigurar
+    // Si cambió el tipo de dispositivo, reconfigurar completamente
     if (wasMobile !== isMobileDevice) {
       console.log('Jobs: Cambio de dispositivo detectado, reconfigurando...');
       
       // Resetear índice al primer trabajo
       currentJobIndex = 0;
       
-      const updateJobPosition = setupJobsDisplay();
-      
-      // Guardar función para desktop
-      if (!isMobileDevice && typeof updateJobPosition === 'function') {
-        window.updateJobPosition = updateJobPosition;
+      // Reconfigurar display
+      const newUpdateFunction = setupJobsDisplay();
+      if (newUpdateFunction) {
+        updateJobPosition = newUpdateFunction;
       }
       
-      // Recrear indicador para el nuevo dispositivo
+      // Recrear indicador
       createJobIndicator();
-    } else if (!isMobileDevice && typeof window.updateJobPosition === 'function') {
+      
+    } else if (!isMobileDevice && updateJobPosition) {
       // Solo actualizar posición si seguimos en desktop
-      window.updateJobPosition();
+      updateJobPosition();
     }
   }
   
   // ===== FUNCIONES DE LIMPIEZA =====
   function cleanup() {
     console.log('Jobs: Limpiando event listeners');
-    
-    // Remover event listeners
     window.removeEventListener('resize', handleResize);
-    
-    // Limpiar variable global
-    if (window.updateJobPosition) {
-      delete window.updateJobPosition;
-    }
+    updateJobPosition = null;
   }
   
   // ===== FUNCIÓN DE INICIALIZACIÓN =====
   function init() {
-    console.log('Jobs: Iniciando navegación solo con dots');
+    console.log('Jobs: Iniciando navegación con dots corregida');
     
     if (!jobs.length || !jobsContainer || !jobsSection) {
       console.warn('Jobs: Elementos necesarios no encontrados');
@@ -217,12 +275,7 @@ function setupHorizontalJobsNavigation() {
     
     // Detectar dispositivo y configurar
     detectMobileDevice();
-    const updateJobPosition = setupJobsDisplay();
-    
-    // Guardar función para desktop
-    if (!isMobileDevice && typeof updateJobPosition === 'function') {
-      window.updateJobPosition = updateJobPosition;
-    }
+    updateJobPosition = setupJobsDisplay();
     
     // Crear indicador
     createJobIndicator();
@@ -234,11 +287,12 @@ function setupHorizontalJobsNavigation() {
     console.log('Jobs: Navegación inicializada correctamente');
     console.log('Jobs: Dispositivo móvil:', isMobileDevice);
     console.log('Jobs: Total de trabajos:', jobs.length);
+    console.log('Jobs: Trabajo inicial:', currentJobIndex);
     
     return { cleanup };
   }
   
-  // Inicializar después de que GSAP esté listo
+  // Inicializar después de que todo esté listo
   setTimeout(init, 1200);
 }
 
@@ -289,7 +343,7 @@ function setupSection5Animations() {
       ease: 'back.out'
     });
   } else {
-    // En desktop, solo la primera tarjeta
+    // En desktop, solo la primera tarjeta inicialmente
     gsap.from('.job-card:first-child', {
       scrollTrigger: {
         trigger: '.section-jobs',
@@ -336,6 +390,7 @@ function optimizeForDevice() {
       nullTargetWarn: false
     });
     
+    // Optimizar para dispositivos con poca memoria
     if (navigator.deviceMemory && navigator.deviceMemory < 4) {
       const jobs = document.querySelectorAll('.job-card');
       jobs.forEach(job => {
@@ -348,7 +403,7 @@ function optimizeForDevice() {
 
 // ===== INICIALIZACIÓN PRINCIPAL =====
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Jobs: DOM cargado, iniciando configuración solo con dots');
+  console.log('Jobs: DOM cargado, iniciando configuración corregida');
   optimizeForDevice();
   setupSection5Animations();
   setupHorizontalJobsNavigation();

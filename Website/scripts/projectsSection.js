@@ -1,8 +1,9 @@
-// ===== SECCIÓN PROYECTOS - SOLO NAVEGACIÓN CON DOTS =====
+// ===== SECCIÓN PROYECTOS - NAVEGACIÓN CON DOTS CORREGIDA =====
 
 function setupHorizontalScrollNavigation() {
   let currentProjectIndex = 0;
   let isMobileDevice = false;
+  let updateProjectPosition = null;
   
   const projects = document.querySelectorAll('.project-card');
   const projectsContainer = document.querySelector('.projects-container');
@@ -19,6 +20,7 @@ function setupHorizontalScrollNavigation() {
   function setupProjectsDisplay() {
     if (detectMobileDevice()) {
       setupMobileScrolling();
+      return null;
     } else {
       return setupDesktopNavigation();
     }
@@ -26,67 +28,120 @@ function setupHorizontalScrollNavigation() {
   
   // ===== CONFIGURACIÓN PARA MÓVILES =====
   function setupMobileScrolling() {
-    // Resetear posición inicial
+    console.log('Projects: Configurando scroll móvil');
+    
+    // Resetear transformaciones de desktop
     projectsContainer.style.transform = 'none';
     projectsContainer.style.transition = 'none';
     
-    // Configurar scroll horizontal con límites
+    // Configurar scroll horizontal
     projectsContainer.style.overflowX = 'auto';
     projectsContainer.style.overflowY = 'hidden';
     projectsContainer.style.scrollBehavior = 'smooth';
     projectsContainer.style.scrollSnapType = 'x mandatory';
-    
-    // Prevenir el overscroll que causa la pestañita negra
     projectsContainer.style.overscrollBehaviorX = 'contain';
     projectsContainer.style.webkitOverflowScrolling = 'touch';
     
-    // Limitar el ancho del contenedor para evitar scroll extra
-    projectsContainer.style.maxWidth = '100%';
-    projectsContainer.style.boxSizing = 'border-box';
+    // Asegurar que el container ocupe todo el ancho disponible
+    projectsContainer.style.width = '100%';
+    projectsContainer.style.maxWidth = 'none';
+    projectsContainer.style.justifyContent = 'flex-start';
     
     // Configurar scroll snap para cada tarjeta
     projects.forEach(card => {
       card.style.scrollSnapAlign = 'center';
-      card.style.boxSizing = 'border-box';
+      card.style.flexShrink = '0';
     });
     
-    // Scroll al primer proyecto
-    if (projects.length > 0) {
-      setTimeout(() => {
-        projects[0].scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'center'
-        });
-      }, 100);
+    // Scroll inicial al primer proyecto
+    setTimeout(() => {
+      if (projects.length > 0) {
+        projectsContainer.scrollLeft = 0;
+        console.log('Projects: Scroll inicial a la izquierda en móvil');
+      }
+    }, 100);
+    
+    // Listener para detectar scroll y actualizar dots
+    setupMobileScrollListener();
+  }
+  
+  // ===== LISTENER PARA SCROLL EN MÓVILES =====
+  function setupMobileScrollListener() {
+    let scrollTimeout;
+    
+    projectsContainer.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        updateCurrentIndexFromScroll();
+      }, 150);
+    });
+  }
+  
+  // ===== ACTUALIZAR ÍNDICE BASADO EN SCROLL =====
+  function updateCurrentIndexFromScroll() {
+    if (!isMobileDevice) return;
+    
+    const containerRect = projectsContainer.getBoundingClientRect();
+    const containerCenter = containerRect.left + containerRect.width / 2;
+    
+    let closestIndex = 0;
+    let closestDistance = Infinity;
+    
+    projects.forEach((project, index) => {
+      const projectRect = project.getBoundingClientRect();
+      const projectCenter = projectRect.left + projectRect.width / 2;
+      const distance = Math.abs(containerCenter - projectCenter);
+      
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
+    
+    if (closestIndex !== currentProjectIndex) {
+      currentProjectIndex = closestIndex;
+      updateProjectIndicator();
+      console.log('Projects: Índice actualizado por scroll:', currentProjectIndex);
     }
   }
   
   // ===== CONFIGURACIÓN PARA DESKTOP =====
   function setupDesktopNavigation() {
-    // Configurar contenedor para desktop
-    projectsContainer.style.overflowX = 'hidden';
+    console.log('Projects: Configurando navegación desktop');
+    
+    // Resetear estilos de móvil
+    projectsContainer.style.overflowX = 'visible';
+    projectsContainer.style.scrollBehavior = 'auto';
+    projectsContainer.style.scrollSnapType = 'none';
+    
+    // Configurar para navegación con transform
     projectsContainer.style.transition = 'transform 0.5s ease-in-out';
+    projectsContainer.style.display = 'flex';
+    projectsContainer.style.justifyContent = 'flex-start';
     
-    const projectWidth = 350 + 40; // ancho de tarjeta + gap
+    // Calcular ancho de cada proyecto (tarjeta + gap)
+    const projectWidth = 350 + 30; // width + gap
     
-    function updateProjectPosition() {
+    function updatePosition() {
+      // Calcular offset para mostrar proyecto actual en el extremo izquierdo
       const containerWidth = projectsSection.offsetWidth;
-      const centerOffset = (containerWidth - 350) / 2;
-      const offset = centerOffset - (currentProjectIndex * projectWidth);
+      const leftMargin = 50; // Margen desde el borde izquierdo
+      const offset = leftMargin - (currentProjectIndex * projectWidth);
+      
       projectsContainer.style.transform = `translateX(${offset}px)`;
+      console.log(`Projects: Desktop - Moviendo a proyecto ${currentProjectIndex}, offset: ${offset}px`);
     }
     
-    // Mostrar primer proyecto inicialmente
+    // Posición inicial (primer proyecto en extremo izquierdo)
     currentProjectIndex = 0;
-    updateProjectPosition();
+    updatePosition();
     
-    return updateProjectPosition;
+    return updatePosition;
   }
   
   // ===== INDICADOR VISUAL CON DOTS =====
   function createProjectIndicator() {
-    // Eliminar indicador existente si existe
+    // Eliminar indicador existente
     const existingIndicator = document.querySelector('.projects-indicator');
     if (existingIndicator) {
       existingIndicator.remove();
@@ -99,13 +154,15 @@ function setupHorizontalScrollNavigation() {
       `<span class="dot ${index === 0 ? 'active' : ''}" data-index="${index}"></span>`
     ).join('');
     
+    const directionText = isMobileDevice ? 'Swipe or click dots' : 'Click dots to navigate';
+    
     indicator.innerHTML = `
       <div class="indicator-dots">
         ${dotsHtml}
       </div>
       <div class="indicator-direction">
         <span class="direction-arrow">⟷</span>
-        <span class="direction-text">Click dots to navigate</span>
+        <span class="direction-text">${directionText}</span>
       </div>
     `;
     
@@ -113,36 +170,43 @@ function setupHorizontalScrollNavigation() {
     
     // Eventos para los dots
     const dots = indicator.querySelectorAll('.dot');
-    dots.forEach(dot => {
-      dot.addEventListener('click', handleDotClick);
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => handleDotClick(index));
     });
     
     console.log('Projects: Indicador creado con', dots.length, 'dots');
   }
   
   // ===== MANEJO DE CLICKS EN DOTS =====
-  function handleDotClick(e) {
-    const index = parseInt(e.target.dataset.index);
+  function handleDotClick(index) {
     console.log('Projects: Click en dot', index);
     
     // Actualizar índice actual
     currentProjectIndex = index;
     
     if (isMobileDevice) {
-      // En móviles, hacer scroll al proyecto correspondiente
+      // En móviles, scroll al proyecto correspondiente
       const targetProject = projects[index];
       if (targetProject) {
-        targetProject.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'center'
+        // Calcular posición de scroll para centrar la tarjeta
+        const containerRect = projectsContainer.getBoundingClientRect();
+        const projectRect = targetProject.getBoundingClientRect();
+        
+        const scrollLeft = projectsContainer.scrollLeft + 
+                          (projectRect.left - containerRect.left) - 
+                          (containerRect.width - projectRect.width) / 2;
+        
+        projectsContainer.scrollTo({
+          left: scrollLeft,
+          behavior: 'smooth'
         });
+        
         console.log('Projects: Scrolling a proyecto', index, 'en móvil');
       }
     } else {
       // En desktop, usar transform
-      if (typeof window.updateProjectPosition === 'function') {
-        window.updateProjectPosition();
+      if (updateProjectPosition) {
+        updateProjectPosition();
         console.log('Projects: Actualizando posición a proyecto', index, 'en desktop');
       }
     }
@@ -171,44 +235,38 @@ function setupHorizontalScrollNavigation() {
     const wasMobile = isMobileDevice;
     detectMobileDevice();
     
-    // Si cambió el tipo de dispositivo, reconfigurar
+    // Si cambió el tipo de dispositivo, reconfigurar completamente
     if (wasMobile !== isMobileDevice) {
       console.log('Projects: Cambio de dispositivo detectado, reconfigurando...');
       
       // Resetear índice al primer proyecto
       currentProjectIndex = 0;
       
-      const updateProjectPosition = setupProjectsDisplay();
-      
-      // Guardar función para desktop
-      if (!isMobileDevice && typeof updateProjectPosition === 'function') {
-        window.updateProjectPosition = updateProjectPosition;
+      // Reconfigurar display
+      const newUpdateFunction = setupProjectsDisplay();
+      if (newUpdateFunction) {
+        updateProjectPosition = newUpdateFunction;
       }
       
-      // Recrear indicador para el nuevo dispositivo
+      // Recrear indicador
       createProjectIndicator();
-    } else if (!isMobileDevice && typeof window.updateProjectPosition === 'function') {
+      
+    } else if (!isMobileDevice && updateProjectPosition) {
       // Solo actualizar posición si seguimos en desktop
-      window.updateProjectPosition();
+      updateProjectPosition();
     }
   }
   
   // ===== FUNCIONES DE LIMPIEZA =====
   function cleanup() {
     console.log('Projects: Limpiando event listeners');
-    
-    // Remover event listeners
     window.removeEventListener('resize', handleResize);
-    
-    // Limpiar variable global
-    if (window.updateProjectPosition) {
-      delete window.updateProjectPosition;
-    }
+    updateProjectPosition = null;
   }
   
   // ===== FUNCIÓN DE INICIALIZACIÓN =====
   function init() {
-    console.log('Projects: Iniciando navegación solo con dots');
+    console.log('Projects: Iniciando navegación con dots corregida');
     
     if (!projects.length || !projectsContainer || !projectsSection) {
       console.warn('Projects: Elementos necesarios no encontrados');
@@ -217,12 +275,7 @@ function setupHorizontalScrollNavigation() {
     
     // Detectar dispositivo y configurar
     detectMobileDevice();
-    const updateProjectPosition = setupProjectsDisplay();
-    
-    // Guardar función para desktop
-    if (!isMobileDevice && typeof updateProjectPosition === 'function') {
-      window.updateProjectPosition = updateProjectPosition;
-    }
+    updateProjectPosition = setupProjectsDisplay();
     
     // Crear indicador
     createProjectIndicator();
@@ -234,11 +287,12 @@ function setupHorizontalScrollNavigation() {
     console.log('Projects: Navegación inicializada correctamente');
     console.log('Projects: Dispositivo móvil:', isMobileDevice);
     console.log('Projects: Total de proyectos:', projects.length);
+    console.log('Projects: Proyecto inicial:', currentProjectIndex);
     
     return { cleanup };
   }
   
-  // Inicializar después de que GSAP esté listo
+  // Inicializar después de que todo esté listo
   setTimeout(init, 1000);
 }
 
@@ -289,7 +343,7 @@ function setupSection3Animations() {
       ease: 'back.out'
     });
   } else {
-    // En desktop, solo la primera tarjeta
+    // En desktop, solo la primera tarjeta inicialmente
     gsap.from('.project-card:first-child', {
       scrollTrigger: {
         trigger: '.section-projects',
@@ -336,6 +390,7 @@ function optimizeForDevice() {
       nullTargetWarn: false
     });
     
+    // Optimizar para dispositivos con poca memoria
     if (navigator.deviceMemory && navigator.deviceMemory < 4) {
       const projects = document.querySelectorAll('.project-card');
       projects.forEach(project => {
@@ -348,7 +403,7 @@ function optimizeForDevice() {
 
 // ===== INICIALIZACIÓN PRINCIPAL =====
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Projects: DOM cargado, iniciando configuración solo con dots');
+  console.log('Projects: DOM cargado, iniciando configuración corregida');
   optimizeForDevice();
   setupSection3Animations();
   setupHorizontalScrollNavigation();
