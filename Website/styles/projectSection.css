@@ -283,15 +283,15 @@
     padding: clamp(35px, 7vh, 50px) 20px !important;
     margin: 0 !important;
     box-sizing: border-box;
-    /* Habilitar scroll táctil suave */
     touch-action: pan-y pan-x;
-    overflow-x: visible;
+    overflow: hidden; /* Ocultar cualquier overflow */
   }
 
   .section-projects .container {
     padding: 0;
     max-width: calc(100% - 40px);
     margin: 0 auto;
+    overflow: hidden; /* Ocultar overflow del contenedor */
   }
 
   .section-projects h2 {
@@ -301,38 +301,41 @@
   }
 
   .projects-container {
-    /* Deslizable horizontal */
     overflow-x: auto;
     overflow-y: hidden;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
     padding: 15px 0;
     gap: 20px;
     width: 100%;
+    max-width: 100%; /* Limitar ancho máximo */
     justify-content: flex-start;
-    /* Cambio importante: permitir scroll normal en móviles */
     transform: none !important;
     transition: none !important;
+    /* Limitar el scroll para evitar arrastre */
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    /* Asegurar que no se extienda más allá del contenedor */
+    box-sizing: border-box;
   }
 
-  /* Ocultar scrollbar en WebKit */
   .projects-container::-webkit-scrollbar {
     display: none;
   }
 
   .project-card {
-    /* Tarjetas más pequeñas para móviles */
     width: clamp(260px, 70vw, 300px);
     height: clamp(350px, 60vh, 400px);
     flex-shrink: 0;
     scroll-snap-align: center;
     margin: 0 10px;
+    /* Asegurar que las tarjetas no causen overflow */
+    box-sizing: border-box;
   }
 
   .project-card:hover {
-    /* Reducir efectos hover en móviles */
     transform: scale(1.02);
   }
 
@@ -361,7 +364,6 @@
   .projects-indicator {
     bottom: 15px;
     padding: 12px 20px;
-    /* Cambiar hint para móviles */
   }
 
   .direction-text {
@@ -372,7 +374,7 @@
     font-size: 9px;
   }
 
-  /* Gradientes laterales más sutiles */
+  /* Eliminar gradientes laterales que pueden causar overflow */
   .projects-container::before,
   .projects-container::after {
     display: none;

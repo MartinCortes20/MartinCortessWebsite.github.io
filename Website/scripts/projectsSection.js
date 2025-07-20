@@ -30,15 +30,24 @@ function setupHorizontalScrollNavigation() {
     projectsContainer.style.transform = 'none';
     projectsContainer.style.transition = 'none';
     
-    // Configurar scroll horizontal
+    // Configurar scroll horizontal con límites
     projectsContainer.style.overflowX = 'auto';
     projectsContainer.style.overflowY = 'hidden';
     projectsContainer.style.scrollBehavior = 'smooth';
     projectsContainer.style.scrollSnapType = 'x mandatory';
     
+    // Prevenir el overscroll que causa la pestañita negra
+    projectsContainer.style.overscrollBehaviorX = 'contain';
+    projectsContainer.style.webkitOverflowScrolling = 'touch';
+    
+    // Limitar el ancho del contenedor para evitar scroll extra
+    projectsContainer.style.maxWidth = '100%';
+    projectsContainer.style.boxSizing = 'border-box';
+    
     // Configurar scroll snap para cada tarjeta
     projects.forEach(card => {
       card.style.scrollSnapAlign = 'center';
+      card.style.boxSizing = 'border-box';
     });
     
     // Scroll al primer proyecto

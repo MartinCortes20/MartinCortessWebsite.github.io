@@ -6,22 +6,301 @@
   <title>Martin Cortes || Computer Systems Engineer</title>
   <link rel="icon" type="image/png" href="../Website/images/Logo.png">
 
-  <!-- CSS Files -->
-  <link rel="stylesheet" href="./styles/defaultStyles.css">
-  <link rel="stylesheet" href="./styles/initialAnimation.css">
-  <link rel="stylesheet" href="./styles/introSection.css">
-  <link rel="stylesheet" href="./styles/jobsSection.css">
-  <link rel="stylesheet" href="./styles/projectSection.css">
-  <link rel="stylesheet" href="./styles/contactSection.css">
+  <!-- ===== PRELOADER INMEDIATO PARA MÓVILES ===== -->
+  <style>
+    /* Loader que aparece INMEDIATAMENTE mientras carga todo */
+    #mobile-preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: linear-gradient(135deg, #000000 0%, #120024 50%, #1a0033 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      color: white;
+      font-family: "Montserrat", sans-serif;
+    }
+    
+    #mobile-preloader h1 {
+      font-size: clamp(2rem, 8vw, 4rem);
+      color: #8000ff;
+      font-weight: 900;
+      margin-bottom: 1rem;
+      letter-spacing: 2px;
+      text-align: center;
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    #mobile-preloader p {
+      font-size: clamp(0.9rem, 4vw, 1.2rem);
+      color: #cccccc;
+      margin-bottom: 2rem;
+      text-align: center;
+      animation: fadeInUp 1s ease-out 0.3s both;
+    }
+    
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(128, 0, 255, 0.3);
+      border-top: 3px solid #8000ff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+    
+    .loading-text {
+      color: #8000ff;
+      font-size: 0.9rem;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+    
+    /* Ocultar preloader cuando todo esté listo */
+    body.loaded #mobile-preloader {
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.5s ease-out;
+    }
+    
+    /* Solo mostrar en móviles */
+    @media (min-width: 969px) {
+      #mobile-preloader {
+        display: none;
+      }
+    }
+  </style>
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- ===== CARGAR FUENTES DE FORMA OPTIMIZADA ===== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  <!-- ===== PRECARGAR RECURSOS CRÍTICOS ===== -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" as="script">
+  <link rel="preload" href="./styles/defaultStyles.css" as="style">
+  
+  <!-- ===== CSS CRÍTICO INLINE PARA MÓVILES ===== -->
+  <style>
+    /* CSS crítico que se carga INMEDIATAMENTE */
+    @media (max-width: 968px) {
+      html, body {
+        font-family: system-ui, -apple-system, sans-serif;
+        background: #000;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        color: white;
+        height: 100%;
+      }
+      
+      /* Optimización inmediata para la primera pantalla */
+      .section-hero {
+        background: linear-gradient(135deg, #000000 0%, #120024 50%, #1a0033 100%) !important;
+        min-height: 100vh;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      
+      /* Desactivar animaciones complejas inmediatamente */
+      .pov, .cube, .face, .die {
+        display: none !important;
+      }
+    }
+  </style>
 
-  <!-- GSAP Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+  <!-- CSS Files - Cargar de forma diferida en móviles -->
+  <script>
+    // Cargar CSS de forma inteligente
+    function loadCSS(href) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      document.head.appendChild(link);
+    }
+    
+    // En móviles, cargar CSS después del contenido crítico
+    if (window.innerWidth <= 968) {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+          loadCSS('./styles/defaultStyles.css');
+          loadCSS('./styles/initialAnimation.css');
+          loadCSS('./styles/introSection.css');
+          loadCSS('./styles/jobsSection.css');
+          loadCSS('./styles/projectSection.css');
+          loadCSS('./styles/contactSection.css');
+        }, 100);
+      });
+    } else {
+      // En desktop, cargar normalmente
+      document.write('<link rel="stylesheet" href="./styles/defaultStyles.css">');
+      document.write('<link rel="stylesheet" href="./styles/initialAnimation.css">');
+      document.write('<link rel="stylesheet" href="./styles/introSection.css">');
+      document.write('<link rel="stylesheet" href="./styles/jobsSection.css">');
+      document.write('<link rel="stylesheet" href="./styles/projectSection.css">');
+      document.write('<link rel="stylesheet" href="./styles/contactSection.css">');
+    }
+  </script>
+
+  <!-- Font Awesome - Cargar después -->
+  <script>
+    // Cargar Font Awesome de forma diferida
+    setTimeout(function() {
+      const faLink = document.createElement('link');
+      faLink.rel = 'stylesheet';
+      faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+      document.head.appendChild(faLink);
+    }, 200);
+  </script>
+
 </head>
+
+<body>
+  <!-- ===== PRELOADER MÓVIL ===== -->
+  <div id="mobile-preloader">
+    <h1>MARTIN CORTES</h1>
+    <p>Computer Systems Engineer</p>
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Loading Experience...</div>
+  </div>
+
+  <!-- ===== SCRIPT DE OPTIMIZACIÓN INMEDIATA ===== -->
+  <script>
+    // Optimización inmediata para móviles
+    (function() {
+      const isMobile = window.innerWidth <= 968;
+      
+      if (isMobile) {
+        // Configurar viewport para móviles
+        const viewport = document.querySelector('meta[name="viewport"]');
+        if (viewport) {
+          viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+        }
+        
+        // Prevenir zoom en inputs
+        document.addEventListener('touchstart', function(e) {
+          if (e.touches.length > 1) {
+            e.preventDefault();
+          }
+        });
+        
+        // Optimizar scroll
+        document.documentElement.style.setProperty('-webkit-overflow-scrolling', 'touch');
+        document.documentElement.style.setProperty('overflow-x', 'hidden');
+        
+        console.log('Optimizaciones móviles aplicadas');
+      }
+      
+      // Timer para quitar el preloader
+      let contentLoaded = false;
+      
+      function removePreloader() {
+        if (!contentLoaded) {
+          contentLoaded = true;
+          document.body.classList.add('loaded');
+          console.log('Preloader removido');
+        }
+      }
+      
+      // Quitar preloader cuando todo esté listo
+      window.addEventListener('load', function() {
+        setTimeout(removePreloader, 500);
+      });
+      
+      // Fallback: quitar preloader después de máximo 5 segundos
+      setTimeout(function() {
+        if (!contentLoaded) {
+          console.log('Timeout: Removiendo preloader por seguridad');
+          removePreloader();
+        }
+      }, 5000);
+      
+      // Quitar preloader cuando las animaciones estén listas
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+          if (document.querySelector('.section-about')) {
+            removePreloader();
+          }
+        }, 2000);
+      });
+      
+    })();
+  </script>
+
+  <!-- ===== CARGAR GSAP DE FORMA OPTIMIZADA ===== -->
+  <script>
+    // Cargar GSAP de forma inteligente
+    function loadGSAP() {
+      const scripts = [
+        'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js'
+      ];
+      
+      let loadedCount = 0;
+      
+      scripts.forEach(function(src) {
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = function() {
+          loadedCount++;
+          if (loadedCount === scripts.length) {
+            console.log('GSAP cargado completamente');
+            // Inicializar scripts después de GSAP
+            setTimeout(loadCustomScripts, 100);
+          }
+        };
+        document.head.appendChild(script);
+      });
+    }
+    
+    function loadCustomScripts() {
+      const customScripts = [
+        './scripts/initialAnimation.js',
+        './scripts/introSection.js',
+        './scripts/contactSection.js',
+        './scripts/jobsSection.js',
+        './scripts/projectsSection.js'
+      ];
+      
+      customScripts.forEach(function(src, index) {
+        setTimeout(function() {
+          const script = document.createElement('script');
+          script.src = src;
+          document.body.appendChild(script);
+        }, index * 100); // Cargar con delay para no saturar
+      });
+    }
+    
+    // Iniciar carga de scripts
+    if (window.innerWidth <= 968) {
+      // En móviles, esperar un poco antes de cargar GSAP
+      setTimeout(loadGSAP, 300);
+    } else {
+      // En desktop, cargar inmediatamente
+      loadGSAP();
+    }
+  </script>
+
 
 <body>
 
@@ -464,6 +743,30 @@
 
 
   <!-- JavaScript Files -->
+   <script>
+// Script de emergencia para móviles
+(function() {
+  const isMobile = window.innerWidth <= 968;
+  
+  if (isMobile) {
+    // Desactivar animaciones GSAP problemáticas
+    if (typeof gsap !== 'undefined') {
+      gsap.config({ force3D: false });
+    }
+    
+    // Timeout de seguridad para mostrar contenido
+    setTimeout(function() {
+      const heroSection = document.querySelector('.section-hero');
+      if (heroSection && !heroSection.style.display) {
+        heroSection.style.display = 'flex';
+        heroSection.style.alignItems = 'center';
+        heroSection.style.justifyContent = 'center';
+        console.log('Mobile fallback activated');
+      }
+    }, 1000);
+  }
+})();
+</script>
   <script src="./scripts/initialAnimation.js"></script>
   <script src="./scripts/introSection.js"></script>
   <script src="./scripts/contactSection.js"></script>

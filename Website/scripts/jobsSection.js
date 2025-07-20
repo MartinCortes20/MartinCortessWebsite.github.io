@@ -30,15 +30,24 @@ function setupHorizontalJobsNavigation() {
     jobsContainer.style.transform = 'none';
     jobsContainer.style.transition = 'none';
     
-    // Configurar scroll horizontal
+    // Configurar scroll horizontal con límites
     jobsContainer.style.overflowX = 'auto';
     jobsContainer.style.overflowY = 'hidden';
     jobsContainer.style.scrollBehavior = 'smooth';
     jobsContainer.style.scrollSnapType = 'x mandatory';
     
+    // Prevenir el overscroll que causa la pestañita negra
+    jobsContainer.style.overscrollBehaviorX = 'contain';
+    jobsContainer.style.webkitOverflowScrolling = 'touch';
+    
+    // Limitar el ancho del contenedor para evitar scroll extra
+    jobsContainer.style.maxWidth = '100%';
+    jobsContainer.style.boxSizing = 'border-box';
+    
     // Configurar scroll snap para cada tarjeta
     jobs.forEach(card => {
       card.style.scrollSnapAlign = 'center';
+      card.style.boxSizing = 'border-box';
     });
     
     // Scroll al primer trabajo
