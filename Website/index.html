@@ -178,7 +178,16 @@
       .site-header {
         opacity: 1 !important;
         visibility: visible !important;
+        transform: none !important;
         /* NO tocar display ni otros estilos - mantener diseño original */
+      }
+
+      /* CRITICAL: Forzar header visible sin ScrollTrigger en móviles */
+      body.loaded .site-header,
+      body.loading .site-header {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
       }
 
       /* Elementos que podrían estar ocultos por GSAP inicialmente */
@@ -210,13 +219,15 @@
         scale: 1 !important;
       }
 
-      /* CRITICAL: Centrar imágenes SIEMPRE en móviles */
+      /* CRITICAL: Centrar imágenes FORZADAMENTE en móviles */
       .about-image {
         display: flex !important;
+        flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
         margin: 0 auto !important;
         text-align: center !important;
+        width: 100% !important;
       }
 
       .image-stack {
@@ -226,17 +237,26 @@
         justify-content: center !important;
         margin: 0 auto !important;
         text-align: center !important;
+        width: 100% !important;
       }
 
       .stack-image {
         margin: 0 auto !important;
         display: block !important;
         text-align: center !important;
+        width: auto !important;
+        max-width: 90% !important;
       }
 
       /* Asegurar que el contenedor padre también esté centrado */
       .about-container {
         text-align: center !important;
+        justify-items: center !important;
+      }
+
+      /* OVERRIDE específico para el grid de imágenes en móviles */
+      .about-image {
+        grid-template-columns: 1fr !important;
         justify-items: center !important;
       }
     }
@@ -1269,11 +1289,15 @@
           
           // ===== HEADER VISIBLE INMEDIATAMENTE SIN CAMBIAR DISEÑO =====
           if (header) {
-            // Solo forzar visibilidad, NO tocar layout ni diseño
-            header.style.opacity = '1';
-            header.style.visibility = 'visible';
-            // NO tocar display, position, flexbox - mantener diseño original
-            console.log('Header visible inmediatamente - diseño original mantenido');
+            // FORZAR visibilidad completa sin ScrollTrigger
+            header.style.cssText = `
+              opacity: 1 !important;
+              visibility: visible !important;
+              transform: none !important;
+              position: relative !important;
+              z-index: 100 !important;
+            `;
+            console.log('Header visible inmediatamente - sin dependencia de scroll');
           }
           
           // ===== HACER TODO VISIBLE INMEDIATAMENTE =====
@@ -1310,40 +1334,55 @@
             p.style.transform = 'none';
           });
           
-          // Imágenes centradas y visibles inmediatamente
+          // Imágenes centradas y visibles inmediatamente - FORZADO EXTRA
           const aboutImage = document.querySelector('.about-image');
           const imageStack = document.querySelector('.image-stack');
           
           if (aboutImage) {
-            aboutImage.style.display = 'flex';
-            aboutImage.style.flexDirection = 'column';
-            aboutImage.style.alignItems = 'center';
-            aboutImage.style.justifyContent = 'center';
-            aboutImage.style.margin = '0 auto';
-            aboutImage.style.textAlign = 'center';
-            aboutImage.style.opacity = '1';
-            aboutImage.style.visibility = 'visible';
-            aboutImage.style.transform = 'none';
+            aboutImage.style.cssText = `
+              display: flex !important;
+              flex-direction: column !important;
+              align-items: center !important;
+              justify-content: center !important;
+              margin: 0 auto !important;
+              text-align: center !important;
+              opacity: 1 !important;
+              visibility: visible !important;
+              transform: none !important;
+              width: 100% !important;
+              grid-template-columns: 1fr !important;
+              justify-items: center !important;
+            `;
           }
           
           if (imageStack) {
-            imageStack.style.display = 'flex';
-            imageStack.style.flexDirection = 'column';
-            imageStack.style.alignItems = 'center';
-            imageStack.style.justifyContent = 'center';
-            imageStack.style.margin = '0 auto';
-            imageStack.style.textAlign = 'center';
+            imageStack.style.cssText = `
+              display: flex !important;
+              flex-direction: column !important;
+              align-items: center !important;
+              justify-content: center !important;
+              margin: 0 auto !important;
+              text-align: center !important;
+              width: 100% !important;
+            `;
           }
           
           // Imágenes individuales centradas y visibles
           const images = document.querySelectorAll('.stack-image');
           images.forEach(img => {
-            img.style.margin = '0 auto';
-            img.style.display = 'block';
-            img.style.textAlign = 'center';
-            img.style.opacity = '1';
-            img.style.visibility = 'visible';
-            img.style.transform = 'none';
+            img.style.cssText = `
+              margin: 0 auto !important;
+              display: block !important;
+              text-align: center !important;
+              opacity: 1 !important;
+              visibility: visible !important;
+              transform: none !important;
+              width: 280px !important;
+              height: 180px !important;
+              object-fit: cover !important;
+              object-position: center !important;
+              border-radius: 8px !important;
+            `;
           });
           
           // Zona de burbujas visible inmediatamente
