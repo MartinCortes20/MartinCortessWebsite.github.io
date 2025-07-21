@@ -161,7 +161,9 @@
         visibility: visible !important;
       }
 
-      body.loaded .section-about * {
+      body.loaded .section-about *,
+      body.loaded .section-projects *,
+      body.loaded .section-jobs * {
         opacity: 1 !important;
         visibility: visible !important;
       }
@@ -172,9 +174,31 @@
       .tech-bubbles-zone,
       .skill-tag,
       .stack-image,
-      .bubble {
+      .bubble,
+      .project-card,
+      .job-card {
         opacity: 1 !important;
         visibility: visible !important;
+      }
+
+      /* CRITICAL: Centrar imágenes en móviles */
+      .about-image {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 auto !important;
+      }
+
+      .image-stack {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 auto !important;
+      }
+
+      .stack-image {
+        margin: 0 auto !important;
+        display: block !important;
       }
     }
   </style>
@@ -1190,14 +1214,34 @@
             return;
           }
           
-          // Asegurar que los elementos estén visibles
+          // Asegurar que todas las secciones estén visibles
           const aboutSection = document.querySelector('.section-about');
-          if (aboutSection) {
-            aboutSection.style.opacity = '1';
-            aboutSection.style.visibility = 'visible';
+          const projectsSection = document.querySelector('.section-projects');
+          const jobsSection = document.querySelector('.section-jobs');
+          
+          [aboutSection, projectsSection, jobsSection].forEach(section => {
+            if (section) {
+              section.style.opacity = '1';
+              section.style.visibility = 'visible';
+            }
+          });
+          
+          // ===== SECCIÓN ABOUT ME =====
+          
+          // "HI THERE!" - Título principal
+          const mainTitle = document.querySelector('.section-about h2');
+          if (mainTitle && !mainTitle.querySelector('.char')) {
+            // Dividir en caracteres si no se ha hecho ya
+            const titleText = mainTitle.textContent;
+            mainTitle.innerHTML = '';
+            titleText.split('').forEach((letter) => {
+              const span = document.createElement('span');
+              span.className = 'char';
+              span.textContent = letter === ' ' ? '\u00A0' : letter;
+              mainTitle.appendChild(span);
+            });
           }
           
-          // Ejecutar animaciones sin ScrollTrigger
           const chars = document.querySelectorAll('.section-about .char');
           if (chars.length > 0) {
             gsap.from(chars, {
@@ -1236,31 +1280,36 @@
             });
           }
           
-          // Imágenes
+          // Imágenes (asegurar centrado)
           const aboutImage = document.querySelector('.about-image');
           if (aboutImage) {
+            aboutImage.style.display = 'flex';
+            aboutImage.style.alignItems = 'center';
+            aboutImage.style.justifyContent = 'center';
+            aboutImage.style.margin = '0 auto';
+            
             gsap.from(aboutImage, {
               opacity: 0,
-              x: 30,
+              y: 30,
               duration: 0.8,
               delay: 1.2,
               ease: 'power2.out'
             });
           }
           
-          // Zona de burbujas
+          // Zona de burbujas tech
           const techZone = document.querySelector('.tech-bubbles-zone');
           if (techZone) {
             gsap.from(techZone, {
               opacity: 0,
-              x: -30,
+              scale: 0.9,
               duration: 0.8,
               delay: 1.4,
               ease: 'power2.out'
             });
           }
           
-          // Skills
+          // Skills tags
           const skillTags = document.querySelectorAll('.skill-tag');
           if (skillTags.length > 0) {
             gsap.from(skillTags, {
@@ -1274,28 +1323,31 @@
             });
           }
           
-          // Imágenes individuales
+          // Imágenes individuales del stack
           const images = document.querySelectorAll('.stack-image');
           if (images.length > 0) {
+            images.forEach(img => {
+              img.style.margin = '0 auto';
+              img.style.display = 'block';
+            });
+            
             gsap.from(images, {
               opacity: 0,
               y: 30,
               scale: 0.95,
-              rotateX: -15,
               duration: 0.7,
-              stagger: 0.1,
+              stagger: 0.15,
               delay: 1.8,
               ease: 'power2.out'
             });
           }
           
-          // Burbujas individuales
+          // Burbujas tech individuales
           const bubbles = document.querySelectorAll('.bubble');
           if (bubbles.length > 0) {
             gsap.from(bubbles, {
               scale: 0,
               opacity: 0,
-              y: 40,
               rotation: 180,
               duration: 0.6,
               stagger: 0.08,
@@ -1303,6 +1355,75 @@
               ease: 'back.out(1.5)'
             });
           }
+          
+          // ===== SECCIÓN PROJECTS =====
+          
+          // Título de proyectos
+          const projectsTitle = document.querySelector('.section-projects h2');
+          if (projectsTitle) {
+            gsap.from(projectsTitle, {
+              opacity: 0,
+              y: 30,
+              duration: 0.8,
+              delay: 2.5,
+              ease: 'power2.out'
+            });
+          }
+          
+          // Subtítulo de proyectos
+          const projectsSubtitle = document.querySelector('.section-projects .section-subtitle');
+          if (projectsSubtitle) {
+            gsap.from(projectsSubtitle, {
+              opacity: 0,
+              y: 20,
+              duration: 0.6,
+              delay: 2.7,
+              ease: 'power2.out'
+            });
+          }
+          
+          // Cards de proyectos
+          const projectCards = document.querySelectorAll('.project-card');
+          if (projectCards.length > 0) {
+            gsap.from(projectCards, {
+              opacity: 0,
+              y: 40,
+              scale: 0.95,
+              duration: 0.7,
+              stagger: 0.15,
+              delay: 2.9,
+              ease: 'power2.out'
+            });
+          }
+          
+          // ===== SECCIÓN JOBS =====
+          
+          // Título de jobs
+          const jobsTitle = document.querySelector('.section-jobs h2');
+          if (jobsTitle) {
+            gsap.from(jobsTitle, {
+              opacity: 0,
+              y: 30,
+              duration: 0.8,
+              delay: 3.2,
+              ease: 'power2.out'
+            });
+          }
+          
+          // Cards de trabajos
+          const jobCards = document.querySelectorAll('.job-card');
+          if (jobCards.length > 0) {
+            gsap.from(jobCards, {
+              opacity: 0,
+              x: -30,
+              duration: 0.7,
+              stagger: 0.2,
+              delay: 3.4,
+              ease: 'power2.out'
+            });
+          }
+          
+          console.log('Todas las animaciones móviles ejecutadas');
         };
       }
     });
@@ -1311,12 +1432,40 @@
   <script>
     // Script personalizado para móviles
     if (window.mobileAnimationOverride) {
-      // Esperar a que se cargue introSection.js y luego ejecutar animaciones
+      // Esperar a que se carguen todos los scripts y luego ejecutar animaciones
       setTimeout(() => {
         if (window.executeAnimationsForMobile) {
           window.executeAnimationsForMobile();
         }
-      }, 1000);
+        
+        // Asegurar que las imágenes estén centradas después de las animaciones
+        setTimeout(() => {
+          const images = document.querySelectorAll('.stack-image');
+          const aboutImage = document.querySelector('.about-image');
+          const imageStack = document.querySelector('.image-stack');
+          
+          if (aboutImage) {
+            aboutImage.style.display = 'flex';
+            aboutImage.style.alignItems = 'center';
+            aboutImage.style.justifyContent = 'center';
+            aboutImage.style.margin = '0 auto';
+          }
+          
+          if (imageStack) {
+            imageStack.style.display = 'flex';
+            imageStack.style.alignItems = 'center';
+            imageStack.style.justifyContent = 'center';
+            imageStack.style.margin = '0 auto';
+          }
+          
+          images.forEach(img => {
+            img.style.margin = '0 auto';
+            img.style.display = 'block';
+          });
+          
+          console.log('Imágenes centradas en móvil');
+        }, 500);
+      }, 1500); // Aumentado el tiempo para asegurar que todo esté cargado
     }
   </script>
   <script src="./scripts/introSection.js"></script>
