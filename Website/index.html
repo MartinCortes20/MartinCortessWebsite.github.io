@@ -154,6 +154,28 @@
         width: 80vw;
         max-width: 250px;
       }
+
+      /* CRITICAL: Asegurar visibilidad inmediata en móviles */
+      body.loaded .section-about {
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+
+      body.loaded .section-about * {
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+
+      /* Elementos que podrían estar ocultos por GSAP inicialmente */
+      .about-text,
+      .about-image,
+      .tech-bubbles-zone,
+      .skill-tag,
+      .stack-image,
+      .bubble {
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
     }
   </style>
 
@@ -1146,7 +1168,157 @@
   </script>
 
   <!-- Scripts originales (cargarán NORMALMENTE) -->
+  <script>
+    // Modificar el introSection.js para móviles antes de cargarlo
+    window.addEventListener('DOMContentLoaded', function() {
+      // Detectar si es móvil
+      const isMobile = window.innerWidth <= 968;
+      
+      if (isMobile) {
+        console.log('Dispositivo móvil detectado - configurando animaciones automáticas');
+        
+        // Override para las funciones de animación en móviles
+        window.mobileAnimationOverride = true;
+        
+        // Función para ejecutar animaciones automáticamente en móviles
+        window.executeAnimationsForMobile = function() {
+          console.log('Ejecutando animaciones automáticas para móvil');
+          
+          // Esperar a que GSAP esté disponible
+          if (typeof gsap === 'undefined') {
+            setTimeout(window.executeAnimationsForMobile, 100);
+            return;
+          }
+          
+          // Asegurar que los elementos estén visibles
+          const aboutSection = document.querySelector('.section-about');
+          if (aboutSection) {
+            aboutSection.style.opacity = '1';
+            aboutSection.style.visibility = 'visible';
+          }
+          
+          // Ejecutar animaciones sin ScrollTrigger
+          const chars = document.querySelectorAll('.section-about .char');
+          if (chars.length > 0) {
+            gsap.from(chars, {
+              opacity: 0,
+              y: 30,
+              rotateX: -45,
+              stagger: 0.04,
+              duration: 0.7,
+              ease: 'back.out(1.5)',
+              delay: 0.5
+            });
+          }
+          
+          // Subtítulo
+          const subtitle = document.querySelector('.subtitle');
+          if (subtitle) {
+            gsap.from(subtitle, {
+              opacity: 0,
+              x: -20,
+              duration: 0.8,
+              delay: 0.8,
+              ease: 'power2.out'
+            });
+          }
+          
+          // Párrafos
+          const paragraphs = document.querySelectorAll('.about-text p:not(.subtitle)');
+          if (paragraphs.length > 0) {
+            gsap.from(paragraphs, {
+              opacity: 0,
+              y: 25,
+              duration: 0.7,
+              stagger: 0.2,
+              delay: 1.0,
+              ease: 'power2.out'
+            });
+          }
+          
+          // Imágenes
+          const aboutImage = document.querySelector('.about-image');
+          if (aboutImage) {
+            gsap.from(aboutImage, {
+              opacity: 0,
+              x: 30,
+              duration: 0.8,
+              delay: 1.2,
+              ease: 'power2.out'
+            });
+          }
+          
+          // Zona de burbujas
+          const techZone = document.querySelector('.tech-bubbles-zone');
+          if (techZone) {
+            gsap.from(techZone, {
+              opacity: 0,
+              x: -30,
+              duration: 0.8,
+              delay: 1.4,
+              ease: 'power2.out'
+            });
+          }
+          
+          // Skills
+          const skillTags = document.querySelectorAll('.skill-tag');
+          if (skillTags.length > 0) {
+            gsap.from(skillTags, {
+              opacity: 0,
+              y: 20,
+              scale: 0.8,
+              duration: 0.6,
+              stagger: 0.1,
+              delay: 1.6,
+              ease: 'back.out(1.3)'
+            });
+          }
+          
+          // Imágenes individuales
+          const images = document.querySelectorAll('.stack-image');
+          if (images.length > 0) {
+            gsap.from(images, {
+              opacity: 0,
+              y: 30,
+              scale: 0.95,
+              rotateX: -15,
+              duration: 0.7,
+              stagger: 0.1,
+              delay: 1.8,
+              ease: 'power2.out'
+            });
+          }
+          
+          // Burbujas individuales
+          const bubbles = document.querySelectorAll('.bubble');
+          if (bubbles.length > 0) {
+            gsap.from(bubbles, {
+              scale: 0,
+              opacity: 0,
+              y: 40,
+              rotation: 180,
+              duration: 0.6,
+              stagger: 0.08,
+              delay: 2.0,
+              ease: 'back.out(1.5)'
+            });
+          }
+        };
+      }
+    });
+  </script>
   <script src="./scripts/initialAnimation.js"></script>
+  <script>
+    // Script personalizado para móviles
+    if (window.mobileAnimationOverride) {
+      // Esperar a que se cargue introSection.js y luego ejecutar animaciones
+      setTimeout(() => {
+        if (window.executeAnimationsForMobile) {
+          window.executeAnimationsForMobile();
+        }
+      }, 1000);
+    }
+  </script>
   <script src="./scripts/introSection.js"></script>
   <script src="./scripts/contactSection.js"></script>
   <script src="./scripts/jobsSection.js"></script>
