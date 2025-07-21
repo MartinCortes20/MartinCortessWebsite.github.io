@@ -100,47 +100,86 @@
       50% { opacity: 1; }
     }
 
-    /* Ocultar contenido hasta que esté listo */
+    /* CRITICAL: Asegurar que el contenido sea visible después del preloader */
     body.loading {
       overflow: hidden;
     }
 
     body.loading .site-header,
     body.loading .section {
-      opacity: 0;
-      visibility: hidden;
+      opacity: 0 !important;
+      visibility: hidden !important;
     }
 
-    /* Estilos de transición para cuando el contenido aparezca */
-    .site-header,
-    .section {
-      transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
-    }
-
-    /* Asegurar que las secciones mantengan su opacidad normal */
-    body.loaded .site-header,
+    /* FIXED: Estado cargado con forzado de visibilidad SOLO para secciones */
     body.loaded .section {
       opacity: 1 !important;
       visibility: visible !important;
+      display: block !important;
     }
 
-    /* Prevenir oscurecimiento progresivo en las secciones */
-    .section {
-      position: relative;
-      z-index: 1;
+    /* Header: solo asegurar visibilidad, NO tocar posicionamiento */
+    body.loaded .site-header {
+      opacity: 1 !important;
+      visibility: visible !important;
+      /* NO forzar display ni transform para mantener posicionamiento original */
     }
 
-    .section::before {
-      display: none !important;
-    }
-
-    /* Asegurar que no haya overlays oscuros */
-    .section::after {
-      display: none !important;
-    }
-
-    /* Media query específico para móviles */
+    /* CRITICAL: Forzar visibilidad en móviles después de cargar */
     @media (max-width: 968px) {
+      body.loaded .section {
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: block !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      
+      body.loaded .section-hero {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      
+      body.loaded .section-about,
+      body.loaded .section-projects,
+      body.loaded .section-jobs,
+      body.loaded .section-contact {
+        display: block !important;
+      }
+
+      /* CRITICAL: Evitar desbordamiento de animaciones en About Me */
+      .section-about {
+        overflow: hidden !important;
+        position: relative !important;
+      }
+
+      .about-container {
+        overflow: hidden !important;
+        position: relative !important;
+      }
+
+      .tech-bubbles-zone {
+        overflow: hidden !important;
+        position: relative !important;
+        max-height: 90vh !important;
+      }
+
+      /* Asegurar que las burbujas no se salgan del contenedor */
+      .bubble {
+        position: absolute !important;
+        max-width: calc(100% - 20px) !important;
+        max-height: calc(100% - 20px) !important;
+      }
+
+      /* Limitar animaciones que puedan desbordar */
+      .about-image,
+      .about-text,
+      .skills-highlight {
+        overflow: hidden !important;
+        position: relative !important;
+      }
+
       .mobile-preloader {
         background: linear-gradient(135deg, #000000 0%, #000000 80%, #000000 100%);
       }
@@ -154,6 +193,12 @@
         width: 80vw;
         max-width: 250px;
       }
+    }
+
+    /* Prevenir cualquier overlay que pueda ocultar contenido */
+    .section::before,
+    .section::after {
+      display: none !important;
     }
   </style>
 
@@ -587,7 +632,7 @@
 
   <!-- Preloader Script -->
   <script>
-    // Sistema de Preloader para móviles
+    // FIXED: Sistema de Preloader con gestión mejorada de visibilidad
     class MobilePreloader {
       constructor() {
         this.isMobile = window.innerWidth <= 968;
@@ -596,6 +641,7 @@
         this.progressFill = document.getElementById('progressFill');
         this.preloaderText = document.getElementById('preloaderText');
         this.preloader = document.getElementById('mobilePreloader');
+        this.contentReady = false;
         
         this.loadingMessages = [
           'Loading experience…',
@@ -740,124 +786,281 @@
         // Completar progreso
         this.updateProgress(100);
         this.preloaderText.textContent = 'Ready to explore!';
+        this.contentReady = true;
         
         setTimeout(() => {
+          // CRITICAL: Preparar contenido ANTES de quitar el preloader
+          this.prepareContentVisibility();
+          
           // Fade out del preloader
           this.preloader.classList.add('fade-out');
           
-          // Mostrar contenido
+          // Mostrar contenido con forzado de visibilidad
           document.body.classList.remove('loading');
           document.body.classList.add('loaded');
           
-          // Ir a la primera sección automáticamente
-          this.scrollToFirstSection();
+          // CRITICAL: Forzar visibilidad inmediata
+          this.forceContentVisibility();
           
           // Eliminar preloader después de la transición
           setTimeout(() => {
             this.preloader.remove();
             
-            // Inicializar animaciones si es necesario
-            this.initializeAnimations();
+            // Verificación final de visibilidad
+            this.finalVisibilityCheck();
+            
+            // Disparar evento de contenido listo
+            window.dispatchEvent(new CustomEvent('preloaderComplete', {
+              detail: { contentReady: true }
+            }));
           }, 800);
         }, 500);
       }
 
-      scrollToFirstSection() {
-        // Esperar un poco para que el contenido sea visible
-        setTimeout(() => {
-          const firstSection = document.getElementById('inicio') || document.querySelector('.section-hero') || document.querySelector('.section');
-          
-          if (firstSection) {
-            // Opción 1: Scroll suave
-            firstSection.scrollIntoView({ 
-              behavior: 'smooth',
-              block: 'start',
-              inline: 'nearest'
-            });
-            
-            // Fallback para navegadores que no soporten scrollIntoView smooth
-            setTimeout(() => {
-              window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: 'smooth'
-              });
-            }, 100);
-            
-            console.log('Navegando a la primera sección');
-          } else {
-            // Fallback: ir al inicio de la página
-            window.scrollTo({
-              top: 0,
-              left: 0,
-              behavior: 'smooth'
-            });
-          }
-        }, 200);
-      }
-
-      initializeAnimations() {
-        // Configurar GSAP para móviles
-        if (this.isMobile && typeof gsap !== 'undefined') {
-          gsap.config({ 
-            force3D: false,
-            nullTargetWarn: false
-          });
-          
-          // Animación suave de entrada para el contenido
-          gsap.from('.section', {
-            opacity: 0,
-            y: 30,
-            duration: 1,
-            stagger: 0.2,
-            ease: "power2.out",
-            onComplete: () => {
-              // Asegurar que todas las secciones tengan opacidad completa
-              gsap.set('.section', { opacity: 1, clearProps: "all" });
-              
-              // Asegurar scroll a la primera sección después de las animaciones
-              this.ensureFirstSectionVisible();
-            }
-          });
-        } else {
-          // Para desktop, asegurar opacidad completa inmediatamente
-          if (typeof gsap !== 'undefined') {
-            gsap.set('.section', { opacity: 1, clearProps: "all" });
-          }
-          
-          // Asegurar posición en primera sección
-          this.ensureFirstSectionVisible();
-        }
-        
-        // Asegurar que no haya elementos con opacidad reducida
+      // NUEVA: Preparar visibilidad del contenido (MENOS AGRESIVA)
+      prepareContentVisibility() {
         const sections = document.querySelectorAll('.section');
+        const header = document.querySelector('.site-header');
+        
+        // Preparar visibilidad SIN interferir con posicionamiento original
         sections.forEach(section => {
           section.style.opacity = '1';
           section.style.visibility = 'visible';
+          
+          if (section.classList.contains('section-hero')) {
+            section.style.display = 'flex';
+          } else {
+            section.style.display = 'block';
+          }
+          
+          // NO tocar transform, position, z-index
         });
-        
-        // Disparar evento personalizado cuando todo esté listo
-        window.dispatchEvent(new CustomEvent('preloaderComplete'));
+
+        // Preparar header SIN cambiar NADA de su posicionamiento o estilos
+        if (header) {
+          header.style.opacity = '1';
+          header.style.visibility = 'visible';
+          // NO tocar display, position, z-index, transform - mantener estilos originales del CSS
+        }
       }
 
-      ensureFirstSectionVisible() {
-        // Verificación final para asegurar que estamos en la primera sección
-        setTimeout(() => {
-          if (window.scrollY > 100) {
-            window.scrollTo({
-              top: 0,
-              left: 0,
-              behavior: 'smooth'
-            });
+      // NUEVA: Forzar visibilidad del contenido (MENOS AGRESIVA)
+      forceContentVisibility() {
+        // Solo ajustar propiedades críticas de visibilidad
+        const allElements = document.querySelectorAll('.section, .site-header');
+        
+        allElements.forEach(element => {
+          // Solo forzar visibilidad básica
+          element.style.opacity = '1';
+          element.style.visibility = 'visible';
+          
+          // Solo para secciones, ajustar display
+          if (element.classList.contains('section-hero')) {
+            element.style.display = 'flex';
+          } else if (element.classList.contains('section')) {
+            element.style.display = 'block';
           }
-        }, 500);
+          
+          // Para el header: NO tocar display ni nada más, solo visibilidad
+          // Dejar que mantenga su CSS original
+          
+          // Solo limpiar GSAP si es realmente necesario y NO es el header
+          if (typeof gsap !== 'undefined' && !element.classList.contains('site-header')) {
+            gsap.set(element, { opacity: 1, visibility: 'visible' });
+          }
+        });
+
+        // Scroll a la primera sección
+        setTimeout(() => {
+          window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'auto'
+          });
+        }, 100);
+      }
+
+      // NUEVA: Verificación final de visibilidad (MENOS AGRESIVA)
+      finalVisibilityCheck() {
+        // Verificación menos frecuente para no interferir
+        let checks = 0;
+        const maxChecks = 3; // Reducido de 6 a 3
+        
+        const visibilityInterval = setInterval(() => {
+          checks++;
+          
+          const sections = document.querySelectorAll('.section');
+          let hiddenSections = 0;
+          
+          sections.forEach(section => {
+            const computed = window.getComputedStyle(section);
+            
+            // Solo corregir si está COMPLETAMENTE invisible
+            if (computed.opacity === '0' && computed.visibility === 'hidden') {
+              hiddenSections++;
+              
+              // Corrección mínima
+              section.style.opacity = '1';
+              section.style.visibility = 'visible';
+              
+              if (section.classList.contains('section-hero')) {
+                section.style.display = 'flex';
+              } else {
+                section.style.display = 'block';
+              }
+              
+              console.warn('Sección completamente oculta detectada y corregida:', section.className);
+            }
+          });
+          
+          // Parar más pronto para no interferir
+          if (hiddenSections === 0 || checks >= maxChecks) {
+            clearInterval(visibilityInterval);
+            console.log('Verificación de visibilidad completada (modo no-interferencia)');
+          }
+        }, 1000); // Cada 1 segundo en lugar de 500ms
       }
     }
 
     // Inicializar preloader
     new MobilePreloader();
 
-    // Script de emergencia para casos extremos
+    // CRITICAL: Gestión de eventos para prevenir ocultación del contenido
+    let scriptsLoaded = false;
+    let preloaderCompleted = false;
+
+    // Escuchar cuando el preloader termine
+    window.addEventListener('preloaderComplete', function(event) {
+      preloaderCompleted = true;
+      console.log('Preloader completado, contenido debe ser visible');
+      
+      // Verificación inmediata de visibilidad
+      ensureAllContentVisible();
+      
+      // Prevenir que scripts posteriores oculten el contenido
+      preventContentHiding();
+      
+      // Configurar GSAP de manera segura
+      if (typeof gsap !== 'undefined') {
+        configureGSAPSafely();
+      }
+      
+      // Cargar scripts adicionales de manera controlada
+      loadAdditionalScripts();
+    });
+
+    // NUEVA: Función para asegurar que todo el contenido sea visible (MEJORADA)
+    function ensureAllContentVisible() {
+      const sections = document.querySelectorAll('.section');
+      const header = document.querySelector('.site-header');
+      
+      // Forzar visibilidad de todas las secciones SIN interferir con posicionamiento
+      sections.forEach((section, index) => {
+        // Solo forzar opacidad y visibilidad, NO position ni z-index
+        section.style.opacity = '1';
+        section.style.visibility = 'visible';
+        
+        if (section.classList.contains('section-hero')) {
+          section.style.display = 'flex';
+        } else {
+          section.style.display = 'block';
+        }
+      });
+
+      // Para el header: SOLO visibilidad, mantener todo lo demás intacto
+      if (header) {
+        header.style.opacity = '1';
+        header.style.visibility = 'visible';
+        // NO tocar display, position, z-index, transform - respetar CSS original
+      }
+      
+      console.log('Visibilidad de contenido forzada (sin interferir con posicionamiento)');
+    }
+
+    // NUEVA: Prevenir que el contenido se oculte después del preloader (MENOS AGRESIVA)
+    function preventContentHiding() {
+      // Interceptar solo intentos SEVEROS de ocultar secciones
+      const observer = new MutationObserver((mutations) => {
+        if (!preloaderCompleted) return;
+        
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+            const target = mutation.target;
+            
+            // Solo intervenir en secciones principales, NO en el header para este caso
+            if (target.classList.contains('section')) {
+              const computed = window.getComputedStyle(target);
+              
+              // Solo corregir si está completamente invisible (opacity 0 Y visibility hidden)
+              if (computed.opacity === '0' && computed.visibility === 'hidden') {
+                console.warn('Sección completamente oculta detectada, corrigiendo:', target.className);
+                
+                // Corrección mínima - solo visibilidad, no posicionamiento
+                target.style.opacity = '1';
+                target.style.visibility = 'visible';
+                
+                if (target.classList.contains('section-hero')) {
+                  target.style.display = 'flex';
+                } else {
+                  target.style.display = 'block';
+                }
+              }
+            }
+            
+            // Para el header: solo verificar visibilidad básica si es crítico
+            if (target.classList.contains('site-header')) {
+              const computed = window.getComputedStyle(target);
+              if (computed.opacity === '0' && computed.visibility === 'hidden') {
+                console.warn('Header completamente oculto, corrigiendo visibilidad');
+                target.style.opacity = '1';
+                target.style.visibility = 'visible';
+                // NO tocar nada más del header
+              }
+            }
+          }
+        });
+      });
+
+      // Observar cambios pero con menos agresividad
+      observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['style'],
+        subtree: false // Solo elementos directos del body
+      });
+      
+      // Parar observación después de 5 segundos (menos tiempo)
+      setTimeout(() => observer.disconnect(), 5000);
+    }
+
+    // NUEVA: Configurar GSAP de manera segura SIN interferir con funcionalidades
+    function configureGSAPSafely() {
+      if (typeof gsap === 'undefined') return;
+      
+      gsap.config({
+        force3D: window.innerWidth > 968,
+        nullTargetWarn: false
+      });
+      
+      // NO interceptar GSAP - dejar que funcione normalmente
+      console.log('GSAP configurado sin interferencias');
+    }
+
+    // NUEVA: Cargar scripts adicionales de manera controlada
+    function loadAdditionalScripts() {
+      if (scriptsLoaded) return;
+      scriptsLoaded = true;
+      
+      // Esperar un poco antes de permitir que otros scripts se ejecuten
+      setTimeout(() => {
+        // Aquí se ejecutarán los scripts adicionales de manera segura
+        console.log('Scripts adicionales pueden ejecutarse ahora');
+        
+        // Asegurar visibilidad después de que todos los scripts se carguen
+        setTimeout(ensureAllContentVisible, 1000);
+      }, 500);
+    }
+
+    // Script de emergencia para casos extremos (MEJORADO)
     window.addEventListener('load', function() {
       setTimeout(function() {
         const body = document.body;
@@ -871,115 +1074,215 @@
           if (preloader) {
             preloader.style.display = 'none';
           }
+          
+          // Forzar visibilidad como emergencia
+          ensureAllContentVisible();
         }
       }, 5000); // Fallback después de 5 segundos máximo
     });
-  </script>
 
-  <!-- JavaScript Files originales -->
-  <script>
-    // Esperar a que el preloader termine antes de cargar scripts adicionales
-    window.addEventListener('preloaderComplete', function() {
-      // Cargar scripts adicionales aquí si es necesario
-      console.log('Preloader completado, sitio listo');
+    // NUEVA: Verificación periódica de visibilidad (MENOS AGRESIVA)
+    function startVisibilityWatch() {
+      if (!preloaderCompleted) return;
       
-      // Fix adicional para asegurar visibilidad de secciones
-      setTimeout(() => {
+      const watchInterval = setInterval(() => {
         const sections = document.querySelectorAll('.section');
+        let hiddenCount = 0;
+        
         sections.forEach(section => {
-          section.style.opacity = '1';
-          section.style.visibility = 'visible';
-          section.style.transform = 'none';
+          const computed = window.getComputedStyle(section);
+          // Solo contar como oculta si opacity es 0 Y visibility es hidden
+          if (computed.opacity === '0' && computed.visibility === 'hidden') {
+            hiddenCount++;
+          }
         });
         
-        // Verificación final de posición
-        if (window.scrollY > 50) {
-          window.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: 'smooth'
+        // Solo intervenir si hay secciones COMPLETAMENTE ocultas
+        if (hiddenCount > 0) {
+          console.warn(`${hiddenCount} secciones completamente ocultas detectadas, corrigiendo...`);
+          
+          sections.forEach(section => {
+            const computed = window.getComputedStyle(section);
+            if (computed.opacity === '0' && computed.visibility === 'hidden') {
+              // Corrección mínima
+              section.style.opacity = '1';
+              section.style.visibility = 'visible';
+              
+              if (section.classList.contains('section-hero')) {
+                section.style.display = 'flex';
+              } else {
+                section.style.display = 'block';
+              }
+            }
           });
         }
-      }, 100);
-    });
-
-    // Función adicional para asegurar navegación a primera sección
-    function goToFirstSection() {
-      const firstSection = document.getElementById('inicio') || document.querySelector('.section-hero');
-      
-      if (firstSection) {
-        firstSection.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
-      } else {
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: 'smooth'
-        });
-      }
+        
+        // Parar la vigilancia después de 10 segundos (reducido de 30)
+        if (watchInterval._checks >= 5) {
+          clearInterval(watchInterval);
+        }
+        watchInterval._checks = (watchInterval._checks || 0) + 1;
+      }, 2000); // Mantener cada 2 segundos
     }
 
-    // Script de emergencia para móviles (mantenido como backup)
-    (function() {
-      const isMobile = window.innerWidth <= 968;
-      
-      if (isMobile) {
-        // Configuración de emergencia para GSAP
-        setTimeout(function() {
-          if (typeof gsap !== 'undefined') {
-            gsap.config({ force3D: false });
-          }
-        }, 100);
-        
-        // Timeout de seguridad adicional
-        setTimeout(function() {
-          const heroSection = document.querySelector('.section-hero');
-          const allSections = document.querySelectorAll('.section');
-          
-          // Asegurar visibilidad de todas las secciones
-          allSections.forEach(section => {
-            section.style.opacity = '1';
-            section.style.visibility = 'visible';
-            section.style.display = '';
-          });
-          
-          if (heroSection && !heroSection.style.display) {
-            heroSection.style.display = 'flex';
-            heroSection.style.alignItems = 'center';
-            heroSection.style.justifyContent = 'center';
-            console.log('Mobile fallback de emergencia activado');
-          }
-          
-          // Ir a la primera sección como fallback
-          goToFirstSection();
-        }, 6000);
-      }
-    })();
-
-    // Fix adicional para prevenir oscurecimiento
-    window.addEventListener('scroll', function() {
-      const sections = document.querySelectorAll('.section');
-      sections.forEach(section => {
-        if (section.style.opacity !== '1') {
-          section.style.opacity = '1';
-        }
-      });
-    });
-
-    // Evento cuando la página está completamente cargada
-    window.addEventListener('load', function() {
+    // Permitir que los scripts originales se ejecuten NORMALMENTE
+    window.addEventListener('preloaderComplete', function() {
+      // Pausa MUY pequeña para no interferir con los scripts originales
       setTimeout(() => {
-        // Asegurar que después de todo, estemos en la primera sección
-        if (window.scrollY > 100) {
-          goToFirstSection();
-        }
-      }, 1000);
+        console.log('Permitiendo ejecución normal de scripts adicionales...');
+        
+        // NO cargar scripts dinámicamente - dejar que se carguen normalmente
+        // Solo asegurar visibilidad básica si es necesario
+        setTimeout(() => {
+          const sections = document.querySelectorAll('.section');
+          sections.forEach(section => {
+            const computed = window.getComputedStyle(section);
+            // Solo corregir si está completamente invisible
+            if (computed.opacity === '0' && computed.visibility === 'hidden') {
+              section.style.opacity = '1';
+              section.style.visibility = 'visible';
+              if (section.classList.contains('section-hero')) {
+                section.style.display = 'flex';
+              } else {
+                section.style.display = 'block';
+              }
+            }
+          });
+        }, 2000); // Después de 2 segundos
+        
+      }, 200); // Pausa mínima
     });
   </script>
 
-  <!-- Scripts originales (cargarán después del preloader) -->
+  <!-- Scripts de gestión de contenido optimizados -->
+  <script>
+    // NUEVA: Gestión segura de scripts adicionales
+    window.addEventListener('preloaderComplete', function(event) {
+      console.log('Iniciando carga segura de funcionalidades adicionales');
+      
+      // Funciones de navegación mejoradas
+      function setupSafeNavigation() {
+        // Navegación suave entre secciones
+        const navButtons = document.querySelectorAll('.nav-button, a[href^="#"]');
+        
+        navButtons.forEach(button => {
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+              // Asegurar que la sección target sea visible antes de navegar
+              targetSection.style.cssText = `
+                opacity: 1 !important;
+                visibility: visible !important;
+                display: block !important;
+              `;
+              
+              targetSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+            }
+          });
+        });
+      }
+
+      // Configurar navegación móvil segura (SIMPLIFICADA)
+      function setupMobileNavigation() {
+        // El header original no tiene menú hamburguesa complejo
+        // Solo asegurar que la navegación básica funcione
+        console.log('Navegación móvil simplificada configurada');
+      }
+
+      // Fix para la primera sección en móviles
+      function ensureHeroSectionVisible() {
+        const heroSection = document.querySelector('.section-hero');
+        if (heroSection) {
+          heroSection.style.cssText = `
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            min-height: 100vh !important;
+          `;
+          
+          // Asegurar que los elementos hijos también sean visibles
+          const heroChildren = heroSection.querySelectorAll('*');
+          heroChildren.forEach(child => {
+            if (window.getComputedStyle(child).opacity === '0') {
+              child.style.opacity = '1';
+              child.style.visibility = 'visible';
+            }
+          });
+        }
+      }
+
+      // Ejecutar configuraciones de manera segura
+      setTimeout(() => {
+        setupSafeNavigation();
+        setupMobileNavigation();
+        ensureHeroSectionVisible();
+        
+        console.log('Funcionalidades adicionales configuradas');
+      }, 200);
+    });
+
+    // Fix adicional para scroll seguro
+    function safeScrollToTop() {
+      // Asegurar que la primera sección sea visible antes de hacer scroll
+      const firstSection = document.querySelector('.section-hero');
+      if (firstSection) {
+        firstSection.style.cssText = `
+          display: flex !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+        `;
+      }
+      
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Función de emergencia para mostrar contenido
+    function emergencyShowContent() {
+      console.log('Función de emergencia activada');
+      
+      const allSections = document.querySelectorAll('.section');
+      const header = document.querySelector('.site-header');
+      
+      allSections.forEach(section => {
+        section.style.cssText = `
+          opacity: 1 !important;
+          visibility: visible !important;
+          display: ${section.classList.contains('section-hero') ? 'flex' : 'block'} !important;
+          transform: none !important;
+          position: relative !important;
+        `;
+      });
+      
+      if (header) {
+        header.style.cssText = `
+          opacity: 1 !important;
+          visibility: visible !important;
+          display: block !important;
+        `;
+      }
+      
+      // Scroll al inicio
+      safeScrollToTop();
+    }
+
+    // Botón de emergencia para debugging (remover en producción)
+    window.showContent = emergencyShowContent;
+    window.safeScroll = safeScrollToTop;
+  </script>
+
+  <!-- Scripts originales (cargarán NORMALMENTE) -->
   <script src="./scripts/initialAnimation.js"></script>
   <script src="./scripts/introSection.js"></script>
   <script src="./scripts/contactSection.js"></script>
