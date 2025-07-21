@@ -100,86 +100,47 @@
       50% { opacity: 1; }
     }
 
-    /* CRITICAL: Asegurar que el contenido sea visible después del preloader */
+    /* Ocultar contenido hasta que esté listo */
     body.loading {
       overflow: hidden;
     }
 
     body.loading .site-header,
     body.loading .section {
-      opacity: 0 !important;
-      visibility: hidden !important;
+      opacity: 0;
+      visibility: hidden;
     }
 
-    /* FIXED: Estado cargado con forzado de visibilidad SOLO para secciones */
+    /* Estilos de transición para cuando el contenido aparezca */
+    .site-header,
+    .section {
+      transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
+    }
+
+    /* Asegurar que las secciones mantengan su opacidad normal */
+    body.loaded .site-header,
     body.loaded .section {
       opacity: 1 !important;
       visibility: visible !important;
-      display: block !important;
     }
 
-    /* Header: solo asegurar visibilidad, NO tocar posicionamiento */
-    body.loaded .site-header {
-      opacity: 1 !important;
-      visibility: visible !important;
-      /* NO forzar display ni transform para mantener posicionamiento original */
+    /* Prevenir oscurecimiento progresivo en las secciones */
+    .section {
+      position: relative;
+      z-index: 1;
     }
 
-    /* CRITICAL: Forzar visibilidad en móviles después de cargar */
+    .section::before {
+      display: none !important;
+    }
+
+    /* Asegurar que no haya overlays oscuros */
+    .section::after {
+      display: none !important;
+    }
+
+    /* Media query específico para móviles */
     @media (max-width: 968px) {
-      body.loaded .section {
-        opacity: 1 !important;
-        visibility: visible !important;
-        display: block !important;
-        transform: none !important;
-        transition: none !important;
-      }
-      
-      body.loaded .section-hero {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-      }
-      
-      body.loaded .section-about,
-      body.loaded .section-projects,
-      body.loaded .section-jobs,
-      body.loaded .section-contact {
-        display: block !important;
-      }
-
-      /* CRITICAL: Evitar desbordamiento de animaciones en About Me */
-      .section-about {
-        overflow: hidden !important;
-        position: relative !important;
-      }
-
-      .about-container {
-        overflow: hidden !important;
-        position: relative !important;
-      }
-
-      .tech-bubbles-zone {
-        overflow: hidden !important;
-        position: relative !important;
-        max-height: 90vh !important;
-      }
-
-      /* Asegurar que las burbujas no se salgan del contenedor */
-      .bubble {
-        position: absolute !important;
-        max-width: calc(100% - 20px) !important;
-        max-height: calc(100% - 20px) !important;
-      }
-
-      /* Limitar animaciones que puedan desbordar */
-      .about-image,
-      .about-text,
-      .skills-highlight {
-        overflow: hidden !important;
-        position: relative !important;
-      }
-
       .mobile-preloader {
         background: linear-gradient(135deg, #000000 0%, #000000 80%, #000000 100%);
       }
@@ -193,12 +154,6 @@
         width: 80vw;
         max-width: 250px;
       }
-    }
-
-    /* Prevenir cualquier overlay que pueda ocultar contenido */
-    .section::before,
-    .section::after {
-      display: none !important;
     }
   </style>
 
@@ -817,60 +772,41 @@
         }, 500);
       }
 
-      // NUEVA: Preparar visibilidad del contenido (MENOS AGRESIVA)
+      // NUEVA: Preparar visibilidad del contenido (MÍNIMA INTERVENCIÓN)
       prepareContentVisibility() {
         const sections = document.querySelectorAll('.section');
         const header = document.querySelector('.site-header');
         
-        // Preparar visibilidad SIN interferir con posicionamiento original
+        // Preparar visibilidad MÍNIMA - solo lo esencial
         sections.forEach(section => {
           section.style.opacity = '1';
           section.style.visibility = 'visible';
-          
-          if (section.classList.contains('section-hero')) {
-            section.style.display = 'flex';
-          } else {
-            section.style.display = 'block';
-          }
-          
-          // NO tocar transform, position, z-index
+          // NO tocar nada más
         });
 
-        // Preparar header SIN cambiar NADA de su posicionamiento o estilos
+        // Para el header: SOLO visibilidad básica
         if (header) {
           header.style.opacity = '1';
           header.style.visibility = 'visible';
-          // NO tocar display, position, z-index, transform - mantener estilos originales del CSS
+          // NO tocar nada más
         }
       }
 
-      // NUEVA: Forzar visibilidad del contenido (MENOS AGRESIVA)
+      // NUEVA: Forzar visibilidad del contenido (MÍNIMA INTERVENCIÓN)
       forceContentVisibility() {
-        // Solo ajustar propiedades críticas de visibilidad
+        // Solo ajustar propiedades básicas de visibilidad
         const allElements = document.querySelectorAll('.section, .site-header');
         
         allElements.forEach(element => {
-          // Solo forzar visibilidad básica
+          // SOLO visibilidad básica
           element.style.opacity = '1';
           element.style.visibility = 'visible';
           
-          // Solo para secciones, ajustar display
-          if (element.classList.contains('section-hero')) {
-            element.style.display = 'flex';
-          } else if (element.classList.contains('section')) {
-            element.style.display = 'block';
-          }
-          
-          // Para el header: NO tocar display ni nada más, solo visibilidad
-          // Dejar que mantenga su CSS original
-          
-          // Solo limpiar GSAP si es realmente necesario y NO es el header
-          if (typeof gsap !== 'undefined' && !element.classList.contains('site-header')) {
-            gsap.set(element, { opacity: 1, visibility: 'visible' });
-          }
+          // NO tocar display, transform, position, z-index
+          // Dejar que el CSS original maneje todo lo demás
         });
 
-        // Scroll a la primera sección
+        // Scroll básico
         setTimeout(() => {
           window.scrollTo({
             top: 0,
@@ -880,45 +816,25 @@
         }, 100);
       }
 
-      // NUEVA: Verificación final de visibilidad (MENOS AGRESIVA)
+      // NUEVA: Verificación final de visibilidad (MUY REDUCIDA)
       finalVisibilityCheck() {
-        // Verificación menos frecuente para no interferir
-        let checks = 0;
-        const maxChecks = 3; // Reducido de 6 a 3
-        
-        const visibilityInterval = setInterval(() => {
-          checks++;
-          
+        // Solo una verificación mínima
+        setTimeout(() => {
           const sections = document.querySelectorAll('.section');
-          let hiddenSections = 0;
           
           sections.forEach(section => {
             const computed = window.getComputedStyle(section);
             
             // Solo corregir si está COMPLETAMENTE invisible
             if (computed.opacity === '0' && computed.visibility === 'hidden') {
-              hiddenSections++;
-              
-              // Corrección mínima
               section.style.opacity = '1';
               section.style.visibility = 'visible';
-              
-              if (section.classList.contains('section-hero')) {
-                section.style.display = 'flex';
-              } else {
-                section.style.display = 'block';
-              }
-              
-              console.warn('Sección completamente oculta detectada y corregida:', section.className);
+              // NO tocar nada más
             }
           });
           
-          // Parar más pronto para no interferir
-          if (hiddenSections === 0 || checks >= maxChecks) {
-            clearInterval(visibilityInterval);
-            console.log('Verificación de visibilidad completada (modo no-interferencia)');
-          }
-        }, 1000); // Cada 1 segundo en lugar de 500ms
+          console.log('Verificación mínima completada');
+        }, 1000);
       }
     }
 
@@ -949,37 +865,31 @@
       loadAdditionalScripts();
     });
 
-    // NUEVA: Función para asegurar que todo el contenido sea visible (MEJORADA)
+    // NUEVA: Función para asegurar que todo el contenido sea visible (MÍNIMA)
     function ensureAllContentVisible() {
       const sections = document.querySelectorAll('.section');
       const header = document.querySelector('.site-header');
       
-      // Forzar visibilidad de todas las secciones SIN interferir con posicionamiento
-      sections.forEach((section, index) => {
-        // Solo forzar opacidad y visibilidad, NO position ni z-index
+      // Solo forzar visibilidad básica, SIN tocar layouts
+      sections.forEach((section) => {
         section.style.opacity = '1';
         section.style.visibility = 'visible';
-        
-        if (section.classList.contains('section-hero')) {
-          section.style.display = 'flex';
-        } else {
-          section.style.display = 'block';
-        }
+        // NO tocar display, position, z-index, transform
       });
 
-      // Para el header: SOLO visibilidad, mantener todo lo demás intacto
+      // Para el header: SOLO visibilidad
       if (header) {
         header.style.opacity = '1';
         header.style.visibility = 'visible';
-        // NO tocar display, position, z-index, transform - respetar CSS original
+        // NO tocar nada más
       }
       
-      console.log('Visibilidad de contenido forzada (sin interferir con posicionamiento)');
+      console.log('Visibilidad básica asegurada (sin interferencias)');
     }
 
-    // NUEVA: Prevenir que el contenido se oculte después del preloader (MENOS AGRESIVA)
+    // NUEVA: Prevenir ocultación SOLO en casos extremos
     function preventContentHiding() {
-      // Interceptar solo intentos SEVEROS de ocultar secciones
+      // Observador muy limitado - solo para casos críticos
       const observer = new MutationObserver((mutations) => {
         if (!preloaderCompleted) return;
         
@@ -987,52 +897,36 @@
           if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
             const target = mutation.target;
             
-            // Solo intervenir en secciones principales, NO en el header para este caso
+            // Solo intervenir en secciones principales Y solo si están COMPLETAMENTE ocultas
             if (target.classList.contains('section')) {
               const computed = window.getComputedStyle(target);
               
-              // Solo corregir si está completamente invisible (opacity 0 Y visibility hidden)
-              if (computed.opacity === '0' && computed.visibility === 'hidden') {
-                console.warn('Sección completamente oculta detectada, corrigiendo:', target.className);
+              // Solo corregir casos extremos de invisibilidad completa
+              if (computed.opacity === '0' && computed.visibility === 'hidden' && computed.display === 'none') {
+                console.warn('Elemento completamente oculto detectado:', target.className);
                 
-                // Corrección mínima - solo visibilidad, no posicionamiento
+                // Corrección MÍNIMA
                 target.style.opacity = '1';
                 target.style.visibility = 'visible';
-                
-                if (target.classList.contains('section-hero')) {
-                  target.style.display = 'flex';
-                } else {
-                  target.style.display = 'block';
-                }
-              }
-            }
-            
-            // Para el header: solo verificar visibilidad básica si es crítico
-            if (target.classList.contains('site-header')) {
-              const computed = window.getComputedStyle(target);
-              if (computed.opacity === '0' && computed.visibility === 'hidden') {
-                console.warn('Header completamente oculto, corrigiendo visibilidad');
-                target.style.opacity = '1';
-                target.style.visibility = 'visible';
-                // NO tocar nada más del header
+                // NO tocar display ni nada más
               }
             }
           }
         });
       });
 
-      // Observar cambios pero con menos agresividad
+      // Observar con menos alcance
       observer.observe(document.body, {
         attributes: true,
         attributeFilter: ['style'],
-        subtree: false // Solo elementos directos del body
+        subtree: false // Solo elementos directos
       });
       
-      // Parar observación después de 5 segundos (menos tiempo)
-      setTimeout(() => observer.disconnect(), 5000);
+      // Parar pronto
+      setTimeout(() => observer.disconnect(), 3000);
     }
 
-    // NUEVA: Configurar GSAP de manera segura SIN interferir con funcionalidades
+    // NUEVA: Configurar GSAP sin interferencias
     function configureGSAPSafely() {
       if (typeof gsap === 'undefined') return;
       
@@ -1041,7 +935,7 @@
         nullTargetWarn: false
       });
       
-      // NO interceptar GSAP - dejar que funcione normalmente
+      // NO interceptar nada - dejar que GSAP funcione normalmente
       console.log('GSAP configurado sin interferencias');
     }
 
@@ -1081,76 +975,45 @@
       }, 5000); // Fallback después de 5 segundos máximo
     });
 
-    // NUEVA: Verificación periódica de visibilidad (MENOS AGRESIVA)
+    // NUEVA: Verificación periódica de visibilidad (ULTRA MÍNIMA)
     function startVisibilityWatch() {
       if (!preloaderCompleted) return;
       
-      const watchInterval = setInterval(() => {
+      // Solo UNA verificación después de 2 segundos
+      setTimeout(() => {
         const sections = document.querySelectorAll('.section');
-        let hiddenCount = 0;
         
         sections.forEach(section => {
           const computed = window.getComputedStyle(section);
-          // Solo contar como oculta si opacity es 0 Y visibility es hidden
+          // Solo corregir casos extremos
           if (computed.opacity === '0' && computed.visibility === 'hidden') {
-            hiddenCount++;
+            section.style.opacity = '1';
+            section.style.visibility = 'visible';
+            console.warn('Corrección final aplicada a:', section.className);
           }
         });
         
-        // Solo intervenir si hay secciones COMPLETAMENTE ocultas
-        if (hiddenCount > 0) {
-          console.warn(`${hiddenCount} secciones completamente ocultas detectadas, corrigiendo...`);
-          
-          sections.forEach(section => {
-            const computed = window.getComputedStyle(section);
-            if (computed.opacity === '0' && computed.visibility === 'hidden') {
-              // Corrección mínima
-              section.style.opacity = '1';
-              section.style.visibility = 'visible';
-              
-              if (section.classList.contains('section-hero')) {
-                section.style.display = 'flex';
-              } else {
-                section.style.display = 'block';
-              }
-            }
-          });
-        }
-        
-        // Parar la vigilancia después de 10 segundos (reducido de 30)
-        if (watchInterval._checks >= 5) {
-          clearInterval(watchInterval);
-        }
-        watchInterval._checks = (watchInterval._checks || 0) + 1;
-      }, 2000); // Mantener cada 2 segundos
+        console.log('Verificación final completada');
+      }, 2000);
     }
 
-    // Permitir que los scripts originales se ejecuten NORMALMENTE
+    // Permitir que los scripts originales se ejecuten COMPLETAMENTE NORMAL
     window.addEventListener('preloaderComplete', function() {
-      // Pausa MUY pequeña para no interferir con los scripts originales
+      console.log('Preloader completado - scripts funcionando normalmente');
+      
+      // NO hacer nada especial - dejar que todo funcione como originalmente
+      // Solo una verificación mínima después de tiempo
       setTimeout(() => {
-        console.log('Permitiendo ejecución normal de scripts adicionales...');
-        
-        // NO cargar scripts dinámicamente - dejar que se carguen normalmente
-        // Solo asegurar visibilidad básica si es necesario
-        setTimeout(() => {
-          const sections = document.querySelectorAll('.section');
-          sections.forEach(section => {
-            const computed = window.getComputedStyle(section);
-            // Solo corregir si está completamente invisible
-            if (computed.opacity === '0' && computed.visibility === 'hidden') {
-              section.style.opacity = '1';
-              section.style.visibility = 'visible';
-              if (section.classList.contains('section-hero')) {
-                section.style.display = 'flex';
-              } else {
-                section.style.display = 'block';
-              }
-            }
-          });
-        }, 2000); // Después de 2 segundos
-        
-      }, 200); // Pausa mínima
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(section => {
+          const computed = window.getComputedStyle(section);
+          // Solo si está completamente invisible
+          if (computed.opacity === '0' && computed.visibility === 'hidden') {
+            section.style.opacity = '1';
+            section.style.visibility = 'visible';
+          }
+        });
+      }, 3000); // Después de 3 segundos
     });
   </script>
 
