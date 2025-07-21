@@ -179,16 +179,53 @@
     transform: none !important;
   }
 
-  /* 3. Fotos del About Me: recorte superior y más grandes */
-  .about-image img,
-  .stack-image img {
-    object-fit: cover !important;
-    object-position: top !important;
-    width: 100% !important;
-    height: 200px !important;
-    max-width: 300px;
-    border-radius: 12px;
-  }
+  /* CENTRADO AUTOMÁTICO INMEDIATO DE IMÁGENES EN MÓVILES */
+.about-image {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+  width: 100% !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+.image-stack {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+  width: 100% !important;
+  gap: 15px !important;
+}
+
+.stack-image {
+  margin: 0 auto !important;
+  display: block !important;
+  text-align: center !important;
+  width: 280px !important;
+  height: 180px !important;
+  object-fit: cover !important;
+  object-position: top !important;
+  border-radius: 12px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+/* ELIMINAR ANIMACIONES EN MÓVILES */
+.about-image,
+.about-image *,
+.stack-image,
+.stack-image * {
+  animation: none !important;
+  transition: none !important;
+}
 
    /* nuevoooooooo */
 
@@ -1300,6 +1337,94 @@
     window.showContent = emergencyShowContent;
     window.safeScroll = safeScrollToTop;
   </script>
+
+  <script>
+// CENTRADO AUTOMÁTICO DE IMÁGENES EN MÓVILES - SIN GESTOS
+(function() {
+  const isMobile = window.innerWidth <= 968;
+  
+  if (!isMobile) return;
+  
+  function centerImagesAutomatically() {
+    console.log('📱 Centrando imágenes automáticamente en móvil');
+    
+    const aboutImage = document.querySelector('.about-image');
+    const imageStack = document.querySelector('.image-stack');
+    const allImages = document.querySelectorAll('.stack-image, .about-image img');
+    
+    // Centrar contenedor principal
+    if (aboutImage) {
+      aboutImage.style.cssText = `
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 auto !important;
+        text-align: center !important;
+        width: 100% !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        gap: 15px !important;
+      `;
+    }
+    
+    // Centrar stack de imágenes
+    if (imageStack) {
+      imageStack.style.cssText = `
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 auto !important;
+        text-align: center !important;
+        width: 100% !important;
+        gap: 15px !important;
+      `;
+    }
+    
+    // Centrar cada imagen individual
+    allImages.forEach(img => {
+      img.style.cssText = `
+        margin: 0 auto !important;
+        display: block !important;
+        text-align: center !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        width: 280px !important;
+        height: 180px !important;
+        object-fit: cover !important;
+        object-position: top !important;
+        border-radius: 12px !important;
+        max-width: 90% !important;
+      `;
+    });
+    
+    console.log('✅ Imágenes centradas automáticamente');
+  }
+  
+  // Ejecutar inmediatamente
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', centerImagesAutomatically);
+  } else {
+    centerImagesAutomatically();
+  }
+  
+  // También después del preloader
+  window.addEventListener('preloaderComplete', function() {
+    setTimeout(centerImagesAutomatically, 100);
+  });
+  
+  // Verificación final
+  window.addEventListener('load', function() {
+    setTimeout(centerImagesAutomatically, 200);
+  });
+  
+  // Función de emergencia
+  window.forceCenterImages = centerImagesAutomatically;
+})();
+</script>
 
   <!-- Scripts originales (cargarán NORMALMENTE) -->
   <script>
