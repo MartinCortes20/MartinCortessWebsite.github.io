@@ -141,6 +141,57 @@
 
     /* Media query específico para móviles */
     @media (max-width: 968px) {
+
+
+    /* nuevoooooooo */
+
+    /* 1. Burbujas del header: más grandes y solo scroll horizontal */
+  .header-bubbles-container {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    white-space: nowrap;
+    touch-action: pan-x; /* Solo horizontal */
+  }
+
+  .header-bubbles-container .bubble {
+    width: 70px !important;
+    height: 70px !important;
+    margin: 0 10px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* 2. Burbujas del About Me centradas desde el inicio */
+  .tech-bubbles-zone {
+    display: flex !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
+
+  .tech-bubbles-zone .bubble {
+    margin: 8px !important;
+    width: 60px !important;
+    height: 60px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
+
+  /* 3. Fotos del About Me: recorte superior y más grandes */
+  .about-image img,
+  .stack-image img {
+    object-fit: cover !important;
+    object-position: top !important;
+    width: 100% !important;
+    height: 200px !important;
+    max-width: 300px;
+    border-radius: 12px;
+  }
+
+   /* nuevoooooooo */
+
       .mobile-preloader {
         background: linear-gradient(135deg, #000000 0%, #000000 80%, #000000 100%);
       }
